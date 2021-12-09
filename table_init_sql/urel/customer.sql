@@ -1,0 +1,8 @@
+create table customer_urel with oids as 
+select U1.c1, U1.w1, U2.c1 as c2, U2.w1 as w2, U3.c1 as c3, U3.w1 as w3, U4.c1 as c4, U4.w1 as w4, U5.c1 as c5, U5.w1 as w5,
+       U6.c1 as c6, U6.w1 as w6, U7.c1 as c7, U7.w1 as w7, U8.c1 as c8, U8.w1 as w8,
+       U1.tid, c_custkey, c_name, c_address, c_nationkey, c_phone, c_acctbal, c_mktsegment, c_comment
+from cust_c_custkey U1, cust_c_name U2, cust_c_address U3, cust_c_nationkey U4, cust_c_phone U5, cust_c_acctbal U6, cust_c_mktsegment U7, cust_c_comment U8
+where U1.tid=U2.tid and U1.tid=U3.tid and U1.tid=U4.tid and U1.tid=U5.tid and
+      U1.tid=U6.tid and U1.tid=U7.tid and U1.tid=U8.tid and
+      (U1.C1<>U2.C1 or U1.W1=U2.W1) and (U1.C1<>U3.C1 or U1.W1=U3.W1) and (U1.C1<>U4.C1 or U1.W1=U4.W1) and (U1.C1<>U5.C1 or U1.W1=U5.W1) and (U1.C1<>U6.C1 or U1.W1=U6.W1) and (U1.C1<>U7.C1 or U1.W1=U7.W1) and (U1.C1<>U8.C1 or U1.W1=U8.W1) and (U2.C1<>U3.C1 or U2.W1=U3.W1) and (U2.C1<>U4.C1 or U2.W1=U4.W1) and (U2.C1<>U5.C1 or U2.W1=U5.W1) and (U2.C1<>U6.C1 or U2.W1=U6.W1) and (U2.C1<>U7.C1 or U2.W1=U7.W1) and (U2.C1<>U8.C1 or U2.W1=U8.W1) and (U3.C1<>U4.C1 or U3.W1=U4.W1) and (U3.C1<>U5.C1 or U3.W1=U5.W1) and (U3.C1<>U6.C1 or U3.W1=U6.W1) and (U3.C1<>U7.C1 or U3.W1=U7.W1) and (U3.C1<>U8.C1 or U3.W1=U8.W1) and (U4.C1<>U5.C1 or U4.W1=U5.W1) and (U4.C1<>U6.C1 or U4.W1=U6.W1) and (U4.C1<>U7.C1 or U4.W1=U7.W1) and (U4.C1<>U8.C1 or U4.W1=U8.W1) and (U5.C1<>U6.C1 or U5.W1=U6.W1) and (U5.C1<>U7.C1 or U5.W1=U7.W1) and (U5.C1<>U8.C1 or U5.W1=U8.W1) and (U6.C1<>U7.C1 or U6.W1=U7.W1) and (U6.C1<>U8.C1 or U6.W1=U8.W1) and (U7.C1<>U8.C1 or U7.W1=U8.W1);

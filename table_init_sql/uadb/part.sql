@@ -1,0 +1,1 @@
+select tid,p_partkey,p_name,p_mfgr,p_brand,p_type,p_size,p_container,p_retailprice,p_comment, (case when u_p_partkey=0 or u_p_name=0 or u_p_mfgr=0 or u_p_brand=0 or u_p_type=0 or u_p_size=0 or u_p_container=0 or u_p_retailprice=0 or u_p_comment=0 then 0 else 1 end) AS u_r from part;

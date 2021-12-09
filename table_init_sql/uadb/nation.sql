@@ -1,0 +1,1 @@
+select tid,n_nationkey,n_name,n_regionkey,n_comment, (case when u_n_nationkey=0 or u_n_name=0 or u_n_regionkey=0 or u_n_comment=0 then 0 else 1 end) AS u_r from nation;

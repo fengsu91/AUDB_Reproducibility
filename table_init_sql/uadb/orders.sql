@@ -1,0 +1,1 @@
+select tid,o_orderkey,o_custkey,o_orderstatus,o_totalprice,o_orderdate,o_orderpriority,o_clerk,o_shippriority,o_comment, (case when u_o_orderkey=0 or u_o_custkey=0 or u_o_orderstatus=0 or u_o_totalprice=0 or u_o_orderdate=0 or u_o_orderpriority=0 or u_o_clerk=0 or u_o_shippriority=0 or u_o_comment=0 then 0 else 1 end) AS u_r from orders;

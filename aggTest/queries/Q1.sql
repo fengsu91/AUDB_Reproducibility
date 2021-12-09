@@ -1,0 +1,1 @@
+select o_custkey, count(*) from orders group by o_custkey;

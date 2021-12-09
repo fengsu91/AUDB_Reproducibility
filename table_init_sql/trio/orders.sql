@@ -1,0 +1,9 @@
+create table orders_o_orderkey (c1 integer, w1 integer, tid integer, o_orderkey integer);
+create table orders_o_custkey (c1 integer, w1 integer, tid integer, o_custkey integer);
+create table orders_o_orderstatus (c1 integer, w1 integer, tid integer, o_orderstatus char(1));
+create table orders_o_totalprice (c1 integer, w1 integer, tid integer, o_totalprice float);
+create table orders_o_orderdate (c1 integer, w1 integer, tid integer, o_orderdate date);
+create table orders_o_orderpriority (c1 integer, w1 integer, tid integer, o_orderpriority char(15));
+create table orders_o_clerk (c1 integer, w1 integer, tid integer, o_clerk char(15));
+create table orders_o_shippriority (c1 integer, w1 integer, tid integer, o_shippriority integer);
+create table orders_o_comment (c1 integer, w1 integer, tid integer, o_comment varchar(255));

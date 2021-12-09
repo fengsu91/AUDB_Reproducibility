@@ -1,0 +1,52 @@
+In addition to the standard TPC-H parameters, UTPC-H has three more
+parameters:
+
+-x	uncertainty ratio.
+
+-z	(zipf) correlation ratio.
+
+-m	maximum alternatives per uncertain cell.
+
+ such as scale (-s 1 for
+1GB of data)
+
+
+The (standard dbgen) parameter "s" is used to control the size of each
+world (-s 1 means that each world has size 1 GB). The uncertainty
+ratio (x) controls the percentage of (uncertain) fields with several
+possible values, and the parameter "m" controls how many possible
+values can be assigned to a field. The parameter "z" defines a Zipf
+distribution for the variables with different dependent field counts
+(DFC). The DFC of a variable is the number of tuple fields dependent
+on that variable. We use the parameter "z" to control the attribute
+correlations: For "n" uncertain fields, there are ceiling(C*z^{i})
+variables with DFC "i", where 
+
+	C = n(z-1)/(z^{k+1} - 1), 
+
+i.e., n is sum of (C*z^i) with i from 0 to k. Thus greater z-values
+correspond to higher correlations in the data.  The number of domain
+values of a variable with DFC k>1 is chosen using the formula
+
+	p^{k-1}*(Product of m_i with i from 1 to k), 
+
+where "m_i" is the number of different values for the "i"-th field
+dependent on that variable, and "p" is the probability that a
+combination of possible values for the "k" fields is valid. This
+assumption fits naturally to data cleaning scenarios (work by the
+MAyBMS team, ICDE'07, on chasing dependencies on world-set
+decompositions)
+
+By default, after correlating two variables with arbitrary DFCs, only
+$p*100$ percent of the combinations satisfy the constraints and are
+preserved. The value of "p" can be changed in the code (no in put
+parameter to date).
+
+The uncertain fields are assigned randomly to variables. This can lead
+to correlations between fields belonging to different tuples or even
+to different relations. This fits to scenarios where constraints are
+enforced across tuples or relations.
+
+
+
+

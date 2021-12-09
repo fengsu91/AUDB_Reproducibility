@@ -1,0 +1,1 @@
+select tid,r_regionkey,r_name,r_comment from region;

@@ -1,0 +1,1 @@
+select tid,c_custkey,c_name,c_address,c_nationkey,c_phone,c_acctbal,c_mktsegment,c_comment,(case when u_c_custkey=0 or u_c_name =0 or u_c_address=0 or u_c_nationkey=0 or u_c_phone=0 or u_c_acctbal=0 or u_c_mktsegment=0 or u_c_comment=0 then 0 else 1 end) as u_r from customer;

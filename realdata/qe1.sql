@@ -1,0 +1,1 @@
+urange (select n1,m2 from (select name as n1, manager as m1 from real_emp_radb is radb where salary < '50000') join (select name as n2, manager as m2 from real_emp_radb is radb) on m1=n2);

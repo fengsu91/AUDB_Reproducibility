@@ -1,0 +1,1 @@
+SELECT l_extendedprice, u_l_extendedprice FROM lineitem l WHERE l_shipdate > '1994-01-01' AND u_l_shipdate>0 AND l_shipdate < '1996-01-01' AND l_discount > 0.05 AND u_l_discount>0 AND l_discount < 0.08 AND l_quantity < 24 AND u_l_quantity > 0;

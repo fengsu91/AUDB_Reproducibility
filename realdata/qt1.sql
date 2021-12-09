@@ -1,0 +1,1 @@
+urange (select ssn, salary, insurance from real_treatments_radb is radb where salary > '15000');

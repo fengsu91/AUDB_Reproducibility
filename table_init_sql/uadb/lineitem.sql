@@ -1,0 +1,2 @@
+select tid,l_orderkey,l_partkey,l_suppkey,l_linenumber,l_quantity,l_extendedprice,l_discount,l_tax,l_returnflag,l_linestatus,l_shipdate,l_commitdate,l_receiptdate,l_shipinstruct,l_shipmode,l_comment, (case when
+u_l_orderkey=0 or u_l_partkey=0 or u_l_suppkey=0 or u_l_linenumber=0 or u_l_quantity=0 or u_l_extendedprice=0 or u_l_discount=0 or u_l_tax=0 or u_l_returnflag=0 or u_l_linestatus=0 or u_l_shipdate=0 or u_l_commitdate=0 or u_l_receiptdate=0 or u_l_shipinstruct=0 or u_l_shipmode=0 or u_l_comment=0 then 0 else 1 end) as u_r from lineitem;

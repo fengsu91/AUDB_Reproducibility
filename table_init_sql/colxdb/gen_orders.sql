@@ -1,0 +1,9 @@
+select 'insert into orders_o_orderkey values ('||tid::character varying||',['||o_orderkey||']);' from x_orders_o_orderkey;
+select 'insert into orders_o_custkey values ('||tid::character varying||',['||o_custkey||']);' from x_orders_o_custkey;
+select 'insert into orders_o_orderstatus values ('||tid::character varying||',['||o_orderstatus||']);' from x_orders_o_orderstatus;
+select 'insert into orders_o_totalprice values ('||tid::character varying||',['||o_totalprice||']);' from x_orders_o_totalprice;
+select 'insert into orders_o_orderdate values ('||tid::character varying||',['||o_orderdate||']);' from x_orders_o_orderdate;
+select 'insert into orders_o_orderpriority values ('||tid::character varying||',['||o_orderpriority||']);' from x_orders_o_orderpriority;
+select 'insert into orders_o_clerk values ('||tid::character varying||',['||o_clerk||']);' from x_orders_o_clerk;
+select 'insert into orders_o_shippriority values ('||tid::character varying||',['||o_orderkey||']);' from x_orders_o_shippriority;
+select 'insert into orders_o_comment values ('||tid::character varying||',['||o_orderkey||']);' from x_orders_o_comment;

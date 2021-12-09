@@ -1,0 +1,1 @@
+select ssn, salary, insurance from real_treatments where salary > '15000';

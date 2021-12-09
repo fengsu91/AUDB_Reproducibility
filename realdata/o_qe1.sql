@@ -1,0 +1,1 @@
+select e1.name, e2.manager from real_emp e1, real_emp e2 where e1.manager = e2.manager and e1.salary < '50000';

@@ -1,0 +1,1 @@
+select tid,r_regionkey,r_name,r_comment,(case when u_r_regionkey=0 or u_r_name=0 or u_r_comment=0 then 0 else 1 end) AS u_r from region;

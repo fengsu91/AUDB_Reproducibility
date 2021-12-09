@@ -1,0 +1,9 @@
+select 'insert into part_p_partkey values ('||tid::character varying||',['||p_partkey||']);' from x_part_p_partkey;
+select 'insert into part_p_name values ('||tid::character varying||',['||p_name||']);' from x_part_p_name;
+select 'insert into part_p_mfgr values ('||tid::character varying||',['||p_mfgr||']);' from x_part_p_mfgr;
+select 'insert into part_p_brand values ('||tid::character varying||',['||p_brand||']);' from x_part_p_brand;
+select 'insert into part_p_type values ('||tid::character varying||',['||p_type||']);' from x_part_p_type;
+select 'insert into part_p_size values ('||tid::character varying||',['||p_size||']);' from x_part_p_size;
+select 'insert into part_p_container values ('||tid::character varying||',['||p_container||']);' from x_part_p_container;
+select 'insert into part_p_retailprice values ('||tid::character varying||',['||p_retailprice||']);' from x_part_p_retailprice;
+select 'insert into part_p_comment values ('||tid::character varying||',['||p_comment||']);' from x_part_p_comment;

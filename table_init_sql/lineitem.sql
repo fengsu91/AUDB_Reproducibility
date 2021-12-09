@@ -1,0 +1,16 @@
+create table lineitem_l_orderkey (c1 integer, w1 integer, tid integer, l_orderkey integer);
+create table lineitem_l_partkey (c1 integer, w1 integer, tid integer, l_partkey integer);
+create table lineitem_l_suppkey (c1 integer, w1 integer, tid integer, l_suppkey integer);
+create table lineitem_l_linenumber (c1 integer, w1 integer, tid integer, l_linenumber integer);
+create table lineitem_l_quantity (c1 integer, w1 integer, tid integer, l_quantity integer);
+create table lineitem_l_extendedprice (c1 integer, w1 integer, tid integer, l_extendedprice float);
+create table lineitem_l_discount (c1 integer, w1 integer, tid integer, l_discount float);
+create table lineitem_l_tax (c1 integer, w1 integer, tid integer, l_tax float);
+create table lineitem_l_returnflag (c1 integer, w1 integer, tid integer, l_returnflag char(1));
+create table lineitem_l_linestatus (c1 integer, w1 integer, tid integer, l_linestatus char(1));
+create table lineitem_l_shipdate (c1 integer, w1 integer, tid integer, l_shipdate date);
+create table lineitem_l_commitdate (c1 integer, w1 integer, tid integer, l_commitdate date);
+create table lineitem_l_receiptdate (c1 integer, w1 integer, tid integer, l_receiptdate date);
+create table lineitem_l_shipinstruct (c1 integer, w1 integer, tid integer, l_shipinstruct char(25));
+create table lineitem_l_shipmode (c1 integer, w1 integer, tid integer, l_shipmode char(10));
+create table lineitem_l_comment (c1 integer, w1 integer, tid integer, l_comment varchar(255));

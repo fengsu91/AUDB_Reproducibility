@@ -1,0 +1,1 @@
+select tid,ps_partkey,ps_suppkey,ps_availqty,ps_supplycost,ps_comment from partsupp;

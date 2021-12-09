@@ -1,0 +1,16 @@
+drop table if exists x_cust_c_custkey;
+drop table if exists x_cust_c_name;
+drop table if exists x_cust_c_address;
+drop table if exists x_cust_c_nationkey;
+drop table if exists x_cust_c_phone;
+drop table if exists x_cust_c_acctbal;
+drop table if exists x_cust_c_mktsegment;
+drop table if exists x_cust_c_comment;
+create table x_cust_c_custkey as select tid, string_agg(''''||c_custkey::character varying||'''', '|') as c_custkey from cust_c_custkey group by tid;
+create table x_cust_c_name as select tid, string_agg(''''||c_name::character varying||'''', '|') as c_name from cust_c_name group by tid;
+create table x_cust_c_address as select tid, string_agg(''''||c_address::character varying||'''', '|') as c_address from cust_c_address group by tid;
+create table x_cust_c_nationkey as select tid, string_agg(''''||c_nationkey::character varying||'''', '|') as c_nationkey from cust_c_nationkey group by tid;
+create table x_cust_c_phone as select tid, string_agg(''''||c_phone::character varying||'''', '|') as c_phone from cust_c_phone group by tid;
+create table x_cust_c_acctbal as select tid, string_agg(''''||c_acctbal::character varying||'''', '|') as c_acctbal from cust_c_acctbal group by tid;
+create table x_cust_c_mktsegment as select tid, string_agg(''''||c_mktsegment::character varying||'''', '|') as c_mktsegment from cust_c_mktsegment group by tid;
+create table x_cust_c_comment as select tid, string_agg(''''||c_comment::character varying||'''', '|') as c_comment from cust_c_comment group by tid;

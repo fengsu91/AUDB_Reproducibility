@@ -1,0 +1,18 @@
+drop table if exists x_part_p_partkey;
+drop table if exists x_part_p_name;
+drop table if exists x_part_p_mfgr;
+drop table if exists x_part_p_brand;
+drop table if exists x_part_p_type;
+drop table if exists x_part_p_size;
+drop table if exists x_part_p_container;
+drop table if exists x_part_p_retailprice;
+drop table if exists x_part_p_comment;
+create table x_part_p_partkey as select tid, string_agg(''''||p_partkey::character varying||'''', '|') as p_partkey from part_p_partkey group by tid;
+create table x_part_p_name as select tid, string_agg(''''||p_name::character varying||'''', '|') as p_name from part_p_name group by tid;
+create table x_part_p_mfgr as select tid, string_agg(''''||p_mfgr::character varying||'''', '|') as p_mfgr from part_p_mfgr group by tid;
+create table x_part_p_brand as select tid, string_agg(''''||p_brand::character varying||'''', '|') as p_brand from part_p_brand group by tid;
+create table x_part_p_type as select tid, string_agg(''''||p_type::character varying||'''', '|') as p_type from part_p_type group by tid;
+create table x_part_p_size as select tid, string_agg(''''||p_size::character varying||'''', '|') as p_size from part_p_size group by tid;
+create table x_part_p_container as select tid, string_agg(''''||p_container::character varying||'''', '|') as p_container from part_p_container group by tid;
+create table x_part_p_retailprice as select tid, string_agg(''''||p_retailprice::character varying||'''', '|') as p_retailprice from part_p_retailprice group by tid;
+create table x_part_p_comment as select tid, string_agg(''''||p_comment::character varying||'''', '|') as p_comment from part_p_comment group by tid;

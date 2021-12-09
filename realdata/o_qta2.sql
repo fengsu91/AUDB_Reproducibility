@@ -1,0 +1,1 @@
+select count(*) as ct from real_tax where maritalstatus = 'M';

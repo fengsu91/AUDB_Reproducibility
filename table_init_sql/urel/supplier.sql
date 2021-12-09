@@ -1,0 +1,7 @@
+create table supplier_urel with oids as 
+select U1.c1, U1.w1, U2.c1 as c2, U2.w1 as w2, U3.c1 as c3, U3.w1 as w3, U4.c1 as c4, U4.w1 as w4, U5.c1 as c5, U5.w1 as w5,
+       U6.c1 as c6, U6.w1 as w6, U7.c1 as c7, U7.w1 as w7,
+       U1.tid, s_suppkey, s_name, s_address, s_nationkey, s_phone, s_acctbal, s_comment
+from supp_s_suppkey U1, supp_s_name U2, supp_s_address U3, supp_s_nationkey U4, supp_s_phone U5, supp_s_acctbal U6, supp_s_comment U7
+where U1.tid=U2.tid and U1.tid=U3.tid and U1.tid=U4.tid and U1.tid=U5.tid and U1.tid=U6.tid and U1.tid=U7.tid and
+      (U1.C1<>U2.C1 or U1.W1=U2.W1) and (U1.C1<>U3.C1 or U1.W1=U3.W1) and (U1.C1<>U4.C1 or U1.W1=U4.W1) and (U1.C1<>U5.C1 or U1.W1=U5.W1) and (U1.C1<>U6.C1 or U1.W1=U6.W1) and (U1.C1<>U7.C1 or U1.W1=U7.W1) and (U2.C1<>U3.C1 or U2.W1=U3.W1) and (U2.C1<>U4.C1 or U2.W1=U4.W1) and (U2.C1<>U5.C1 or U2.W1=U5.W1) and (U2.C1<>U6.C1 or U2.W1=U6.W1) and (U2.C1<>U7.C1 or U2.W1=U7.W1) and (U3.C1<>U4.C1 or U3.W1=U4.W1) and (U3.C1<>U5.C1 or U3.W1=U5.W1) and (U3.C1<>U6.C1 or U3.W1=U6.W1) and (U3.C1<>U7.C1 or U3.W1=U7.W1) and (U4.C1<>U5.C1 or U4.W1=U5.W1) and (U4.C1<>U6.C1 or U4.W1=U6.W1) and (U4.C1<>U7.C1 or U4.W1=U7.W1) and (U5.C1<>U6.C1 or U5.W1=U6.W1) and (U5.C1<>U7.C1 or U5.W1=U7.W1) and (U6.C1<>U7.C1 or U6.W1=U7.W1);

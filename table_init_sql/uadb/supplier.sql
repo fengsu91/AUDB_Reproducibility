@@ -1,0 +1,1 @@
+select tid,s_suppkey,s_name,s_address,s_nationkey,s_phone,s_acctbal,s_comment,(case when u_s_suppkey=0 or u_s_name=0 or u_s_address=0 or u_s_nationkey=0 or u_s_phone=0 or u_s_acctbal=0 or u_s_comment=0 then 0 else 1 end) AS u_r from supplier;

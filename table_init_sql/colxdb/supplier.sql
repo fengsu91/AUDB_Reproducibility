@@ -1,0 +1,14 @@
+drop table if exists x_supp_s_suppkey;
+drop table if exists x_supp_s_name;
+drop table if exists x_supp_s_address;
+drop table if exists x_supp_s_nationkey;
+drop table if exists x_supp_s_phone;
+drop table if exists x_supp_s_acctbal;
+drop table if exists x_supp_s_comment;
+create table x_supp_s_suppkey as select tid, string_agg(''''||s_suppkey::character varying||'''', '|') as s_suppkey from supp_s_suppkey group by tid;
+create table x_supp_s_name as select tid, string_agg(''''||s_name::character varying||'''', '|') as s_name from supp_s_name group by tid;
+create table x_supp_s_address as select tid, string_agg(''''||s_address::character varying||'''', '|') as s_address from supp_s_address group by tid;
+create table x_supp_s_nationkey as select tid, string_agg(''''||s_nationkey::character varying||'''', '|') as s_nationkey from supp_s_nationkey group by tid;
+create table x_supp_s_phone as select tid, string_agg(''''||s_phone::character varying||'''', '|') as s_phone from supp_s_phone group by tid;
+create table x_supp_s_acctbal as select tid, string_agg(''''||s_acctbal::character varying||'''', '|') as s_acctbal from supp_s_acctbal group by tid;
+create table x_supp_s_comment as select tid, string_agg(''''||s_comment::character varying||'''', '|') as s_comment from supp_s_comment group by tid;

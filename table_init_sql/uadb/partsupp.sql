@@ -1,0 +1,1 @@
+select tid,ps_partkey,ps_suppkey,ps_availqty,ps_supplycost,ps_comment, (case when u_ps_partkey=0 or u_ps_suppkey=0 or u_ps_availqty=0 or u_ps_supplycost=0 or u_ps_comment=0 then 0 else 1 end) AS u_r from partsupp;

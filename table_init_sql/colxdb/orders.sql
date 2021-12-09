@@ -1,0 +1,18 @@
+drop table if exists x_orders_o_orderkey;
+drop table if exists x_orders_o_custkey;
+drop table if exists x_orders_o_orderstatus;
+drop table if exists x_orders_o_totalprice;
+drop table if exists x_orders_o_orderdate;
+drop table if exists x_orders_o_orderpriority;
+drop table if exists x_orders_o_clerk;
+drop table if exists x_orders_o_shippriority;
+drop table if exists x_orders_o_comment;
+create table x_orders_o_orderkey as select tid, string_agg(''''||o_orderkey::character varying||'''', '|') as o_orderkey from orders_o_orderkey group by tid;
+create table x_orders_o_custkey as select tid, string_agg(''''||o_custkey::character varying||'''', '|') as o_custkey from orders_o_custkey group by tid;
+create table x_orders_o_orderstatus as select tid, string_agg(''''||o_orderstatus::character varying||'''', '|') as o_orderstatus from orders_o_orderstatus group by tid;
+create table x_orders_o_totalprice as select tid, string_agg(''''||o_totalprice::character varying||'''', '|') as o_totalprice from orders_o_totalprice group by tid;
+create table x_orders_o_orderdate as select tid, string_agg(''''||o_orderdate::character varying||'''', '|') as o_orderdate from orders_o_orderdate group by tid;
+create table x_orders_o_orderpriority as select tid, string_agg(''''||o_orderpriority::character varying||'''', '|') as o_orderpriority from orders_o_orderpriority group by tid;
+create table x_orders_o_clerk as select tid, string_agg(''''||o_clerk::character varying||'''', '|') as o_clerk from orders_o_clerk group by tid;
+create table x_orders_o_shippriority as select tid, string_agg(''''||o_shippriority::character varying||'''', '|') as o_shippriority from orders_o_shippriority group by tid;
+create table x_orders_o_comment as select tid, string_agg(''''||o_comment::character varying||'''', '|') as o_comment from orders_o_comment group by tid;

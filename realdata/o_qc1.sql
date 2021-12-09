@@ -1,0 +1,1 @@
+select name, ssn, city from real_customers where city = 'Colorado';
