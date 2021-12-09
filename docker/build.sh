@@ -1,2 +1,2 @@
 #!/bin/bash
-docker build . -f Dockerfile -t iitdbgroup/uadbreproduce
+docker build . -f Dockerfile -t iitdbgroup/audbreproduce
