@@ -56,15 +56,7 @@ RUN mkdir -p /postgresdata \
 ########################################
 # Clone reproducibility repro
 ########################################
-RUN git clone https://github.com/IITDBGroup/UADB_Reproducibility.git /reproducibility
-########################################
-# Add sqlite DB for experiments
-########################################
-RUN mkdir -p /reproducibility/dbs
-ADD ./dbs.zip /reproducibility/dbs/dbs.zip
-RUN cd /reproducibility/dbs \
-     && unzip dbs.zip \
-     && rm dbs.zip
+RUN git clone https://github.com/fengsu91/AUDB_Reproducibility /reproducibility
 ########################################
 # Setup workdin
 ########################################
