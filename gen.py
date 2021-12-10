@@ -840,9 +840,9 @@ def plotmicroAggCompressionSQ(fn, fn2, maxx, maxy1, maxy2, miny1 = 0, miny2=0):
             'set style line 4 lt 1 lc rgb "blue" lw 9',
             'set style line 5 lt 1 lc rgb "black" lw 9',
             'set style line 6 lt 1 lc rgb "#110099" lw 9',
-            'set ylabel "Time(s)" font "Arial,32"',
+            'set ylabel "Time(ms)" font "Arial,32"',
             'set ylabel offset character -4, 0, 0',
-            'set ytics 0,20,80 font "Arial,28"',
+            'set ytics 0,20000,80000 font "Arial,28"',
             'set ytics nomirror',
             'set key inside left top vertical Left noreverse noenhanced autotitle nobox',
             'set key font "Arial,30"',
@@ -1496,47 +1496,47 @@ def microbenchmark():
 
     
         #######################################varying compression rate########################################
-    print("[TESTING MICROBENCHMARK] - varying compression rate")
-    maxiteration = 8
+#    print("[TESTING MICROBENCHMARK] - varying compression rate")
+#    maxiteration = 16
+##
+#    minval = 1
+#    maxval = 10000
+#    rolnum = 10000
+#    uncert = 0.02
 #
-    minval = 1
-    maxval = 10000
-    rolnum = 10000
-    uncert = 0.02
-
-    rangeval = 20 #uncertain attribute range
-
-    res = ""
-    maxy = 0
-    mres = ""
-
-    attrs = importmicrotable(2, rolnum, rangeval, uncert, minval, maxval)
-
-    resname = "micro_r"
-
-    for i in range(maxiteration):
-        gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(i+1)), "-Pexecutor", "sql", "-query"]
-        query = "urange (select a0,sum(a1) as s1 from micro is radb group by a0);"
-        rquery = getAUDBQueryFromGProM(query, gpromcmd)
-        allt, mt = timeQueryMult(rquery)
-        materializequery(rquery, resname)
-        metrics = "%s\t"%(str(i+1)) + str(getmetric(resname)[3]) + "\n"
-        print(metrics)
-        if float(mt) > maxy:
-            maxy = float(mt)
-        res += (str(i+1) + "\t" + str(mt) + "\n")
-        mres += metrics
-    print(res)
-    print(mres)
-    writetofile("compress.csv",res)
-    writetofile("compress_metrics.csv",mres)
-    writetofile("compress.csv",res)
-    writetofile("compress_metrics.csv",mres)
-    plotmicro("compress", maxiteration, int(maxy)+1, "Compress factor")
-    subprocess.call(["mv", "compress.csv","results/microbench/compress.csv"])
-    subprocess.call(["mv", "compress_metrics.csv","results/microbench/compress_metrics.csv"])
-#    subprocess.call(["mv", "compress.pdf","results/microbench/compress.pdf"])
-    plotmicroAggCompressionSQ("results/microbench/compress", "results/microbench/compress_metrics", maxiteration, int(maxy)+1, 55000000, -5, -3000000)
+#    rangeval = 20 #uncertain attribute range
+#
+#    res = ""
+#    maxy = 0
+#    mres = ""
+#
+#    attrs = importmicrotable(2, rolnum, rangeval, uncert, minval, maxval)
+#
+#    resname = "micro_r"
+#
+#    for i in range(maxiteration):
+#        gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(i+1)), "-Pexecutor", "sql", "-query"]
+#        query = "urange (select a0,sum(a1) as s1 from micro is radb group by a0);"
+#        rquery = getAUDBQueryFromGProM(query, gpromcmd)
+#        allt, mt = timeQueryMult(rquery)
+#        materializequery(rquery, resname)
+#        metrics = "%s\t"%(str(i+1)) + str(getmetric(resname)[3]) + "\n"
+#        print(metrics)
+#        if float(mt) > maxy:
+#            maxy = float(mt)
+#        res += (str(i+1) + "\t" + str(mt) + "\n")
+#        mres += metrics
+#    print(res)
+#    print(mres)
+#    writetofile("compress.csv",res)
+#    writetofile("compress_metrics.csv",mres)
+#    writetofile("compress.csv",res)
+#    writetofile("compress_metrics.csv",mres)
+#    plotmicro("compress", maxiteration, int(maxy)+1, "Compress factor")
+#    subprocess.call(["mv", "compress.csv","results/microbench/compress.csv"])
+#    subprocess.call(["mv", "compress_metrics.csv","results/microbench/compress_metrics.csv"])
+##    subprocess.call(["mv", "compress.pdf","results/microbench/compress.pdf"])
+#    plotmicroAggCompressionSQ("results/microbench/compress", "results/microbench/compress_metrics", maxiteration, int(maxy)+1, 55000000, -5, -3000000)
 
     
     #######################################Join with different optimizations########################################
@@ -1859,13 +1859,14 @@ def getschema(tbn):
     return [i[0] for i in ret]
 
 def getMCDB(tbn, outname):
-    sch = getschema(tbn)
-    sch.remove('id')
-    str = ','.join(sch)
-    print(sch)
-    query = "select distinct on (id) id, %s from %s order by id, random()"%(str, tbn)
-    materializequery(query, outname)
-    print(query)
+    subprocess.call(["cp", "table_init_sql/other_plots","results/other_plots"])
+#    sch = getschema(tbn)
+#    sch.remove('id')
+#    str = ','.join(sch)
+#    print(sch)
+#    query = "select distinct on (id) id, %s from %s order by id, random()"%(str, tbn)
+#    materializequery(query, outname)
+#    print(query)
     
     
 
