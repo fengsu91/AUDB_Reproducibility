@@ -22,12 +22,11 @@ GProM is available at [https://github.com/IITDBGroup/gprom](https://github.com/I
 We used several open real world datasets in the experiments. See below for links. We cleaned these datasets by replacing null values with constants using missing value imputation as implemented in Mimir. In the output every row with at least one replaced value was marked as uncertain. The UA-DBs generated in this ways were used in the experiments. In addition we use two synthetic datasets. One if PDBench (TODO link), a probabilistic version of the TPC-H datasets and ...
 - **Real world datasets:**
 
-| Dataset              | Rows | Cols | $U_{Attr}$ | $U_{Row}$ | URL                                                                                                        |
-|----------------------|------|------|------------|-----------|------------------------------------------------------------------------------------------------------------|
-| Building Violations  | 1.3M | 35   | 0.82%      | 12.8%     | https://data.cityofchicago.org/Buildings/Building-Violations/22u3-xenr                                     |
-| Shootings in Buffalo | 2.9K | 21   | 0.24%      | 2.1%      | http://projects.buffalonews.com/charts/shootings/index.html                                                |
-| Business Licenses    | 63K  | 25   | 1.39%      | 14.0%     | https://data.cityofchicago.org/Community-Economic-Development/Business-Licenses-Current-Active/uupf-x98q   |
-| Chicago Crime        | 6.6M | 17   | 0.21%      | 0.9%      | https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2                              |
+| Dataset              | Cols | Rows    | URL                                                                                                        |
+|----------------------|------|---------|------------------------------------------------------------------------------------------------------------|
+| Netflix              | 12   | >6k     | https://www.kaggle.com/shivamb/netflix-shows                                                               |
+| Healthcare           | 15   | >171k   | https://data.medicare.gov/data/hospital-compare                                                            |
+| Chicago Crime        | 22   | >1.4M   | https://data.cityofchicago.org/Public-Safety/Crimes-2001-to-present/ijzp-q8t2                              |
 
 - **Data generators:**
   - `PDBench` is a probabilistic version of the TPC-H data generator, we used a fork (fixing some compilation bugs) hosted here: https://github.com/IITDBGroup/pdbench
