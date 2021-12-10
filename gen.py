@@ -22,14 +22,27 @@ dir = None
 #cur = None
 conn2 = None
 cur2 = None
-
-multrep = 1
-
 pgport = "5432"
 
+########################################
+#########     some configs    ##########
+########################################
+
+multrep = 1 # for each timed query, how many repititions to do for the mean.
+
 #s = [0.1, 1, 10]
-s = [0.1, 1]
+s = [0.1, 1] # faster version with smaller datasize
 x = [0.02, 0.05, 0.1, 0.3]
+mcdbRep = 10
+#test1 = ['s10_x2']
+test1 = ['s10_x2','s10_x5','s10_x10','s10_x30'] # faster version with smaller datasize
+#test1 = ['s100_x2','s100_x5','s100_x10','s100_x30'] # original version
+test2 = ['s10_x2','s100_x2'] # faster version with smaller datasize
+#test2 = ['s10_x2','s100_x2','s1000_x2'] # original version
+
+########################################
+#########     End configs     ##########
+########################################
 
 #psqlbin = '/Applications/Postgres.app/Contents/Versions/10/bin/psql -p5432 "uadb" -c '
 gpromcom = [str("gprom"), "-host", "none", "-db", "/Users/sufeng/git/UADB_Reproducibility/dbs/incomp.db", "-port", "none", "-user", "none", "-passwd", "none", "-loglevel", "0", "-backend", "sqlite", "-Pexecutor", "sql", "-query"]
@@ -40,14 +53,6 @@ gpromsd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%
 # pdbench
 table_init_dir = 'table_init_sql'
 pdbenchTables = ['customer','lineitem','nation','orders','part','partsupp','region','supplier']
-
-#dir = '/Users/sufeng/sqlworkspace/pdbench'
-mcdbRep = 10
-#test1 = ['s10_x2']
-test1 = ['s10_x2','s10_x5','s10_x10','s10_x30']
-#test1 = ['s100_x2','s100_x5','s100_x10','s100_x30']
-test2 = ['s10_x2','s100_x2']
-#test2 = ['s10_x2','s100_x2','s1000_x2']
 queries = ['pdQuery/Q1.sql','pdQuery/Q2.sql','pdQuery/Q3.sql']
 queries_mb = ['pdQuery/Q1_maybms.sql','pdQuery/Q2_maybms.sql','pdQuery/Q3_maybms.sql']
 queries_uadb = ['pdQuery/Q1_uadb.sql','pdQuery/Q2_uadb.sql','pdQuery/Q3_uadb.sql']
@@ -1515,7 +1520,8 @@ def microbenchmark():
         rquery = getAUDBQueryFromGProM(query, gpromcmd)
         allt, mt = timeQueryMult(rquery)
         materializequery(rquery, resname)
-        metricsq = "select max(ub_s1-lb_s1), min(ub_s1-lb_s1), avg(ub_s1-lb_s1) from %s;"%(resname)
+#        metricsq = "select max(ub_s1-lb_s1), min(ub_s1-lb_s1), avg(ub_s1-lb_s1) from %s;"%(resname)
+        metricsq = "select avg(ub_s1-lb_s1) from %s;"%(resname)
         metr = str(runQuery(metricsq))
         print(metr)
         mres += metr + "\n"
@@ -1538,8 +1544,8 @@ def microbenchmark():
     #######################################Join with different optimizations########################################
     print("[TESTING MICROBENCHMARK] - join optimizations")
     colnum = 2
-    rolnum = 5000
-    maxrl = 20000
+    rolnum = 3000
+    maxrl = 5000
 
 
 
@@ -1549,14 +1555,14 @@ def microbenchmark():
 
     maxy = 0
 
-    compfactor = [2,5,8,10]
+    compfactor = [2,3,4,5]
     resname = "micro_r"
     res = ""
     mres = ""
 
     rangeval = 15 #uncertain attribute range
     uncert = 0.03 #uncertainty percentage
-    for i in range(rolnum, maxrl+1, 2500):
+    for i in range(rolnum, maxrl+1, 1000):
         attrs = importmicrotable(colnum, i, rangeval, uncert, minval, maxval)
         gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-Pexecutor", "sql", "-range_optimize_join", "FALSE", "-query"]
         query = "urange (select a0, a1, aa0, aa1 from micro is radb join (select a0 as aa0, a1 as aa1 from micro is radb) x on a0 = aa0);"
