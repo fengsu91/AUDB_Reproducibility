@@ -42,8 +42,8 @@ pdbenchTables = ['customer','lineitem','nation','orders','part','partsupp','regi
 #dir = '/Users/sufeng/sqlworkspace/pdbench'
 mcdbRep = 10
 #test1 = ['s10_x2']
-#test1 = ['s10_x2','s10_x5','s10_x10','s10_x30']
-test1 = ['s100_x2','s100_x5','s100_x10','s100_x30']
+test1 = ['s10_x2','s10_x5','s10_x10','s10_x30']
+#test1 = ['s100_x2','s100_x5','s100_x10','s100_x30']
 test2 = ['s10_x2','s100_x2']
 #test2 = ['s10_x2','s100_x2','s1000_x2']
 queries = ['pdQuery/Q1.sql','pdQuery/Q2.sql','pdQuery/Q3.sql']
@@ -1508,7 +1508,7 @@ def microbenchmark():
         metr = str(runQuery(metricsq))
         print(metr)
         mres += metr + "\n"
-    print(mres)
+        print(mres)
         if float(mt) > maxy:
             maxy = float(mt)
         res += (str(i+1) + "\t" + str(mt) + "\n")
