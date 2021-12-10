@@ -1,4 +1,0 @@
-create trio table real_tax (fname varchar(32), lname varchar(32), gender varchar(32), areacode int,phone varchar(32),city varchar(32), state varchar(32), zip varchar(32), maritalstatus varchar(32), haschild varchar(32), salary float, rate float, singleexemp int, marriedexemp int, childexemp int, uncertain(fname, lname, gender, areacode, phone, city, state, zip, maritalstatus, haschild, salary, rate, singleexemp, marriedexemp, childexemp)); 
-create trio table real_emp (name varchar(32), dept varchar(32), salary float, manager varchar(32), uncertain(name,dept,salary,manager));
-create trio table real_treatments (ssn varchar(32), salary float, date varchar(32), treatment varchar(32), insurance varchar(32), uncertain(ssn,salary,date,treatment,insurance));
-create trio table real_customers (ssn varchar(32), name varchar(32), phone int, cfphone float, str varchar(32), city varchar(32), cc int, uncertain(ssn, name, phone, cfphone, str, city, cc));

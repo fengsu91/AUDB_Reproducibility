@@ -1,1 +1,0 @@
-urange (select count(*) as ct from real_tax_radb is radb where maritalstatus = 'M');

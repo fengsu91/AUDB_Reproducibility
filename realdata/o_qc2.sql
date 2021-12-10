@@ -1,1 +1,0 @@
-select name, city, count(*) as ct from real_customers group by name,city;

@@ -179,7 +179,7 @@ def timeQueryFileDef(filename='pdQuery/Q3.sql', setion='postgresql', rep = 20):
     
 def sizeQuery(query, setion='postgresql'):
     ret = runQuery('select count(*) from (%s) xyz;'%query.split(";")[0], setion)
-    return ret[-1][0];
+    return ret[-1][0]
     
 def pdbenchGenOnX(sval = 1, imp=False):
     global dir
@@ -388,7 +388,7 @@ def plotPDbenchUncert(fn, maxval, yl = "Runtime (ms)"):
     global x
     with open("%s.gp"%fn, "w+") as file:
         file.write("\n".join([
-            "set size ratio 0.5",
+            "set size ratio 0.4",
             "set terminal postscript color enhanced",
             "set output '%s.ps'"%fn,
             "unset title",
@@ -426,7 +426,7 @@ def plotPDbenchUncert(fn, maxval, yl = "Runtime (ms)"):
             "set xrange [ -0.5 : %d]"%len(x),
                 
             'set ylabel "%s"'%(yl),
-            'set ylabel font "Arial,34"',
+            'set ylabel font "Arial,30"',
             "set ylabel offset character -3, 0, 0",
 
             "set logscale y",
@@ -443,7 +443,7 @@ def plotPDbenchUncert(fn, maxval, yl = "Runtime (ms)"):
         file.close()
         subprocess.call(["gnuplot", "%s.gp"%fn])
         subprocess.call(["ps2pdf", "%s.ps"%fn, "%s.pdf"%fn])
-        subprocess.call(["rm", "%s.gp"%fn])
+        #subprocess.call(["rm", "%s.gp"%fn])
         subprocess.call(["rm", "%s.ps"%fn])
         return "%s.pdf"%fn
         
@@ -451,7 +451,7 @@ def plotPDbenchScale(fn, maxval, yl = "Runtime (ms)"):
     global s
     with open("%s.gp"%fn, "w+") as file:
         file.write("\n".join([
-            "set size ratio 0.5",
+            "set size ratio 0.4",
             "set terminal postscript color enhanced",
             "set output '%s.ps'"%fn,
             "unset title",
@@ -489,7 +489,7 @@ def plotPDbenchScale(fn, maxval, yl = "Runtime (ms)"):
             "set xrange [ -0.5 : %d]"%len(s),
                     
             'set ylabel "%s"'%(yl),
-            'set ylabel font "Arial,34"',
+            'set ylabel font "Arial,30"',
             "set ylabel  offset character -3, 0, 0",
 
             "set logscale y",
@@ -1069,7 +1069,7 @@ def plotmicrojoinMetrics(fn, maxx, maxy, miny = 0):
 def printtriotest(fn, maxx, maxy, miny = 0):
     with open("%s.gp"%fn, "w+") as file:
         file.write("\n".join([
-            "set size ratio 0.6",
+            "set size ratio 0.4",
             "set terminal postscript color enhanced",
             "set output '%s.ps'"%fn,
             "unset title",
@@ -1098,7 +1098,7 @@ def printtriotest(fn, maxx, maxy, miny = 0):
             'set ylabel  offset character -3, 0, 0',
             'set ytics font "Arial,32"',
             'set key inside left top vertical Left noreverse noenhanced autotitle nobox',
-            'set key font "Arial,30"',
+            'set key font "Arial,28"',
             'set key spacing 1',
             'set key samplen 3',
             'set grid nopolar',
@@ -1109,6 +1109,96 @@ def printtriotest(fn, maxx, maxy, miny = 0):
             'plot "%s.csv" using 1:2 title "Det" with linespoints linestyle 1, "%s.csv" using 1:3 title "AUDB" with linespoints linestyle 3, "%s.csv" using 1:4 title "Trio" with linespoints linestyle 2, "%s.csv" using 1:5 title "Symb" with linespoints linestyle 4, "%s.csv" using 1:6 title "MCDB" with linespoints linestyle 5'%(fn,fn,fn,fn,fn)
     ]))
     file.close()
+    subprocess.call(["gnuplot", "%s.gp"%fn])
+    subprocess.call(["ps2pdf", "%s.ps"%fn, "%s.pdf"%fn])
+    subprocess.call(["rm", "%s.gp"%fn])
+    subprocess.call(["rm", "%s.ps"%fn])
+    return "%s.pdf"%fn
+    
+def plotmicroovergrouping(fn, minx, maxx, maxy, xlab, miny = 0):
+    with open("%s.gp"%fn, "w+") as file:
+        file.write("\n".join([
+            "set size ratio 0.6",
+            "set terminal postscript color enhanced",
+            "set output '%s.ps'"%fn,
+            "unset title",
+            "set tmargin 0",
+            "set bmargin 1",
+            "set rmargin 0",
+            "set lmargin -9",
+            "set border 3 front linetype -1 linewidth 1.500",
+            "set style fill solid 0.65 border -1",
+            'set xlabel font "Arial,35" offset 0,-1',
+            'set xlabel "%s"'%(xlab),
+            'set xtics font "Arial,30"',
+            "set for [i=1:4] linetype i dt i",
+            'set style line 1 lt 1 lc rgb "orange"  lw 9',
+            'set style line 2 lt 1 lc rgb "grey" lw 9',
+            'set style line 3 lt 1 lc rgb "green" lw 9',
+            'set style line 4 lt 1 lc rgb "blue" lw 9',
+            'set style line 5 lt 1 lc rgb "black" lw 9',
+            'set style line 6 lt 1 lc rgb "#110099" lw 9',
+            'set ylabel "Percentage (%)" font "Arial,32"',
+            'set ylabel offset character -2, 0, 0',
+            'set ytics font "Arial,32"',
+            'set key inside left top vertical Left noreverse noenhanced autotitle nobox',
+            'set key font "Arial,30"',
+            'set key spacing 1',
+            'set key samplen 3',
+            'set key width 0',
+            'set grid nopolar',
+            'set grid noxtics nomxtics ytics nomytics noztics nomztics nox2tics nomx2tics noy2tics nomy2tics nocbtics nomcbtics',
+            'set grid layerdefault   linetype 0 linewidth 1.000,  linetype 0 linewidth 3.000',
+            "set xrange [ %s : %s ] noreverse nowriteback"%(str(minx),str(maxx)),
+            "set yrange [ %s : %s ] noreverse nowriteback"%(str(miny),str(maxy)),
+            "plot '%s.csv' using 1:2 title '2%% uncertainty' with lines linestyle 3, '%s.csv' using 1:3 title '3%% uncertainty' with lines linestyle 1, '%s.csv' using 1:4 title '5%% uncertainty' with lines linestyle 4"%(fn,fn,fn)
+        ]))
+        file.close()
+    subprocess.call(["gnuplot", "%s.gp"%fn])
+    subprocess.call(["ps2pdf", "%s.ps"%fn, "%s.pdf"%fn])
+    subprocess.call(["rm", "%s.gp"%fn])
+    subprocess.call(["rm", "%s.ps"%fn])
+    return "%s.pdf"%fn
+    
+def plotmicrooverrange(fn, minx, maxx, maxy, xlab, miny = 0):
+    with open("%s.gp"%fn, "w+") as file:
+        file.write("\n".join([
+            "set size ratio 0.6",
+            "set terminal postscript color enhanced",
+            "set output '%s.ps'"%fn,
+            "unset title",
+            "set tmargin 0",
+            "set bmargin 1",
+            "set rmargin 0",
+            "set lmargin -9",
+            "set border 3 front linetype -1 linewidth 1.500",
+            "set style fill solid 0.65 border -1",
+            'set xlabel font "Arial,35" offset 0,-1',
+            'set xlabel "%s"'%(xlab),
+            'set xtics font "Arial,30"',
+            "set for [i=1:4] linetype i dt i",
+            'set style line 1 lt 1 lc rgb "orange"  lw 9',
+            'set style line 2 lt 1 lc rgb "grey" lw 9',
+            'set style line 3 lt 1 lc rgb "green" lw 9',
+            'set style line 4 lt 1 lc rgb "blue" lw 9',
+            'set style line 5 lt 1 lc rgb "black" lw 9',
+            'set style line 6 lt 1 lc rgb "#110099" lw 9',
+            'set ylabel "factor" font "Arial,32"',
+            'set ylabel offset character -2, 0, 0',
+            'set ytics font "Arial,32"',
+            'set key inside left top vertical Left noreverse noenhanced autotitle nobox',
+            'set key font "Arial,30"',
+            'set key spacing 1',
+            'set key samplen 3',
+            'set key width 0',
+            'set grid nopolar',
+            'set grid noxtics nomxtics ytics nomytics noztics nomztics nox2tics nomx2tics noy2tics nomy2tics nocbtics nomcbtics',
+            'set grid layerdefault   linetype 0 linewidth 1.000,  linetype 0 linewidth 3.000',
+            "set xrange [ %s : %s ] noreverse nowriteback"%(str(minx),str(maxx)),
+            "set yrange [ %s : %s ] noreverse nowriteback"%(str(miny),str(maxy)),
+            "plot '%s.csv' using 1:2 title '2%% uncertainty' with lines linestyle 3, '%s.csv' using 1:3 title '3%% uncertainty' with lines linestyle 1, '%s.csv' using 1:4 title '5%% uncertainty' with lines linestyle 4"%(fn,fn,fn)
+        ]))
+        file.close()
     subprocess.call(["gnuplot", "%s.gp"%fn])
     subprocess.call(["ps2pdf", "%s.ps"%fn, "%s.pdf"%fn])
     subprocess.call(["rm", "%s.gp"%fn])
@@ -1205,9 +1295,9 @@ def exittest():
     print("Test done")
     quit()
     
-def importmicrotable(colnum, rolnum, rangeval, uncert, minval, maxval):
-    tname = "micro"
-    attrs = mcg.tablegen(colnum, rolnum, rangeval, uncert, minval, maxval)
+def importmicrotable(colnum, rolnum, rangeval, uncert, minval, maxval, tn="micro", aoff=0):
+    tname = tn
+    attrs = mcg.tablegen(colnum, rolnum, rangeval, uncert, minval, maxval, aoff)
     pushQuery('drop table if exists %s'%(tname))
     tableinitq = "create table %s ("%(tname)
     for an in list(attrs.split(",")) :
@@ -1218,6 +1308,34 @@ def importmicrotable(colnum, rolnum, rangeval, uncert, minval, maxval):
     tablecopy = "copy %s from '%s/micro.csv' DELIMITER ',' CSV HEADER;"%(tname, dir)
     print(tablecopy)
     pushQuery(tablecopy)
+    return attrs
+    
+def importmicrotablefromtidb(colnum, rolnum, rangeval, uncert, minval, maxval, tsize, tn="micro", aoff=0):
+    tname = tn
+    tiname = tn+"_tidb"
+    attrs = mcg.tablegentidb(colnum, rolnum, rangeval, uncert, minval, maxval,tsize,aoff)
+    pushQuery('drop table if exists %s'%(tname))
+    pushQuery('drop table if exists %s'%(tiname))
+    titableinitq = "create table %s ("%(tiname)
+    for an in list(attrs.split(",")):
+        titableinitq += "%s integer,"%(an)
+    titableinitq = titableinitq[:-1]+");"
+    print(titableinitq)
+    pushQuery(titableinitq)
+    tablecopy = "copy %s from '%s/microtidb.csv' DELIMITER ',' CSV HEADER;"%(tiname, dir)
+    print(tablecopy)
+    pushQuery(tablecopy)
+    autable = "create table " + tname + " as select"
+    bdlist = ""
+    print(attrs)
+    for an in list(attrs.split(",")):
+        if an=="id":
+            autable += " id,"
+        else:
+            autable += " min(" + an + ") as " +an+","
+            bdlist += " max(" + an + ") as ub_" +an+", min(" + an + ") as lb_" +an+","
+    autable += (bdlist+"1 as cet_r, 1 as bst_r, 1 as pos_r from " + tiname + " group by id;")
+    pushQuery(autable)
     return attrs
     
 def microbenchmark():
@@ -1256,7 +1374,7 @@ def microbenchmark():
 #    attrs = importmicrotable(colnum, rolnum, rangeval, uncert, minval, maxval)
     
     
-#    #varying groupby
+#    #########################################varying groupby########################################
 #    queryn = "select sum(a%s) from micro group by "%(str(colnum-1))
 #    queryh = "urange (select sum(a%s) from micro is radb group by "%(str(colnum-1))
 #    groupby = ""
@@ -1294,7 +1412,7 @@ def microbenchmark():
 #    subprocess.call(["mv", "groupby.csv","results/microbench/groupby.csv"])
 #    subprocess.call(["mv", "groupby.pdf","results/microbench/groupby.pdf"])
 
-#    #varying aggregation
+#    #########################################varying aggregation########################################
 #    queryn = " from micro group by a%s"%(str(colnum-1))
 #    queryh = " from micro is radb group by a%s"%(str(colnum-1))
 #    aggf = ""
@@ -1331,8 +1449,9 @@ def microbenchmark():
 #    plotmicro("aggregation", colnum, int(maxy)+1, "# Aggregation functions")
 #    subprocess.call(["mv", "aggregation.csv","results/microbench/aggregation.csv"])
 #    subprocess.call(["mv", "aggregation.pdf","results/microbench/aggregation.pdf"])
+
     
-    #varying range
+    #########################################varying range########################################
 #    compfactor = [2,5,8,9]
 #    minval = 1
 #    maxval = 100000
@@ -1358,36 +1477,37 @@ def microbenchmark():
 #    plotmicro("range", maxval, int(maxy)+1, "Uncertain attribute range")
 #    subprocess.call(["mv", "range.csv","results/microbench/range.csv"])
 #    subprocess.call(["mv", "range.pdf","results/microbench/range.pdf"])
+
     
-    #varying compression rate
-    maxiteration = 16
-
-    minval = 1
-    maxval = 10000
-    rolnum = 10000
-    uncert = 0.02
-
-    rangeval = 20 #uncertain attribute range
-
-    res = ""
-    maxy = 0
-    mres = ""
-
-    attrs = importmicrotable(2, rolnum, rangeval, uncert, minval, maxval)
-
-    resname = "micro_r"
-
-    for i in range(maxiteration):
-        gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(i+1)), "-Pexecutor", "sql", "-query"]
-        query = "urange (select a0,sum(a1) as s1 from micro is radb group by a0);"
-        rquery = getAUDBQueryFromGProM(query, gpromcmd)
-#        allt, mt = timeQueryMult(rquery)
-        materializequery(rquery, resname)
-        metricsq = "select max(ub_s1-lb_s1), min(ub_s1-lb_s1), avg(ub_s1-lb_s1) from %s;"%(resname)
-        metr = str(runQuery(metricsq))
-        print(metr)
-        mres += metr + "\n"
-    print(mres)
+        ########################################varying compression rate########################################
+#    maxiteration = 16
+#
+#    minval = 1
+#    maxval = 10000
+#    rolnum = 10000
+#    uncert = 0.02
+#
+#    rangeval = 20 #uncertain attribute range
+#
+#    res = ""
+#    maxy = 0
+#    mres = ""
+#
+#    attrs = importmicrotable(2, rolnum, rangeval, uncert, minval, maxval)
+#
+#    resname = "micro_r"
+#
+#    for i in range(maxiteration):
+#        gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(i+1)), "-Pexecutor", "sql", "-query"]
+#        query = "urange (select a0,sum(a1) as s1 from micro is radb group by a0);"
+#        rquery = getAUDBQueryFromGProM(query, gpromcmd)
+##        allt, mt = timeQueryMult(rquery)
+#        materializequery(rquery, resname)
+#        metricsq = "select max(ub_s1-lb_s1), min(ub_s1-lb_s1), avg(ub_s1-lb_s1) from %s;"%(resname)
+#        metr = str(runQuery(metricsq))
+#        print(metr)
+#        mres += metr + "\n"
+#    print(mres)
 #        if float(mt) > maxy:
 #            maxy = float(mt)
 #        res += (str(i+1) + "\t" + str(mt) + "\n")
@@ -1400,8 +1520,9 @@ def microbenchmark():
 #    subprocess.call(["mv", "compress.csv","results/microbench/compress.csv"])
 #    subprocess.call(["mv", "compress_metrics.csv","results/microbench/compress_metrics.csv"])
 #    subprocess.call(["mv", "compress.pdf","results/microbench/compress.pdf"])
+
     
-    #Join with different optimizations
+    ########################################Join with different optimizations########################################
 #    colnum = 2
 #    rolnum = 5000
 #    maxrl = 20000
@@ -1456,6 +1577,179 @@ def microbenchmark():
 #    subprocess.call(["mv", "join.csv","results/microbench/join.csv"])
 #    subprocess.call(["mv", "join_metrics.csv","results/microbench/join_metrics.csv"])
 #    subprocess.call(["mv", "join.pdf","results/microbench/join.pdf"])
+
+    ########################################varying number of joins########################################
+    
+#    rep = 4
+#
+#    colnum = 2
+#    rolnum = 1000
+#
+#    minval = 1
+#    maxval = 1000
+#
+#    rangeval = 50 #uncertain attribute range
+#    uncert = 0.1 #uncertainty percentage
+#
+#    cf = 8
+#
+#    for i in range(rep+1):
+#        attrs = importmicrotable(colnum, rolnum, rangeval, uncert, minval, maxval, "t"+str(i), i*2)
+#
+#    for currep in range(1, rep+1):
+#            query = ""
+#            for i in range(currep+1):
+#                tn = "t"+str(i) + " is radb"
+#                an = "a"+str(i*2)
+#                if i==0:
+#                    query = tn
+#                else:
+#                    query = "("+query+" join " + tn + " on " + "a"+str(i*2-1) + " = " + "a"+str(i*2) + ")"
+#            query = "urange (select * from " + query + ");"
+#            print(query)
+#            print("[microbench - varying number of joins] join# = %d, c_factor = %d"%(currep, cf))
+##            gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_optimize_join", "FALSE", "-Pexecutor", "sql", "-query"]
+#            gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(cf)), "-Pexecutor", "sql", "-query"]
+#            rquery = getAUDBQueryFromGProM(query, gpromcmd)
+##            print(rquery)
+#            allt, mt = timeQueryMult(rquery)
+#            size = sizeQuery(rquery)
+#            print(mt, size)
+    
+    
+    
+#    ########################################varying attribute range measure overgrouping########################################
+
+    colnum = 3
+    rolnum = 1000
+
+    minval = 1
+    maxval = 1000
+
+    rangeval = 80 #uncertain attribute range
+#    uncert = 0.03 #uncertainty percentage
+
+    uncert = [0.02,0.03,0.05]
+
+    cf = 1
+
+    rep = 5
+
+#    gp = "select a1 as gp, max(ub_a1) as ub_gp, min(lb_a1) as lb_gp from micro group by a1;"
+
+    qtidb = "select count(t2.id) from (select distinct a1 as a1 from micro) t1, micro_tidb t2 where t1.a1 = t2.a1;" # and t1.id != t2.id
+
+    qaudb = "select count(t2.id) from (select a1 as a1, max(ub_a1) as ub_a1, min(lb_a1) as lb_a1 from micro group by a1) t1, micro t2 where t1.ub_a1 >= t2.lb_a1 and t2.ub_a1 >= t1.lb_a1;" #and t1.id != t2.id
+
+    allres = []
+    resr = []
+
+    for ut in uncert:
+        res = []
+        resr = []
+        for i in range(20, rangeval, 1):
+            rec = []
+            for j in range(0,rep):
+                attrs = importmicrotablefromtidb(colnum, rolnum, i, ut, minval, maxval, 19)
+                ret = runQuery(qtidb)
+                tn = float(ret[-1][0])
+                ret = runQuery(qaudb)
+                an = float(ret[-1][0])
+                pct = (an-tn)/(tn)*100
+                rec.append(pct)
+            mpct = statistics.mean(rec)
+            print(str(mpct)+"%")
+            res.append(mpct)
+            resr.append((float(i)/maxval)*100)
+#            resr.append(i)
+#        print(res)
+        allres.append(res)
+    print(allres)
+    print(len(resr))
+    reswrite = ""
+    for i, num in enumerate(resr):
+        reswrite += (str(num))
+        for j in range(len(uncert)):
+            reswrite += "\t" + str(allres[j][i])
+        reswrite += "\n"
+    print(reswrite)
+    subprocess.call(["mkdir", "results/microbench"])
+    writetofile("overgrouping.csv",reswrite)
+    plotmicroovergrouping("overgrouping", 1 , max(resr)*1.1, max(sum(allres, []))*1.1, "Max relative uncertain range (%)")
+    subprocess.call(["mv", "overgrouping.csv","results/microbench/overgrouping.csv"])
+    subprocess.call(["mv", "overgrouping.pdf","results/microbench/overgrouping.pdf"])
+
+#############################################Verying range measure output range#######################################################
+#    colnum = 3
+#    rolnum = 1000
+#
+#    minval = 1
+#    maxval = 700
+#
+#    rangeval = 70 #uncertain attribute range
+##    uncert = 0.03 #uncertainty percentage
+#    uncert = [0.02,0.03,0.05]
+#
+#    cf = 1
+#
+#    rep = 5
+#
+##    uctid = "(select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id)"
+#
+#    tidblb = "select t1.a1, sum(case when t2.ua>0 then 0 else t2.a2 end) as lb_sum from (select distinct a1 as a1 from micro) t1, (select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id) t2 where t1.a1 = t2.a1 group by t1.a1"
+#
+#    tidbub = "select g.a1, sum(g.a2) as ub_sum from (select t1.a1, t2.id, max(t2.a2) as a2 from (select distinct a1 as a1 from micro) t1, micro_tidb t2 where t1.a1 = t2.a1 group by t2.id, t1.a1) g group by g.a1"
+#
+#    qtidb = "select t1.a1, t2.ub_sum as ub_sum, t1.lb_sum as lb_sum from (%s) t1 join (%s) t2 on t1.a1=t2.a1"%(tidblb,tidbub)
+#
+##    qtidb = "select t1.a1, sum(t2.a2) as ub_sum, sum(case when t2.ua>0 then 0 else t2.a2 end) as lb_sum from (select distinct a1 as a1 from micro) t1, (select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id) t2 where t1.a1 = t2.a1 group by t1.a1"
+#
+#    qaudb = "select t1.a1, t1.ub_a1, t1.lb_a1, sum(t2.ub_a2) as ub_sum, sum(case when t2.ub_a1 > t2.lb_a1 or t1.ub_a1 > t1.lb_a1 then 0 else t2.lb_a2 end) as lb_sum from (select a1 as a1, max(ub_a1) as ub_a1, min(lb_a1) as lb_a1 from micro group by a1) t1, micro t2 where t1.ub_a1 >= t2.lb_a1 and t2.ub_a1 >= t1.lb_a1 group by t1.a1, t1.ub_a1, t1.lb_a1"
+#
+#    join = "select t1.a1, t1.ub_sum as ub1, t1.lb_sum as lb1, t2.ub_sum as ub2, t2.lb_sum as lb2, t1.ub_sum-t1.lb_sum as dif1, t2.ub_sum-t2.lb_sum as dif2 from (%s) t1, (%s) t2 where t1.a1<=t2.ub_a1 and t1.a1>=t2.lb_a1"%(qtidb,qaudb)
+#
+##    mena = "select * from (%s) x where "
+#
+#    dif = "select avg((dif2-dif1)/700) as over from (%s) x"%(join)
+#
+##    print(dif)
+#
+##    qaudb = "select a1, count(*) as ct, sum(case when ub_a2 < 0 then ub_a2*cet_r else ub_a1*pos_r end) as ub_sum, sum(case when lb_a2 > 0 then lb_a2*cet_r else lb_a2*pos_r end) as lb_sum, abs(sum(case when ub_a2 < 0 then ub_a2*cet_r else ub_a2*pos_r end)-sum(case when lb_a2 > 0 then lb_a2*cet_r else lb_a2*pos_r end)) as dif from micro group by a1;"
+#
+#    allres = []
+#    resr = []
+##
+#    for ut in uncert:
+#        res = []
+#        resr = []
+#        for i in range(10, rangeval, 1):
+#            rec = []
+#            for j in range(0,rep):
+#                attrs = importmicrotablefromtidb(colnum, rolnum, i, ut, minval, maxval, 10)
+#                ret = runQuery(dif)
+#                diff = float(ret[-1][0])
+#                rec.append(diff)
+#            mpct = statistics.mean(rec)
+##            print(str(mpct)+"%")
+#            res.append(mpct)
+#            resr.append((float(i)/maxval)*100)
+##        print(res)
+#        allres.append(res)
+#    print(allres)
+#    print(len(resr))
+#    reswrite = ""
+#    for i, num in enumerate(resr):
+#        reswrite += (str(num))
+#        for j in range(len(uncert)):
+#            reswrite += "\t" + str(allres[j][i])
+#        reswrite += "\n"
+#    print(reswrite)
+#    subprocess.call(["mkdir", "results/microbench"])
+#    writetofile("rangeoverhead.csv",reswrite)
+#    plotmicrooverrange("rangeoverhead", 0, max(resr)*1.1, max(sum(allres, []))*1.1, "Max relative uncertain range (%)")
+#    subprocess.call(["mv", "rangeoverhead.csv","results/microbench/rangeoverhead.csv"])
+#    subprocess.call(["mv", "rangeoverhead.pdf","results/microbench/rangeoverhead.pdf"])
+    
         
 def getmetric(tbn):
     query = "select column_name from INFORMATION_SCHEMA.COLUMNS where table_name ='%s'"%(tbn)
@@ -1575,15 +1869,11 @@ if __name__ == '__main__':
     
 #    start postgres server
     print("start server")
-    #os.system('sudo -u postgres /home/perm/postgres11/install/bin/pg_ctl -D /home/perm/su/pgdata11 stop')
     os.system('sudo -u postgres /usr/lib/postgresql/9.5/bin/pg_ctl -D /postgresdata stop')
     os.system('sudo -u postgres /maybms/install/bin/pg_ctl -D /maybms/data stop')
-    #os.system('sudo -u postgres /home/perm/postgres11/install/bin/pg_ctl -o "-p 5453" -D /home/perm/su/pgdata11 restart')
     os.system('sudo -u postgres /usr/lib/postgresql/9.5/bin/pg_ctl -o "-p 5453" -D /postgresdata restart')
-#    sudo -u postgres /home/perm/postgres11/install/bin/psql -p5453 "postgres"
     os.system('sudo -u postgres /maybms/install/bin/pg_ctl -o "-p 5433" -D /maybms/data restart')
-#    subprocess.Popen(["sudo","-u","postgres","/usr/lib/postgresql/10/bin/pg_ctl", "-o", '"-p 5432"', "-D", "/postgresdata", "start"],shell=False,close_fds=True)
-#    subprocess.Popen(["sudo","-u","postgres","/maybms/install/bin/pg_ctl", "-o", '"-p 5464"', "-D", "/maybms/data", "start"],shell=False,close_fds=True)
+#
     
 #    time.sleep(10)
     print("server started")

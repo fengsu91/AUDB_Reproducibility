@@ -1,1 +1,0 @@
-urange (select insurance, sum(salary) as sm from real_treatments_radb is radb group by insurance);

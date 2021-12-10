@@ -6,6 +6,11 @@ MAINTAINER Boris Glavic <bglavic@iit.edu>
 ########################################
 RUN git clone https://github.com/fengsu91/AUDB_Reproducibility /reproducibility_audb
 ########################################
+ADD ./data.zip /reproducibility/data.zip
+RUN cd /reproducibility/dbs \
+     && unzip data.zip \
+     && rm data.zip
+########################################
 # Setup workdin
 ########################################
 WORKDIR /reproducibility_audb

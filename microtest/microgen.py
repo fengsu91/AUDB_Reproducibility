@@ -13,7 +13,7 @@ import statistics
 def iscert(uncert):
     return random.randrange(100) > uncert*100
 
-def tablegen(colnum, rolnum, rangeval, uncert, minval, maxval):
+def tablegen(colnum, rolnum, rangeval, uncert, minval, maxval, aoff=0):
     dpy =""
     dpyr =""
     tbl = [[1 for x in range(colnum*3+3)] for y in range(rolnum)]
@@ -28,7 +28,7 @@ def tablegen(colnum, rolnum, rangeval, uncert, minval, maxval):
             tbl[i][j] = val
             tbl[i][colnum+j*2] = ubval
             tbl[i][colnum+j*2+1] = lbval
-    for i in range(colnum):
+    for i in range(aoff, colnum+aoff):
         dpy+=('a'+str(i)+',')
         dpyr+=('ub_a'+str(i)+',')
         dpyr+=('lb_a'+str(i)+',')
@@ -41,6 +41,55 @@ def tablegen(colnum, rolnum, rangeval, uncert, minval, maxval):
     print(nptbl.shape)
     np.savetxt("micro.csv", nptbl, fmt='%d', header = dpy, delimiter=",", comments='')
     print("Generated micro instance of %d tuples, %d columns, %f uncertainty and range from %s to %s with max uncertain range %d."%(rolnum,colnum,uncert,minval,maxval, rangeval))
+    return dpy
+    
+def tablegentidb(colnum, rolnum, rangeval, uncert, minval, maxval, tsize, aoff=0):
+    dpy =""
+    ct = 0
+    tbl = []
+#    print(tbl)
+    for i in range(rolnum):
+        lastt = []
+        if not iscert(uncert):
+            for k in range(tsize):
+                tup = []
+                for j in range(colnum):
+                    if j==0:
+                        val = i
+                        tup.append(val)
+                    else:
+                        if len(lastt)<1:
+                            val = random.randint(minval, maxval)
+                            tup.append(val)
+                        else:
+                            val = random.randint(lastt[j], lastt[j]+rangeval)
+                            tup.append(val)
+                tbl.append(tup)
+#                print(tup)
+                ct+=1
+                if len(lastt)<1:
+                    lastt = tup
+        else:
+            tup = []
+            for j in range(colnum):
+                if j==0:
+                    val = i
+                else:
+                    val = random.randint(minval, maxval)
+                tup.append(val)
+            tbl.append(tup)
+            ct+=1
+    for i in range(aoff, colnum+aoff):
+        if i==0:
+            dpy+=('id')
+        else:
+            dpy+=(',a'+str(i))
+    print(dpy)
+    nptbl = np.array(tbl, dtype='<i4')
+#    print(nptbl)
+    print(nptbl.shape)
+    np.savetxt("microtidb.csv", nptbl, fmt='%d', header = dpy, delimiter=",", comments='')
+    print("Generated micro TIDB of %d(%d) tuples, %d columns, %f uncertainty and range from %s to %s with max uncertain range %d."%(rolnum, ct ,colnum,uncert,minval,maxval, rangeval))
     return dpy
     
 if __name__ == '__main__':

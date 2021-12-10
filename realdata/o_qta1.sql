@@ -1,1 +1,0 @@
-select sum(childexemp) as sm from real_tax group by city;

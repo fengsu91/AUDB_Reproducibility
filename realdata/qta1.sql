@@ -1,1 +1,0 @@
-urange (select sum(childexemp) as sm from real_tax_radb is radb group by city);

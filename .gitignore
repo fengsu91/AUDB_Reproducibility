@@ -1,2 +1,5 @@
 .DS_Store
 config/__pycache__
+microtest/__pycache__
+data.zip
+results

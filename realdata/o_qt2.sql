@@ -1,1 +1,0 @@
-select insurance, sum(salary) as sm from real_treatments group by insurance;

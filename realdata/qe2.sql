@@ -1,1 +1,0 @@
-urange (select * from real_emp_radb is radb where name = manager);
