@@ -6,7 +6,6 @@ MAINTAINER Boris Glavic <bglavic@iit.edu>
 ########################################
 RUN git clone https://github.com/fengsu91/AUDB_Reproducibility /reproducibility_audb
 ########################################
-RUN rm -r /reproducibility
 ADD ./data.zip /reproducibility_audb/data.zip
 RUN cd /reproducibility_audb \
      && unzip data.zip \
@@ -21,6 +20,8 @@ RUN cd /gprom/src \
 	&& ./configure  --disable-monetdb --disable-oracle --with-libpq-headers=/usr/include/postgresql --disable-java  \
 	&& make \
     && make install
+########################################
+RUN rm -r /reproducibility
 ########################################
 # Setup workdin
 ########################################
