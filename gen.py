@@ -1522,7 +1522,7 @@ def microbenchmark():
         materializequery(rquery, resname)
 #        metricsq = "select max(ub_s1-lb_s1), min(ub_s1-lb_s1), avg(ub_s1-lb_s1) from %s;"%(resname)
         metricsq = "select avg(ub_s1-lb_s1) from %s;"%(resname)
-        metr = str(runQuery(metricsq))
+        metr = str(runQuery(metricsq)[0])
         print(metr)
         mres += metr + "\n"
         print(mres)
