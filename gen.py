@@ -23,6 +23,8 @@ dir = None
 conn2 = None
 cur2 = None
 
+multrep = 1
+
 pgport = "5432"
 
 #s = [0.1, 1, 10]
@@ -148,7 +150,7 @@ def timeQuerySel(query, setion='postgresql'):
     print("time Query: %s."%rt)
     return rt
     
-def timeQueryMult(query, setion='postgresql', rep = 20):
+def timeQueryMult(query, setion='postgresql', rep = multrep):
     ret = []
     for i in range(rep):
         ret.append(timeQuerySel(query))
@@ -156,7 +158,7 @@ def timeQueryMult(query, setion='postgresql', rep = 20):
     retint = [float(i) for i in ret]
     return (', '.join(ret)), str(statistics.mean(retint))
     
-def timeQueryMultInput(query, setion='postgresql', targ="radb", rep = 20, x = 0.02, s = 1):
+def timeQueryMultInput(query, setion='postgresql', targ="radb", rep = multrep, x = 0.02, s = 1):
     ret = []
     rsec = "_"+str(int(x*100))+"_"+str(int(s*100)) +"_"+ targ
     print(rsec)
@@ -739,7 +741,7 @@ def plotmicroRange(fn, maxx, maxy, xlab, miny = 0):
             'set style line 4 lt 1 lc rgb "blue" lw 9',
             'set style line 5 lt 1 lc rgb "black" lw 9',
             'set style line 6 lt 1 lc rgb "#110099" lw 9',
-            'set ylabel "Time (sec)" font "Arial,32"',
+            'set ylabel "Time (ms)" font "Arial,32"',
             'set ylabel offset character -2, 0, 0',
             'set ytics font "Arial,32"',
             'set key inside left top vertical Left noreverse noenhanced autotitle nobox',
@@ -1068,6 +1070,10 @@ def plotmicrojoinMetrics(fn, maxx, maxy, miny = 0):
     return "%s.pdf"%fn
 
 def printtriotest(fn, maxx, maxy, miny = 0):
+    subprocess.call(["mkdir", "results/trio"])
+    dst = "results/trio/trio.csv"
+    subprocess.call(["cp", "%s.csv"%(fn), dst])
+    fn = "results/trio/trio"
     with open("%s.gp"%fn, "w+") as file:
         file.write("\n".join([
             "set size ratio 0.4",
@@ -1481,7 +1487,7 @@ def microbenchmark():
 #    #plotmicro("range", maxval, int(maxy)+1, "Uncertain attribute range")
 #    subprocess.call(["mv", "range.csv","results/microbench/range.csv"])
 #    #subprocess.call(["mv", "range.pdf","results/microbench/range.pdf"])
-#    plotmicroRange("results/microbench/range",1, 45, "Attribute bound size / Domain size", -1)
+#    plotmicroRange("results/microbench/range",1, int(maxy)+1, "Attribute bound size / Domain size", -1)
 
     
         #######################################varying compression rate########################################
@@ -1941,7 +1947,7 @@ if __name__ == '__main__':
 #        plotmicroAggCompressionMetric("results/microbench/compress_metrics",16, 55000000, -1000000)
 #        plotmicro("results/microbench/groupby",92, 7, "# groupby attributts")
 #        plotmicro("results/microbench/aggregation",92, 1.2, "# aggregation functions")
-        plotmicroRange("results/microbench/range",1, 45, "Attribute bound size / Domain size", -1)
+#        plotmicroRange("results/microbench/range",1, 35000, "Attribute bound size / Domain size", -1)
 #        plotmicrojoin("results/microbench/join", 21000, 1000000)
 #        plotmicrojoinMetrics("results/microbench/join_metrics", 21000, 260000000, -10000000)
 #        plotmicroAggCompressionSQ("results/microbench/compress", "results/microbench/compress_metrics", 16, 80, 55000000, -5, -3000000)
@@ -2077,7 +2083,7 @@ if __name__ == '__main__':
            print("By Passing microbench test")
         
     if curs ==5 and singlestep == -1 or singlestep == 5:
-        printtriotest("results/trio/trio", 10, 18, -0.5)
+        printtriotest("table_init_sql/trio/trio/trio", 10, 18, -0.5)
         if(singlestep == -1):
             curs += 1
         else:
