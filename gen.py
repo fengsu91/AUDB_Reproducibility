@@ -23,7 +23,7 @@ dir = None
 conn2 = None
 cur2 = None
 
-pgport = "5453"
+pgport = "5432"
 
 #s = [0.1, 1, 10]
 s = [0.1, 1]
@@ -1871,7 +1871,7 @@ if __name__ == '__main__':
     print("start server")
     os.system('sudo -u postgres /usr/lib/postgresql/9.5/bin/pg_ctl -D /postgresdata stop')
     os.system('sudo -u postgres /maybms/install/bin/pg_ctl -D /maybms/data stop')
-    os.system('sudo -u postgres /usr/lib/postgresql/9.5/bin/pg_ctl -o "-p 5453" -D /postgresdata restart')
+    os.system('sudo -u postgres /usr/lib/postgresql/9.5/bin/pg_ctl -o "-p 5432" -D /postgresdata restart')
     os.system('sudo -u postgres /maybms/install/bin/pg_ctl -o "-p 5433" -D /maybms/data restart')
 #
     
