@@ -1497,7 +1497,7 @@ def microbenchmark():
     
         #######################################varying compression rate########################################
     print("[TESTING MICROBENCHMARK] - varying compression rate")
-    maxiteration = 17
+    maxiteration = 8
 #
     minval = 1
     maxval = 10000
