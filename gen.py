@@ -1536,7 +1536,7 @@ def microbenchmark():
     subprocess.call(["mv", "compress.csv","results/microbench/compress.csv"])
     subprocess.call(["mv", "compress_metrics.csv","results/microbench/compress_metrics.csv"])
 #    subprocess.call(["mv", "compress.pdf","results/microbench/compress.pdf"])
-    plotmicroAggCompressionSQ("results/microbench/compress", "results/microbench/compress_metrics", 16, 80, 55000000, -5, -3000000)
+    plotmicroAggCompressionSQ("results/microbench/compress", "results/microbench/compress_metrics", maxiteration, int(maxy)+1, 55000000, -5, -3000000)
 
     
     #######################################Join with different optimizations########################################
@@ -1553,7 +1553,7 @@ def microbenchmark():
 
     maxy = 0
 
-    compfactor = [2,3,4,5]
+    compfactor = [2,4,6,8]
     resname = "micro_r"
     res = ""
     mres = ""
