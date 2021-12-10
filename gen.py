@@ -1591,9 +1591,11 @@ def microbenchmark():
     print(mres)
     writetofile("join.csv",res)
     writetofile("join_metrics.csv",mres)
-    plotmicro("join", maxrl, int(maxy)+1, "Data size")
+#    plotmicro("join", maxrl, int(maxy)+1, "Data size")
     subprocess.call(["mv", "join.csv","results/microbench/join.csv"])
     subprocess.call(["mv", "join_metrics.csv","results/microbench/join_metrics.csv"])
+    plotmicrojoin("results/microbench/join", 21000, 1000000)
+    plotmicrojoinMetrics("results/microbench/join_metrics", 21000, 260000000, -10000000)
     subprocess.call(["mv", "join.pdf","results/microbench/join.pdf"])
 
     #######################################varying number of joins########################################
@@ -1638,138 +1640,138 @@ def microbenchmark():
     
     
     ########################################varying attribute range measure overgrouping########################################
-    print("[TESTING MICROBENCHMARK] - overgrouping")
-
-    colnum = 3
-    rolnum = 1000
-
-    minval = 1
-    maxval = 1000
-
-    rangeval = 80 #uncertain attribute range
-#    uncert = 0.03 #uncertainty percentage
-
-    uncert = [0.02,0.03,0.05]
-
-    cf = 1
-
-    rep = 5
-
-#    gp = "select a1 as gp, max(ub_a1) as ub_gp, min(lb_a1) as lb_gp from micro group by a1;"
-
-    qtidb = "select count(t2.id) from (select distinct a1 as a1 from micro) t1, micro_tidb t2 where t1.a1 = t2.a1;" # and t1.id != t2.id
-
-    qaudb = "select count(t2.id) from (select a1 as a1, max(ub_a1) as ub_a1, min(lb_a1) as lb_a1 from micro group by a1) t1, micro t2 where t1.ub_a1 >= t2.lb_a1 and t2.ub_a1 >= t1.lb_a1;" #and t1.id != t2.id
-
-    allres = []
-    resr = []
-
-    for ut in uncert:
-        res = []
-        resr = []
-        for i in range(20, rangeval, 1):
-            rec = []
-            for j in range(0,rep):
-                attrs = importmicrotablefromtidb(colnum, rolnum, i, ut, minval, maxval, 19)
-                ret = runQuery(qtidb)
-                tn = float(ret[-1][0])
-                ret = runQuery(qaudb)
-                an = float(ret[-1][0])
-                pct = (an-tn)/(tn)*100
-                rec.append(pct)
-            mpct = statistics.mean(rec)
-            print(str(mpct)+"%")
-            res.append(mpct)
-            resr.append((float(i)/maxval)*100)
-#            resr.append(i)
-#        print(res)
-        allres.append(res)
-    print(allres)
-    print(len(resr))
-    reswrite = ""
-    for i, num in enumerate(resr):
-        reswrite += (str(num))
-        for j in range(len(uncert)):
-            reswrite += "\t" + str(allres[j][i])
-        reswrite += "\n"
-    print(reswrite)
-    subprocess.call(["mkdir", "results/microbench"])
-    writetofile("overgrouping.csv",reswrite)
-    plotmicroovergrouping("overgrouping", 1 , max(resr)*1.1, max(sum(allres, []))*1.1, "Max relative uncertain range (%)")
-    subprocess.call(["mv", "overgrouping.csv","results/microbench/overgrouping.csv"])
-    subprocess.call(["mv", "overgrouping.pdf","results/microbench/overgrouping.pdf"])
+#    print("[TESTING MICROBENCHMARK] - overgrouping")
+#
+#    colnum = 3
+#    rolnum = 1000
+#
+#    minval = 1
+#    maxval = 1000
+#
+#    rangeval = 80 #uncertain attribute range
+##    uncert = 0.03 #uncertainty percentage
+#
+#    uncert = [0.02,0.03,0.05]
+#
+#    cf = 1
+#
+#    rep = 5
+#
+##    gp = "select a1 as gp, max(ub_a1) as ub_gp, min(lb_a1) as lb_gp from micro group by a1;"
+#
+#    qtidb = "select count(t2.id) from (select distinct a1 as a1 from micro) t1, micro_tidb t2 where t1.a1 = t2.a1;" # and t1.id != t2.id
+#
+#    qaudb = "select count(t2.id) from (select a1 as a1, max(ub_a1) as ub_a1, min(lb_a1) as lb_a1 from micro group by a1) t1, micro t2 where t1.ub_a1 >= t2.lb_a1 and t2.ub_a1 >= t1.lb_a1;" #and t1.id != t2.id
+#
+#    allres = []
+#    resr = []
+#
+#    for ut in uncert:
+#        res = []
+#        resr = []
+#        for i in range(20, rangeval, 1):
+#            rec = []
+#            for j in range(0,rep):
+#                attrs = importmicrotablefromtidb(colnum, rolnum, i, ut, minval, maxval, 19)
+#                ret = runQuery(qtidb)
+#                tn = float(ret[-1][0])
+#                ret = runQuery(qaudb)
+#                an = float(ret[-1][0])
+#                pct = (an-tn)/(tn)*100
+#                rec.append(pct)
+#            mpct = statistics.mean(rec)
+#            print(str(mpct)+"%")
+#            res.append(mpct)
+#            resr.append((float(i)/maxval)*100)
+##            resr.append(i)
+##        print(res)
+#        allres.append(res)
+#    print(allres)
+#    print(len(resr))
+#    reswrite = ""
+#    for i, num in enumerate(resr):
+#        reswrite += (str(num))
+#        for j in range(len(uncert)):
+#            reswrite += "\t" + str(allres[j][i])
+#        reswrite += "\n"
+#    print(reswrite)
+#    subprocess.call(["mkdir", "results/microbench"])
+#    writetofile("overgrouping.csv",reswrite)
+#    plotmicroovergrouping("overgrouping", 1 , max(resr)*1.1, max(sum(allres, []))*1.1, "Max relative uncertain range (%)")
+#    subprocess.call(["mv", "overgrouping.csv","results/microbench/overgrouping.csv"])
+#    subprocess.call(["mv", "overgrouping.pdf","results/microbench/overgrouping.pdf"])
 
 ############################################Verying range measure output range#######################################################
-    print("[TESTING MICROBENCHMARK] - output range")
-    colnum = 3
-    rolnum = 1000
-
-    minval = 1
-    maxval = 700
-
-    rangeval = 70 #uncertain attribute range
-#    uncert = 0.03 #uncertainty percentage
-    uncert = [0.02,0.03,0.05]
-
-    cf = 1
-
-    rep = 5
-
-#    uctid = "(select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id)"
-
-    tidblb = "select t1.a1, sum(case when t2.ua>0 then 0 else t2.a2 end) as lb_sum from (select distinct a1 as a1 from micro) t1, (select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id) t2 where t1.a1 = t2.a1 group by t1.a1"
-
-    tidbub = "select g.a1, sum(g.a2) as ub_sum from (select t1.a1, t2.id, max(t2.a2) as a2 from (select distinct a1 as a1 from micro) t1, micro_tidb t2 where t1.a1 = t2.a1 group by t2.id, t1.a1) g group by g.a1"
-
-    qtidb = "select t1.a1, t2.ub_sum as ub_sum, t1.lb_sum as lb_sum from (%s) t1 join (%s) t2 on t1.a1=t2.a1"%(tidblb,tidbub)
-
-#    qtidb = "select t1.a1, sum(t2.a2) as ub_sum, sum(case when t2.ua>0 then 0 else t2.a2 end) as lb_sum from (select distinct a1 as a1 from micro) t1, (select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id) t2 where t1.a1 = t2.a1 group by t1.a1"
-
-    qaudb = "select t1.a1, t1.ub_a1, t1.lb_a1, sum(t2.ub_a2) as ub_sum, sum(case when t2.ub_a1 > t2.lb_a1 or t1.ub_a1 > t1.lb_a1 then 0 else t2.lb_a2 end) as lb_sum from (select a1 as a1, max(ub_a1) as ub_a1, min(lb_a1) as lb_a1 from micro group by a1) t1, micro t2 where t1.ub_a1 >= t2.lb_a1 and t2.ub_a1 >= t1.lb_a1 group by t1.a1, t1.ub_a1, t1.lb_a1"
-
-    join = "select t1.a1, t1.ub_sum as ub1, t1.lb_sum as lb1, t2.ub_sum as ub2, t2.lb_sum as lb2, t1.ub_sum-t1.lb_sum as dif1, t2.ub_sum-t2.lb_sum as dif2 from (%s) t1, (%s) t2 where t1.a1<=t2.ub_a1 and t1.a1>=t2.lb_a1"%(qtidb,qaudb)
-
-#    mena = "select * from (%s) x where "
-
-    dif = "select avg((dif2-dif1)/700) as over from (%s) x"%(join)
-
-#    print(dif)
-
-#    qaudb = "select a1, count(*) as ct, sum(case when ub_a2 < 0 then ub_a2*cet_r else ub_a1*pos_r end) as ub_sum, sum(case when lb_a2 > 0 then lb_a2*cet_r else lb_a2*pos_r end) as lb_sum, abs(sum(case when ub_a2 < 0 then ub_a2*cet_r else ub_a2*pos_r end)-sum(case when lb_a2 > 0 then lb_a2*cet_r else lb_a2*pos_r end)) as dif from micro group by a1;"
-
-    allres = []
-    resr = []
+#    print("[TESTING MICROBENCHMARK] - output range")
+#    colnum = 3
+#    rolnum = 1000
 #
-    for ut in uncert:
-        res = []
-        resr = []
-        for i in range(10, rangeval, 1):
-            rec = []
-            for j in range(0,rep):
-                attrs = importmicrotablefromtidb(colnum, rolnum, i, ut, minval, maxval, 10)
-                ret = runQuery(dif)
-                diff = float(ret[-1][0])
-                rec.append(diff)
-            mpct = statistics.mean(rec)
-#            print(str(mpct)+"%")
-            res.append(mpct)
-            resr.append((float(i)/maxval)*100)
-#        print(res)
-        allres.append(res)
-    print(allres)
-    print(len(resr))
-    reswrite = ""
-    for i, num in enumerate(resr):
-        reswrite += (str(num))
-        for j in range(len(uncert)):
-            reswrite += "\t" + str(allres[j][i])
-        reswrite += "\n"
-    print(reswrite)
-    subprocess.call(["mkdir", "results/microbench"])
-    writetofile("rangeoverhead.csv",reswrite)
-    plotmicrooverrange("rangeoverhead", 0, max(resr)*1.1, max(sum(allres, []))*1.1, "Max relative uncertain range (%)")
-    subprocess.call(["mv", "rangeoverhead.csv","results/microbench/rangeoverhead.csv"])
-    subprocess.call(["mv", "rangeoverhead.pdf","results/microbench/rangeoverhead.pdf"])
+#    minval = 1
+#    maxval = 700
+#
+#    rangeval = 70 #uncertain attribute range
+##    uncert = 0.03 #uncertainty percentage
+#    uncert = [0.02,0.03,0.05]
+#
+#    cf = 1
+#
+#    rep = 5
+#
+##    uctid = "(select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id)"
+#
+#    tidblb = "select t1.a1, sum(case when t2.ua>0 then 0 else t2.a2 end) as lb_sum from (select distinct a1 as a1 from micro) t1, (select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id) t2 where t1.a1 = t2.a1 group by t1.a1"
+#
+#    tidbub = "select g.a1, sum(g.a2) as ub_sum from (select t1.a1, t2.id, max(t2.a2) as a2 from (select distinct a1 as a1 from micro) t1, micro_tidb t2 where t1.a1 = t2.a1 group by t2.id, t1.a1) g group by g.a1"
+#
+#    qtidb = "select t1.a1, t2.ub_sum as ub_sum, t1.lb_sum as lb_sum from (%s) t1 join (%s) t2 on t1.a1=t2.a1"%(tidblb,tidbub)
+#
+##    qtidb = "select t1.a1, sum(t2.a2) as ub_sum, sum(case when t2.ua>0 then 0 else t2.a2 end) as lb_sum from (select distinct a1 as a1 from micro) t1, (select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id) t2 where t1.a1 = t2.a1 group by t1.a1"
+#
+#    qaudb = "select t1.a1, t1.ub_a1, t1.lb_a1, sum(t2.ub_a2) as ub_sum, sum(case when t2.ub_a1 > t2.lb_a1 or t1.ub_a1 > t1.lb_a1 then 0 else t2.lb_a2 end) as lb_sum from (select a1 as a1, max(ub_a1) as ub_a1, min(lb_a1) as lb_a1 from micro group by a1) t1, micro t2 where t1.ub_a1 >= t2.lb_a1 and t2.ub_a1 >= t1.lb_a1 group by t1.a1, t1.ub_a1, t1.lb_a1"
+#
+#    join = "select t1.a1, t1.ub_sum as ub1, t1.lb_sum as lb1, t2.ub_sum as ub2, t2.lb_sum as lb2, t1.ub_sum-t1.lb_sum as dif1, t2.ub_sum-t2.lb_sum as dif2 from (%s) t1, (%s) t2 where t1.a1<=t2.ub_a1 and t1.a1>=t2.lb_a1"%(qtidb,qaudb)
+#
+##    mena = "select * from (%s) x where "
+#
+#    dif = "select avg((dif2-dif1)/700) as over from (%s) x"%(join)
+#
+##    print(dif)
+#
+##    qaudb = "select a1, count(*) as ct, sum(case when ub_a2 < 0 then ub_a2*cet_r else ub_a1*pos_r end) as ub_sum, sum(case when lb_a2 > 0 then lb_a2*cet_r else lb_a2*pos_r end) as lb_sum, abs(sum(case when ub_a2 < 0 then ub_a2*cet_r else ub_a2*pos_r end)-sum(case when lb_a2 > 0 then lb_a2*cet_r else lb_a2*pos_r end)) as dif from micro group by a1;"
+#
+#    allres = []
+#    resr = []
+##
+#    for ut in uncert:
+#        res = []
+#        resr = []
+#        for i in range(10, rangeval, 1):
+#            rec = []
+#            for j in range(0,rep):
+#                attrs = importmicrotablefromtidb(colnum, rolnum, i, ut, minval, maxval, 10)
+#                ret = runQuery(dif)
+#                diff = float(ret[-1][0])
+#                rec.append(diff)
+#            mpct = statistics.mean(rec)
+##            print(str(mpct)+"%")
+#            res.append(mpct)
+#            resr.append((float(i)/maxval)*100)
+##        print(res)
+#        allres.append(res)
+#    print(allres)
+#    print(len(resr))
+#    reswrite = ""
+#    for i, num in enumerate(resr):
+#        reswrite += (str(num))
+#        for j in range(len(uncert)):
+#            reswrite += "\t" + str(allres[j][i])
+#        reswrite += "\n"
+#    print(reswrite)
+#    subprocess.call(["mkdir", "results/microbench"])
+#    writetofile("rangeoverhead.csv",reswrite)
+#    plotmicrooverrange("rangeoverhead", 0, max(resr)*1.1, max(sum(allres, []))*1.1, "Max relative uncertain range (%)")
+#    subprocess.call(["mv", "rangeoverhead.csv","results/microbench/rangeoverhead.csv"])
+#    subprocess.call(["mv", "rangeoverhead.pdf","results/microbench/rangeoverhead.pdf"])
     
         
 def getmetric(tbn, fig = False):
