@@ -44,7 +44,8 @@ mcdbRep = 10
 #test1 = ['s10_x2']
 #test1 = ['s10_x2','s10_x5','s10_x10','s10_x30']
 test1 = ['s100_x2','s100_x5','s100_x10','s100_x30']
-test2 = ['s10_x2','s100_x2','s1000_x2']
+test2 = ['s10_x2','s100_x2']
+#test2 = ['s10_x2','s100_x2','s1000_x2']
 queries = ['pdQuery/Q1.sql','pdQuery/Q2.sql','pdQuery/Q3.sql']
 queries_mb = ['pdQuery/Q1_maybms.sql','pdQuery/Q2_maybms.sql','pdQuery/Q3_maybms.sql']
 queries_uadb = ['pdQuery/Q1_uadb.sql','pdQuery/Q2_uadb.sql','pdQuery/Q3_uadb.sql']
@@ -1207,7 +1208,7 @@ def plotmicrooverrange(fn, minx, maxx, maxy, xlab, miny = 0):
         
 #test result size and certain percentage
 def test_pdbenchSize():
-    pdbenchGenOnX()
+    pdbenchGenOnX(sval=0.1)
     global test1
     global queries
     global x
@@ -1371,254 +1372,254 @@ def microbenchmark():
     
     interv = 2 #groupby increment
     
-#    attrs = importmicrotable(colnum, rolnum, rangeval, uncert, minval, maxval)
+    attrs = importmicrotable(colnum, rolnum, rangeval, uncert, minval, maxval)
     
     
-#    #########################################varying groupby########################################
-#    queryn = "select sum(a%s) from micro group by "%(str(colnum-1))
-#    queryh = "urange (select sum(a%s) from micro is radb group by "%(str(colnum-1))
-#    groupby = ""
-#    resnum = []
-#    resorig = []
-#    resres = []
-#    maxy = 0
-#    for i in range(0,colnum-1, 5):
-#        if i==0:
-#            groupby += "a"+str(i)
-#        else :
-#            groupby += ", a"+str(i)
-#        if (i%interv)==0:
-#            resnum.append(str(i))
-#            querynorm = queryn + groupby + ";"
-##            print(querynorm)
-#            query = queryh + groupby + ");"
-#            rewrite = getAUDBQueryFromGProM(query)
-#            allt, mt = timeQueryMult(rewrite)
-#            allt, mt2 = timeQueryMult(querynorm)
-#            print(float(mt))
-#            print(mt2)
-#            if float(mt) > maxy:
-#                maxy = float(mt)
-#                print(int(maxy))
-#            resres.append(str(mt))
-#            resorig.append(str(mt2))
-#    reswrite = ""
-#    for i,num in enumerate(resnum):
-#        reswrite += (num + "\t" + resres[i] + "\t" + resorig[i] + "\n")
-#    print(reswrite)
-#    subprocess.call(["mkdir", "results/microbench"])
-#    writetofile("groupby.csv",reswrite)
-#    plotmicro("groupby", colnum, int(maxy)+1, "# groupby Attributs")
-#    subprocess.call(["mv", "groupby.csv","results/microbench/groupby.csv"])
-#    subprocess.call(["mv", "groupby.pdf","results/microbench/groupby.pdf"])
-
-#    #########################################varying aggregation########################################
-#    queryn = " from micro group by a%s"%(str(colnum-1))
-#    queryh = " from micro is radb group by a%s"%(str(colnum-1))
-#    aggf = ""
-#    resnum = []
-#    resorig = []
-#    resres = []
-#    maxy = 0
-#    for i in range(0,colnum-1, 5):
-#        if i==0:
-#            aggf += "sum(a%s)"%(str(i))
-#        else :
-#            aggf += ", sum(a%s)"%(str(i))
-#        if (i%interv)==0:
-#            resnum.append(str(i))
-#            querynorm = "select " + aggf + queryn + ";"
+    #########################################varying groupby########################################
+    queryn = "select sum(a%s) from micro group by "%(str(colnum-1))
+    queryh = "urange (select sum(a%s) from micro is radb group by "%(str(colnum-1))
+    groupby = ""
+    resnum = []
+    resorig = []
+    resres = []
+    maxy = 0
+    for i in range(0,colnum-1, 5):
+        if i==0:
+            groupby += "a"+str(i)
+        else :
+            groupby += ", a"+str(i)
+        if (i%interv)==0:
+            resnum.append(str(i))
+            querynorm = queryn + groupby + ";"
 #            print(querynorm)
-#            query = "urange (select " + aggf + queryh + ");"
-#            print(query)
-#            rewrite = getAUDBQueryFromGProM(query)
-#            allt, mt = timeQueryMult(rewrite)
-#            allt, mt2 = timeQueryMult(querynorm)
-#            print(mt)
-#            print(mt2)
-#            if float(mt) > maxy:
-#                maxy = float(mt)
-#                print(int(maxy))
-#            resres.append(str(mt))
-#            resorig.append(str(mt2))
-#    reswrite = ""
-#    for i,num in enumerate(resnum):
-#        reswrite += (num + "\t" + resres[i] + "\t" + resorig[i] + "\n")
-#    print(reswrite)
-#    writetofile("aggregation.csv",reswrite)
-#    plotmicro("aggregation", colnum, int(maxy)+1, "# Aggregation functions")
-#    subprocess.call(["mv", "aggregation.csv","results/microbench/aggregation.csv"])
-#    subprocess.call(["mv", "aggregation.pdf","results/microbench/aggregation.pdf"])
+            query = queryh + groupby + ");"
+            rewrite = getAUDBQueryFromGProM(query)
+            allt, mt = timeQueryMult(rewrite)
+            allt, mt2 = timeQueryMult(querynorm)
+            print(float(mt))
+            print(mt2)
+            if float(mt) > maxy:
+                maxy = float(mt)
+                print(int(maxy))
+            resres.append(str(mt))
+            resorig.append(str(mt2))
+    reswrite = ""
+    for i,num in enumerate(resnum):
+        reswrite += (num + "\t" + resres[i] + "\t" + resorig[i] + "\n")
+    print(reswrite)
+    subprocess.call(["mkdir", "results/microbench"])
+    writetofile("groupby.csv",reswrite)
+    plotmicro("groupby", colnum, int(maxy)+1, "# groupby Attributs")
+    subprocess.call(["mv", "groupby.csv","results/microbench/groupby.csv"])
+    subprocess.call(["mv", "groupby.pdf","results/microbench/groupby.pdf"])
+
+    #########################################varying aggregation########################################
+    queryn = " from micro group by a%s"%(str(colnum-1))
+    queryh = " from micro is radb group by a%s"%(str(colnum-1))
+    aggf = ""
+    resnum = []
+    resorig = []
+    resres = []
+    maxy = 0
+    for i in range(0,colnum-1, 5):
+        if i==0:
+            aggf += "sum(a%s)"%(str(i))
+        else :
+            aggf += ", sum(a%s)"%(str(i))
+        if (i%interv)==0:
+            resnum.append(str(i))
+            querynorm = "select " + aggf + queryn + ";"
+            print(querynorm)
+            query = "urange (select " + aggf + queryh + ");"
+            print(query)
+            rewrite = getAUDBQueryFromGProM(query)
+            allt, mt = timeQueryMult(rewrite)
+            allt, mt2 = timeQueryMult(querynorm)
+            print(mt)
+            print(mt2)
+            if float(mt) > maxy:
+                maxy = float(mt)
+                print(int(maxy))
+            resres.append(str(mt))
+            resorig.append(str(mt2))
+    reswrite = ""
+    for i,num in enumerate(resnum):
+        reswrite += (num + "\t" + resres[i] + "\t" + resorig[i] + "\n")
+    print(reswrite)
+    writetofile("aggregation.csv",reswrite)
+    plotmicro("aggregation", colnum, int(maxy)+1, "# Aggregation functions")
+    subprocess.call(["mv", "aggregation.csv","results/microbench/aggregation.csv"])
+    subprocess.call(["mv", "aggregation.pdf","results/microbench/aggregation.pdf"])
 
     
-    #########################################varying range########################################
-#    compfactor = [2,5,8,9]
-#    minval = 1
-#    maxval = 100000
-#    interval = 5000
-#    maxy = 0
-#    uncert = 0.10
-#    res = ""
-#    query = "urange (select a0,sum(a1) from micro is radb group by a0);"
-#    for i in range(minval, maxval, interval):
-#        res += str(i/100000)
-#        attrs = importmicrotable(2, rolnum, i, uncert, minval, maxval)
-#        for cf in compfactor:
-#            print("[microbench - varying range] range = %d, c_factor = %d"%(i, cf))
-#            gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(cf)), "-Pexecutor", "sql", "-query"]
-#            rquery = getAUDBQueryFromGProM(query, gpromcmd)
-#            allt, mt = timeQueryMult(rquery)
-#            if float(mt) > maxy:
-#                maxy = float(mt)
-#            res += ("\t"+str(mt))
-#        res += "\n"
-#    print(res)
-#    writetofile("range.csv",res)
-#    plotmicro("range", maxval, int(maxy)+1, "Uncertain attribute range")
-#    subprocess.call(["mv", "range.csv","results/microbench/range.csv"])
-#    subprocess.call(["mv", "range.pdf","results/microbench/range.pdf"])
+    ########################################varying range########################################
+    compfactor = [2,5,8,9]
+    minval = 1
+    maxval = 100000
+    interval = 5000
+    maxy = 0
+    uncert = 0.10
+    res = ""
+    query = "urange (select a0,sum(a1) from micro is radb group by a0);"
+    for i in range(minval, maxval, interval):
+        res += str(i/100000)
+        attrs = importmicrotable(2, rolnum, i, uncert, minval, maxval)
+        for cf in compfactor:
+            print("[microbench - varying range] range = %d, c_factor = %d"%(i, cf))
+            gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(cf)), "-Pexecutor", "sql", "-query"]
+            rquery = getAUDBQueryFromGProM(query, gpromcmd)
+            allt, mt = timeQueryMult(rquery)
+            if float(mt) > maxy:
+                maxy = float(mt)
+            res += ("\t"+str(mt))
+        res += "\n"
+    print(res)
+    writetofile("range.csv",res)
+    plotmicro("range", maxval, int(maxy)+1, "Uncertain attribute range")
+    subprocess.call(["mv", "range.csv","results/microbench/range.csv"])
+    subprocess.call(["mv", "range.pdf","results/microbench/range.pdf"])
 
     
-        ########################################varying compression rate########################################
-#    maxiteration = 16
-#
-#    minval = 1
-#    maxval = 10000
-#    rolnum = 10000
-#    uncert = 0.02
-#
-#    rangeval = 20 #uncertain attribute range
-#
-#    res = ""
-#    maxy = 0
-#    mres = ""
-#
-#    attrs = importmicrotable(2, rolnum, rangeval, uncert, minval, maxval)
-#
-#    resname = "micro_r"
-#
-#    for i in range(maxiteration):
-#        gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(i+1)), "-Pexecutor", "sql", "-query"]
-#        query = "urange (select a0,sum(a1) as s1 from micro is radb group by a0);"
-#        rquery = getAUDBQueryFromGProM(query, gpromcmd)
-##        allt, mt = timeQueryMult(rquery)
-#        materializequery(rquery, resname)
-#        metricsq = "select max(ub_s1-lb_s1), min(ub_s1-lb_s1), avg(ub_s1-lb_s1) from %s;"%(resname)
-#        metr = str(runQuery(metricsq))
-#        print(metr)
-#        mres += metr + "\n"
-#    print(mres)
-#        if float(mt) > maxy:
-#            maxy = float(mt)
-#        res += (str(i+1) + "\t" + str(mt) + "\n")
-#        mres += metrics
-#    print(res)
-#    print(mres)
-#    writetofile("compress.csv",res)
-#    writetofile("compress_metrics.csv",mres)
-#    plotmicro("compress", maxiteration, int(maxy)+1, "Compress factor")
-#    subprocess.call(["mv", "compress.csv","results/microbench/compress.csv"])
-#    subprocess.call(["mv", "compress_metrics.csv","results/microbench/compress_metrics.csv"])
-#    subprocess.call(["mv", "compress.pdf","results/microbench/compress.pdf"])
+        #######################################varying compression rate########################################
+    maxiteration = 16
 
-    
-    ########################################Join with different optimizations########################################
-#    colnum = 2
-#    rolnum = 5000
-#    maxrl = 20000
-#
-#
-#
-#    minval = 1
-#    maxval = 1000
-#    rangeval = 50
-#
-#    maxy = 0
-#
-#    compfactor = [2,5,8,10]
-#    resname = "micro_r"
-#    res = ""
-#    mres = ""
-#
-#    rangeval = 15 #uncertain attribute range
-#    uncert = 0.03 #uncertainty percentage
-#    for i in range(rolnum, maxrl+1, 2500):
-#        attrs = importmicrotable(colnum, i, rangeval, uncert, minval, maxval)
-#        gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-Pexecutor", "sql", "-range_optimize_join", "FALSE", "-query"]
-#        query = "urange (select a0, a1, aa0, aa1 from micro is radb join (select a0 as aa0, a1 as aa1 from micro is radb) x on a0 = aa0);"
-#        rquery = getAUDBQueryFromGProM(query, gpromcmd)
-#        materializequery(rquery, resname)
-#        metrics = getmetric(resname)
-#        print(metrics[3])
+    minval = 1
+    maxval = 10000
+    rolnum = 10000
+    uncert = 0.02
+
+    rangeval = 20 #uncertain attribute range
+
+    res = ""
+    maxy = 0
+    mres = ""
+
+    attrs = importmicrotable(2, rolnum, rangeval, uncert, minval, maxval)
+
+    resname = "micro_r"
+
+    for i in range(maxiteration):
+        gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(i+1)), "-Pexecutor", "sql", "-query"]
+        query = "urange (select a0,sum(a1) as s1 from micro is radb group by a0);"
+        rquery = getAUDBQueryFromGProM(query, gpromcmd)
 #        allt, mt = timeQueryMult(rquery)
-#        if float(mt) > maxy:
-#            maxy = float(mt)
-#        res += (str(i) + "\t" + str(mt))
-#        mres += (str(i) + "\t" + str(metrics[3]))
-#        for cf in compfactor:
-#            gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(cf)), "-Pexecutor", "sql", "-query"]
-#            query = "urange (select a0, a1, aa0, aa1 from micro is radb join (select a0 as aa0, a1 as aa1 from micro is radb) x on a0 = aa0);"
-#            rquery = getAUDBQueryFromGProM(query, gpromcmd)
-#            materializequery(rquery, resname)
-#            metrics = getmetric(resname)
-#            print(metrics[3])
-#            allt, mt = timeQueryMult(rquery)
-#            if float(mt) > maxy:
-#                maxy = float(mt)
-#            res += ("\t" + str(mt))
-#            mres += ("\t" + str(metrics[3]))
-#        res += "\n"
-#        mres += "\n"
-#    print(res)
-#    print(mres)
-#    writetofile("join.csv",res)
-#    writetofile("join_metrics.csv",mres)
-#    plotmicro("join", maxrl, int(maxy)+1, "Data size")
-#    subprocess.call(["mv", "join.csv","results/microbench/join.csv"])
-#    subprocess.call(["mv", "join_metrics.csv","results/microbench/join_metrics.csv"])
-#    subprocess.call(["mv", "join.pdf","results/microbench/join.pdf"])
+        materializequery(rquery, resname)
+        metricsq = "select max(ub_s1-lb_s1), min(ub_s1-lb_s1), avg(ub_s1-lb_s1) from %s;"%(resname)
+        metr = str(runQuery(metricsq))
+        print(metr)
+        mres += metr + "\n"
+    print(mres)
+        if float(mt) > maxy:
+            maxy = float(mt)
+        res += (str(i+1) + "\t" + str(mt) + "\n")
+        mres += metrics
+    print(res)
+    print(mres)
+    writetofile("compress.csv",res)
+    writetofile("compress_metrics.csv",mres)
+    plotmicro("compress", maxiteration, int(maxy)+1, "Compress factor")
+    subprocess.call(["mv", "compress.csv","results/microbench/compress.csv"])
+    subprocess.call(["mv", "compress_metrics.csv","results/microbench/compress_metrics.csv"])
+    subprocess.call(["mv", "compress.pdf","results/microbench/compress.pdf"])
 
-    ########################################varying number of joins########################################
     
-#    rep = 4
-#
-#    colnum = 2
-#    rolnum = 1000
-#
-#    minval = 1
-#    maxval = 1000
-#
-#    rangeval = 50 #uncertain attribute range
-#    uncert = 0.1 #uncertainty percentage
-#
-#    cf = 8
-#
-#    for i in range(rep+1):
-#        attrs = importmicrotable(colnum, rolnum, rangeval, uncert, minval, maxval, "t"+str(i), i*2)
-#
-#    for currep in range(1, rep+1):
-#            query = ""
-#            for i in range(currep+1):
-#                tn = "t"+str(i) + " is radb"
-#                an = "a"+str(i*2)
-#                if i==0:
-#                    query = tn
-#                else:
-#                    query = "("+query+" join " + tn + " on " + "a"+str(i*2-1) + " = " + "a"+str(i*2) + ")"
-#            query = "urange (select * from " + query + ");"
-#            print(query)
-#            print("[microbench - varying number of joins] join# = %d, c_factor = %d"%(currep, cf))
-##            gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_optimize_join", "FALSE", "-Pexecutor", "sql", "-query"]
-#            gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(cf)), "-Pexecutor", "sql", "-query"]
-#            rquery = getAUDBQueryFromGProM(query, gpromcmd)
-##            print(rquery)
-#            allt, mt = timeQueryMult(rquery)
-#            size = sizeQuery(rquery)
-#            print(mt, size)
+    #######################################Join with different optimizations########################################
+    colnum = 2
+    rolnum = 5000
+    maxrl = 20000
+
+
+
+    minval = 1
+    maxval = 1000
+    rangeval = 50
+
+    maxy = 0
+
+    compfactor = [2,5,8,10]
+    resname = "micro_r"
+    res = ""
+    mres = ""
+
+    rangeval = 15 #uncertain attribute range
+    uncert = 0.03 #uncertainty percentage
+    for i in range(rolnum, maxrl+1, 2500):
+        attrs = importmicrotable(colnum, i, rangeval, uncert, minval, maxval)
+        gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-Pexecutor", "sql", "-range_optimize_join", "FALSE", "-query"]
+        query = "urange (select a0, a1, aa0, aa1 from micro is radb join (select a0 as aa0, a1 as aa1 from micro is radb) x on a0 = aa0);"
+        rquery = getAUDBQueryFromGProM(query, gpromcmd)
+        materializequery(rquery, resname)
+        metrics = getmetric(resname)
+        print(metrics[3])
+        allt, mt = timeQueryMult(rquery)
+        if float(mt) > maxy:
+            maxy = float(mt)
+        res += (str(i) + "\t" + str(mt))
+        mres += (str(i) + "\t" + str(metrics[3]))
+        for cf in compfactor:
+            gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(cf)), "-Pexecutor", "sql", "-query"]
+            query = "urange (select a0, a1, aa0, aa1 from micro is radb join (select a0 as aa0, a1 as aa1 from micro is radb) x on a0 = aa0);"
+            rquery = getAUDBQueryFromGProM(query, gpromcmd)
+            materializequery(rquery, resname)
+            metrics = getmetric(resname)
+            print(metrics[3])
+            allt, mt = timeQueryMult(rquery)
+            if float(mt) > maxy:
+                maxy = float(mt)
+            res += ("\t" + str(mt))
+            mres += ("\t" + str(metrics[3]))
+        res += "\n"
+        mres += "\n"
+    print(res)
+    print(mres)
+    writetofile("join.csv",res)
+    writetofile("join_metrics.csv",mres)
+    plotmicro("join", maxrl, int(maxy)+1, "Data size")
+    subprocess.call(["mv", "join.csv","results/microbench/join.csv"])
+    subprocess.call(["mv", "join_metrics.csv","results/microbench/join_metrics.csv"])
+    subprocess.call(["mv", "join.pdf","results/microbench/join.pdf"])
+
+    #######################################varying number of joins########################################
+    
+    rep = 4
+
+    colnum = 2
+    rolnum = 1000
+
+    minval = 1
+    maxval = 1000
+
+    rangeval = 50 #uncertain attribute range
+    uncert = 0.1 #uncertainty percentage
+
+    cf = 8
+
+    for i in range(rep+1):
+        attrs = importmicrotable(colnum, rolnum, rangeval, uncert, minval, maxval, "t"+str(i), i*2)
+
+    for currep in range(1, rep+1):
+            query = ""
+            for i in range(currep+1):
+                tn = "t"+str(i) + " is radb"
+                an = "a"+str(i*2)
+                if i==0:
+                    query = tn
+                else:
+                    query = "("+query+" join " + tn + " on " + "a"+str(i*2-1) + " = " + "a"+str(i*2) + ")"
+            query = "urange (select * from " + query + ");"
+            print(query)
+            print("[microbench - varying number of joins] join# = %d, c_factor = %d"%(currep, cf))
+#            gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_optimize_join", "FALSE", "-Pexecutor", "sql", "-query"]
+            gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(cf)), "-Pexecutor", "sql", "-query"]
+            rquery = getAUDBQueryFromGProM(query, gpromcmd)
+#            print(rquery)
+            allt, mt = timeQueryMult(rquery)
+            size = sizeQuery(rquery)
+            print(mt, size)
     
     
     
-#    ########################################varying attribute range measure overgrouping########################################
+    ########################################varying attribute range measure overgrouping########################################
 
     colnum = 3
     rolnum = 1000
@@ -1679,76 +1680,76 @@ def microbenchmark():
     subprocess.call(["mv", "overgrouping.csv","results/microbench/overgrouping.csv"])
     subprocess.call(["mv", "overgrouping.pdf","results/microbench/overgrouping.pdf"])
 
-#############################################Verying range measure output range#######################################################
-#    colnum = 3
-#    rolnum = 1000
+############################################Verying range measure output range#######################################################
+    colnum = 3
+    rolnum = 1000
+
+    minval = 1
+    maxval = 700
+
+    rangeval = 70 #uncertain attribute range
+#    uncert = 0.03 #uncertainty percentage
+    uncert = [0.02,0.03,0.05]
+
+    cf = 1
+
+    rep = 5
+
+#    uctid = "(select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id)"
+
+    tidblb = "select t1.a1, sum(case when t2.ua>0 then 0 else t2.a2 end) as lb_sum from (select distinct a1 as a1 from micro) t1, (select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id) t2 where t1.a1 = t2.a1 group by t1.a1"
+
+    tidbub = "select g.a1, sum(g.a2) as ub_sum from (select t1.a1, t2.id, max(t2.a2) as a2 from (select distinct a1 as a1 from micro) t1, micro_tidb t2 where t1.a1 = t2.a1 group by t2.id, t1.a1) g group by g.a1"
+
+    qtidb = "select t1.a1, t2.ub_sum as ub_sum, t1.lb_sum as lb_sum from (%s) t1 join (%s) t2 on t1.a1=t2.a1"%(tidblb,tidbub)
+
+#    qtidb = "select t1.a1, sum(t2.a2) as ub_sum, sum(case when t2.ua>0 then 0 else t2.a2 end) as lb_sum from (select distinct a1 as a1 from micro) t1, (select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id) t2 where t1.a1 = t2.a1 group by t1.a1"
+
+    qaudb = "select t1.a1, t1.ub_a1, t1.lb_a1, sum(t2.ub_a2) as ub_sum, sum(case when t2.ub_a1 > t2.lb_a1 or t1.ub_a1 > t1.lb_a1 then 0 else t2.lb_a2 end) as lb_sum from (select a1 as a1, max(ub_a1) as ub_a1, min(lb_a1) as lb_a1 from micro group by a1) t1, micro t2 where t1.ub_a1 >= t2.lb_a1 and t2.ub_a1 >= t1.lb_a1 group by t1.a1, t1.ub_a1, t1.lb_a1"
+
+    join = "select t1.a1, t1.ub_sum as ub1, t1.lb_sum as lb1, t2.ub_sum as ub2, t2.lb_sum as lb2, t1.ub_sum-t1.lb_sum as dif1, t2.ub_sum-t2.lb_sum as dif2 from (%s) t1, (%s) t2 where t1.a1<=t2.ub_a1 and t1.a1>=t2.lb_a1"%(qtidb,qaudb)
+
+#    mena = "select * from (%s) x where "
+
+    dif = "select avg((dif2-dif1)/700) as over from (%s) x"%(join)
+
+#    print(dif)
+
+#    qaudb = "select a1, count(*) as ct, sum(case when ub_a2 < 0 then ub_a2*cet_r else ub_a1*pos_r end) as ub_sum, sum(case when lb_a2 > 0 then lb_a2*cet_r else lb_a2*pos_r end) as lb_sum, abs(sum(case when ub_a2 < 0 then ub_a2*cet_r else ub_a2*pos_r end)-sum(case when lb_a2 > 0 then lb_a2*cet_r else lb_a2*pos_r end)) as dif from micro group by a1;"
+
+    allres = []
+    resr = []
 #
-#    minval = 1
-#    maxval = 700
-#
-#    rangeval = 70 #uncertain attribute range
-##    uncert = 0.03 #uncertainty percentage
-#    uncert = [0.02,0.03,0.05]
-#
-#    cf = 1
-#
-#    rep = 5
-#
-##    uctid = "(select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id)"
-#
-#    tidblb = "select t1.a1, sum(case when t2.ua>0 then 0 else t2.a2 end) as lb_sum from (select distinct a1 as a1 from micro) t1, (select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id) t2 where t1.a1 = t2.a1 group by t1.a1"
-#
-#    tidbub = "select g.a1, sum(g.a2) as ub_sum from (select t1.a1, t2.id, max(t2.a2) as a2 from (select distinct a1 as a1 from micro) t1, micro_tidb t2 where t1.a1 = t2.a1 group by t2.id, t1.a1) g group by g.a1"
-#
-#    qtidb = "select t1.a1, t2.ub_sum as ub_sum, t1.lb_sum as lb_sum from (%s) t1 join (%s) t2 on t1.a1=t2.a1"%(tidblb,tidbub)
-#
-##    qtidb = "select t1.a1, sum(t2.a2) as ub_sum, sum(case when t2.ua>0 then 0 else t2.a2 end) as lb_sum from (select distinct a1 as a1 from micro) t1, (select m1.id, m1.a1, m1.a2, m2.ua from micro_tidb m1 join (select id, case when count(a2)>1 then 1 else 0 end as ua from micro_tidb group by id) m2 on m1.id=m2.id) t2 where t1.a1 = t2.a1 group by t1.a1"
-#
-#    qaudb = "select t1.a1, t1.ub_a1, t1.lb_a1, sum(t2.ub_a2) as ub_sum, sum(case when t2.ub_a1 > t2.lb_a1 or t1.ub_a1 > t1.lb_a1 then 0 else t2.lb_a2 end) as lb_sum from (select a1 as a1, max(ub_a1) as ub_a1, min(lb_a1) as lb_a1 from micro group by a1) t1, micro t2 where t1.ub_a1 >= t2.lb_a1 and t2.ub_a1 >= t1.lb_a1 group by t1.a1, t1.ub_a1, t1.lb_a1"
-#
-#    join = "select t1.a1, t1.ub_sum as ub1, t1.lb_sum as lb1, t2.ub_sum as ub2, t2.lb_sum as lb2, t1.ub_sum-t1.lb_sum as dif1, t2.ub_sum-t2.lb_sum as dif2 from (%s) t1, (%s) t2 where t1.a1<=t2.ub_a1 and t1.a1>=t2.lb_a1"%(qtidb,qaudb)
-#
-##    mena = "select * from (%s) x where "
-#
-#    dif = "select avg((dif2-dif1)/700) as over from (%s) x"%(join)
-#
-##    print(dif)
-#
-##    qaudb = "select a1, count(*) as ct, sum(case when ub_a2 < 0 then ub_a2*cet_r else ub_a1*pos_r end) as ub_sum, sum(case when lb_a2 > 0 then lb_a2*cet_r else lb_a2*pos_r end) as lb_sum, abs(sum(case when ub_a2 < 0 then ub_a2*cet_r else ub_a2*pos_r end)-sum(case when lb_a2 > 0 then lb_a2*cet_r else lb_a2*pos_r end)) as dif from micro group by a1;"
-#
-#    allres = []
-#    resr = []
-##
-#    for ut in uncert:
-#        res = []
-#        resr = []
-#        for i in range(10, rangeval, 1):
-#            rec = []
-#            for j in range(0,rep):
-#                attrs = importmicrotablefromtidb(colnum, rolnum, i, ut, minval, maxval, 10)
-#                ret = runQuery(dif)
-#                diff = float(ret[-1][0])
-#                rec.append(diff)
-#            mpct = statistics.mean(rec)
-##            print(str(mpct)+"%")
-#            res.append(mpct)
-#            resr.append((float(i)/maxval)*100)
-##        print(res)
-#        allres.append(res)
-#    print(allres)
-#    print(len(resr))
-#    reswrite = ""
-#    for i, num in enumerate(resr):
-#        reswrite += (str(num))
-#        for j in range(len(uncert)):
-#            reswrite += "\t" + str(allres[j][i])
-#        reswrite += "\n"
-#    print(reswrite)
-#    subprocess.call(["mkdir", "results/microbench"])
-#    writetofile("rangeoverhead.csv",reswrite)
-#    plotmicrooverrange("rangeoverhead", 0, max(resr)*1.1, max(sum(allres, []))*1.1, "Max relative uncertain range (%)")
-#    subprocess.call(["mv", "rangeoverhead.csv","results/microbench/rangeoverhead.csv"])
-#    subprocess.call(["mv", "rangeoverhead.pdf","results/microbench/rangeoverhead.pdf"])
+    for ut in uncert:
+        res = []
+        resr = []
+        for i in range(10, rangeval, 1):
+            rec = []
+            for j in range(0,rep):
+                attrs = importmicrotablefromtidb(colnum, rolnum, i, ut, minval, maxval, 10)
+                ret = runQuery(dif)
+                diff = float(ret[-1][0])
+                rec.append(diff)
+            mpct = statistics.mean(rec)
+#            print(str(mpct)+"%")
+            res.append(mpct)
+            resr.append((float(i)/maxval)*100)
+#        print(res)
+        allres.append(res)
+    print(allres)
+    print(len(resr))
+    reswrite = ""
+    for i, num in enumerate(resr):
+        reswrite += (str(num))
+        for j in range(len(uncert)):
+            reswrite += "\t" + str(allres[j][i])
+        reswrite += "\n"
+    print(reswrite)
+    subprocess.call(["mkdir", "results/microbench"])
+    writetofile("rangeoverhead.csv",reswrite)
+    plotmicrooverrange("rangeoverhead", 0, max(resr)*1.1, max(sum(allres, []))*1.1, "Max relative uncertain range (%)")
+    subprocess.call(["mv", "rangeoverhead.csv","results/microbench/rangeoverhead.csv"])
+    subprocess.call(["mv", "rangeoverhead.pdf","results/microbench/rangeoverhead.pdf"])
     
         
 def getmetric(tbn):
