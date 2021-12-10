@@ -1497,8 +1497,8 @@ def microbenchmark():
     
         #######################################varying compression rate########################################
     print("[TESTING MICROBENCHMARK] - varying compression rate")
-    maxiteration = 16
-
+    maxiteration = 17
+#
     minval = 1
     maxval = 10000
     rolnum = 10000
@@ -1520,16 +1520,16 @@ def microbenchmark():
         rquery = getAUDBQueryFromGProM(query, gpromcmd)
         allt, mt = timeQueryMult(rquery)
         materializequery(rquery, resname)
-#        metricsq = "select max(ub_s1-lb_s1), min(ub_s1-lb_s1), avg(ub_s1-lb_s1) from %s;"%(resname)
         metrics = "%s\t"%(str(i+1)) + str(getmetric(resname)) + "\n"
         print(metrics)
         if float(mt) > maxy:
             maxy = float(mt)
         res += (str(i+1) + "\t" + str(mt) + "\n")
         mres += metrics
-        print(mres)
     print(res)
     print(mres)
+    writetofile("compress.csv",res)
+    writetofile("compress_metrics.csv",mres)
     writetofile("compress.csv",res)
     writetofile("compress_metrics.csv",mres)
     plotmicro("compress", maxiteration, int(maxy)+1, "Compress factor")
@@ -1772,7 +1772,7 @@ def microbenchmark():
     subprocess.call(["mv", "rangeoverhead.pdf","results/microbench/rangeoverhead.pdf"])
     
         
-def getmetric(tbn):
+def getmetric(tbn, fig = False):
     query = "select column_name from INFORMATION_SCHEMA.COLUMNS where table_name ='%s'"%(tbn)
     ret = runQuery(query);
     schema = [i[0] for i in ret[:int((len(ret)-3)/3)]]
@@ -1781,30 +1781,25 @@ def getmetric(tbn):
     datatype = [i[0] for i in ret[:int((len(ret)-3)/3)]]
     ns = ""
     rs = ""
-#    ars = ""
-    avg = ""
+    ars = ""
     for i,c in enumerate(schema):
         if ns == "":
             ns = c
             if datatype[i] == "integer" or datatype[i] == "float" or datatype[i] == "numeric" or datatype[i] == "bigint":
                 rs = "abs(ub_%s::numeric-lb_%s::numeric) as r_%s"%(c,c,c)
-                avg = "AVG(r_%s)"%(c)
-#                ars = "abs(max(ub_%s::numeric) over ()-min(lb_%s::numeric) over ()) as ar_%s"%(c,c,c)
+                ars = "abs(max(ub_%s::numeric) over ()-min(lb_%s::numeric) over ()) as ar_%s"%(c,c,c)
             else:
                 rs = "abs(stringdist(ub_%s::varchar,lb_%s::varchar)) as r_%s"%(c,c,c)
-#                ars = "abs(stringdist(max(ub_%s::varchar) over (), min(lb_%s::varchar) over ())) as ar_%s"%(c,c,c)
-                avg = "AVG(r_%s)"%(c)
+                ars = "abs(stringdist(max(ub_%s::varchar) over (), min(lb_%s::varchar) over ())) as ar_%s"%(c,c,c)
         else:
             ns += ", %s"%(c)
             if datatype[i] == "integer" or datatype[i] == "float" or datatype[i] == "numeric" or datatype[i] == "bigint":
                 rs += ", abs(ub_%s::numeric-lb_%s::numeric) as r_%s"%(c,c,c)
-#                ars += ", abs(max(ub_%s::numeric) over ()-min(lb_%s::numeric) over ()) as ar_%s"%(c,c,c)
-                avg += ", AVG(r_%s)"%(c)
+                ars += ", abs(max(ub_%s::numeric) over ()-min(lb_%s::numeric) over ()) as ar_%s"%(c,c,c)
             else:
                 rs += ", abs(stringdist(ub_%s::varchar,lb_%s::varchar)) as r_%s"%(c,c,c)
-#                ars += ", abs(stringdist(max(ub_%s::varchar) over (), min(lb_%s::varchar) over ())) as ar_%s"%(c,c,c)
-                avg += ", AVG(r_%s)"%(c)
-    meansq = "select %s, %s, cet_r, bst_r, pos_r from %s"%(ns,rs,tbn)
+                ars += ", abs(stringdist(max(ub_%s::varchar) over (), min(lb_%s::varchar) over ())) as ar_%s"%(c,c,c)
+    meansq = "select %s, %s, %s, cet_r, bst_r, pos_r from %s"%(ns,rs,ars,tbn)
     rmetricexpr = ""
     for c in schema:
         if rmetricexpr == "":
@@ -1812,18 +1807,17 @@ def getmetric(tbn):
         else:
             rmetricexpr += "+r_%s/ar_%s"%(c,c)
     rmetricexpr += ")/%d as column_metric"%(len(schema))
-#    amq = "select %s, cet_r, bst_r, pos_r from (%s) x "%(rmetricexpr, meansq)
-    amq = "select %s from (%s) x;"%(avg, meansq)
-    print(amq)
+    amq = "select %s, cet_r, bst_r, pos_r from (%s) x "%(rmetricexpr, meansq)
+    if not fig:
 #        fq = "select sum(column_metric*cet_r) as sval, sum(cet_r) from (%s) z;"%(amq)
-#    fq = "select cval/cct as c_metric, cct, pval/pct as p_metric, pct from (select sum(column_metric*cet_r) as cval, sum(column_metric*pos_r) as pval, sum(cet_r) as cct, sum(pos_r) as pct from (%s) z) x;"%(amq)
+        fq = "select cval/cct as c_metric, cct, pval/pct as p_metric, pct from (select sum(column_metric*cet_r) as cval, sum(column_metric*pos_r) as pval, sum(cet_r) as cct, sum(pos_r) as pct from (%s) z) x;"%(amq)
 #    fq = "select sum(cet_r) filter (where column_metric < 0.25) as Q1, sum(cet_r) filter (where column_metric >= 0.25 and column_metric < 0.5) as Q2, sum(cet_r) filter (where column_metric >= 0.5 and column_metric < 0.75) as Q3, sum(cet_r) filter (where column_metric >= 0.75) as Q4, sum(pos_r) filter (where column_metric < 0.25) as Q1_P, sum(pos_r) filter (where column_metric >= 0.25 and column_metric < 0.5) as Q2_P, sum(pos_r) filter (where column_metric >= 0.5 and column_metric < 0.75) as Q3_P, sum(pos_r) filter (where column_metric >= 0.75) as Q4_P from (%s) z;"%(amq)
-    res = runQuery(amq)[0]
+        res = runQuery(fq)[0]
 #        print(fq)
-#        ret = res
-    print(res)
-    return res
-    
+        ret = res
+#    print(ret)
+        return ret
+    return
     
 def xdbtoradb(tbn):
     query = "select column_name from INFORMATION_SCHEMA.COLUMNS where table_name ='%s'"%(tbn)
