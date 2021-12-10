@@ -25,8 +25,8 @@ cur2 = None
 
 pgport = "5453"
 
-s = [0.1, 1, 10]
-#x = [0.02]
+#s = [0.1, 1, 10]
+s = [0.1, 1]
 x = [0.02, 0.05, 0.1, 0.3]
 
 #psqlbin = '/Applications/Postgres.app/Contents/Versions/10/bin/psql -p5432 "uadb" -c '
