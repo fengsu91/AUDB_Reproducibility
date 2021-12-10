@@ -1520,7 +1520,7 @@ def microbenchmark():
         rquery = getAUDBQueryFromGProM(query, gpromcmd)
         allt, mt = timeQueryMult(rquery)
         materializequery(rquery, resname)
-        metrics = "%s\t"%(str(i+1)) + str(getmetric(resname)) + "\n"
+        metrics = "%s\t"%(str(i+1)) + str(getmetric(resname)[3]) + "\n"
         print(metrics)
         if float(mt) > maxy:
             maxy = float(mt)
@@ -1542,8 +1542,8 @@ def microbenchmark():
     #######################################Join with different optimizations########################################
     print("[TESTING MICROBENCHMARK] - join optimizations")
     colnum = 2
-    rolnum = 3000
-    maxrl = 5000
+    rolnum = 5000
+    maxrl = 20000
 
 
 
@@ -1560,7 +1560,7 @@ def microbenchmark():
 
     rangeval = 15 #uncertain attribute range
     uncert = 0.03 #uncertainty percentage
-    for i in range(rolnum, maxrl+1, 1000):
+    for i in range(rolnum, maxrl+1, 2500):
         attrs = importmicrotable(colnum, i, rangeval, uncert, minval, maxval)
         gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-Pexecutor", "sql", "-range_optimize_join", "FALSE", "-query"]
         query = "urange (select a0, a1, aa0, aa1 from micro is radb join (select a0 as aa0, a1 as aa1 from micro is radb) x on a0 = aa0);"
@@ -1817,7 +1817,7 @@ def getmetric(tbn, fig = False):
         res = runQuery(fq)[0]
 #        print(fq)
         ret = res
-#    print(ret)
+#       print(ret)
         return ret
     return
     
