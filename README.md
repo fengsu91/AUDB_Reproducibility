@@ -73,7 +73,7 @@ All test results is saved to /results folder. To get the results in local system
 ~~~shell
 docker run -ti -v /your/local/directory:/reproducibility_audb/results iitdbgroup/audbreproduce 
 ~~~
-# Run Experiments
+### Run Experiments
 
 We provide a unified python script file (gen.py) to run all experiments.
 To run all default experiments:
@@ -108,12 +108,12 @@ For example, to run only pdbench test by varying data size and regenerate data u
  python3 gen.py -r -s 3
 ~~~
 
-## Get experiment results
+### Get experiment results
 All experiment results will be save to /result folder in the docker image. If the folder is mounted to a local folder, the files will be accessable through the local folder.
 
-### step by step installations (NOT required if use docker)
+## step by step installations (NOT required if use docker)
 
-#### Install GProM
+### Install GProM
 
 Please follow instruction in the GProM GitHub repository to install the system:
 
@@ -121,12 +121,12 @@ Please follow instruction in the GProM GitHub repository to install the system:
 git clone git@github.com:IITDBGroup/gprom ...
 ~~~
 
-#### Install PDBench
+### Install PDBench
 
 Our python script will make and generate PDbench data when needed by the experiments.
 The data will be saved into a folder with name s[sval]x[xval] where sval is the scale factor and xval is the uncertainy factor.
 
-#### Install Postgres + load database ####
+### Install Postgres + load database ####
 
 By default the python testing script will connect to database 'postgres' with port 5432. Connection can be configured in the /config/config.ini file. 
 
