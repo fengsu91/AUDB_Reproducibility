@@ -1376,6 +1376,7 @@ def microbenchmark():
     
     
     #########################################varying groupby########################################
+    print("[TESTING MICROBENCHMARK] - varying groupby")
     queryn = "select sum(a%s) from micro group by "%(str(colnum-1))
     queryh = "urange (select sum(a%s) from micro is radb group by "%(str(colnum-1))
     groupby = ""
@@ -1414,6 +1415,7 @@ def microbenchmark():
     subprocess.call(["mv", "groupby.pdf","results/microbench/groupby.pdf"])
 
     #########################################varying aggregation########################################
+        print("[TESTING MICROBENCHMARK] - varying aggregation")
     queryn = " from micro group by a%s"%(str(colnum-1))
     queryh = " from micro is radb group by a%s"%(str(colnum-1))
     aggf = ""
@@ -1453,6 +1455,7 @@ def microbenchmark():
 
     
     ########################################varying range########################################
+    print("[TESTING MICROBENCHMARK] - varying range")
     compfactor = [2,5,8,9]
     minval = 1
     maxval = 100000
@@ -1475,12 +1478,14 @@ def microbenchmark():
         res += "\n"
     print(res)
     writetofile("range.csv",res)
-    plotmicro("range", maxval, int(maxy)+1, "Uncertain attribute range")
+    #plotmicro("range", maxval, int(maxy)+1, "Uncertain attribute range")
     subprocess.call(["mv", "range.csv","results/microbench/range.csv"])
-    subprocess.call(["mv", "range.pdf","results/microbench/range.pdf"])
+    #subprocess.call(["mv", "range.pdf","results/microbench/range.pdf"])
+    plotmicroRange("results/microbench/range",1, 45, "Attribute bound size / Domain size", -1)
 
     
         #######################################varying compression rate########################################
+    print("[TESTING MICROBENCHMARK] - varying compression rate")
     maxiteration = 16
 
     minval = 1
@@ -1524,6 +1529,7 @@ def microbenchmark():
 
     
     #######################################Join with different optimizations########################################
+    print("[TESTING MICROBENCHMARK] - join optimizations")
     colnum = 2
     rolnum = 5000
     maxrl = 20000
@@ -1580,6 +1586,7 @@ def microbenchmark():
     subprocess.call(["mv", "join.pdf","results/microbench/join.pdf"])
 
     #######################################varying number of joins########################################
+    print("[TESTING MICROBENCHMARK] - # joins")
     
     rep = 4
 
@@ -1620,6 +1627,7 @@ def microbenchmark():
     
     
     ########################################varying attribute range measure overgrouping########################################
+    print("[TESTING MICROBENCHMARK] - overgrouping")
 
     colnum = 3
     rolnum = 1000
@@ -1681,6 +1689,7 @@ def microbenchmark():
     subprocess.call(["mv", "overgrouping.pdf","results/microbench/overgrouping.pdf"])
 
 ############################################Verying range measure output range#######################################################
+    print("[TESTING MICROBENCHMARK] - output range")
     colnum = 3
     rolnum = 1000
 

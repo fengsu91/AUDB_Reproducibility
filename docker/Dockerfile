@@ -12,6 +12,16 @@ RUN cd /reproducibility_audb \
      && unzip data.zip \
      && rm data.zip
 ########################################
+# update gprom
+########################################
+RUN cd /gprom/src \
+	&& make clean \
+	&& git pull \
+	&& make -f Makefile.maintainer \
+	&& ./configure  --disable-monetdb --disable-oracle --with-libpq-headers=/usr/include/postgresql --disable-java  \
+	&& make \
+    && make install
+########################################
 # Setup workdin
 ########################################
 WORKDIR /reproducibility_audb
