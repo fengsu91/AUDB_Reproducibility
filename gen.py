@@ -2017,8 +2017,8 @@ if __name__ == '__main__':
     curs = config.stepconfig()
     
     if (curs==1 and (singlestep == 2 or singlestep == -1)) or singlestep == 1:
-        pdbenchGenOnX(0.1)#gen pdbench uncert
-        pdbenchGenOnS(0.02)#gen pdbench scale.
+#        pdbenchGenOnX(0.1)#gen pdbench uncert
+#        pdbenchGenOnS(0.02)#gen pdbench scale.
         curs += 1
         config.stepsetconfig(curs)
         if singlestep==1:
