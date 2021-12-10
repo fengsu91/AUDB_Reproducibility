@@ -1872,8 +1872,8 @@ if __name__ == '__main__':
     print("start server")
     os.system('sudo -u postgres /usr/lib/postgresql/9.5/bin/pg_ctl -D /postgresdata stop')
     os.system('sudo -u postgres /maybms/install/bin/pg_ctl -D /maybms/data stop')
-    os.system('sudo -u postgres /usr/lib/postgresql/9.5/bin/pg_ctl -o "-p 5432" -D /postgresdata restart')
-    os.system('sudo -u postgres /maybms/install/bin/pg_ctl -o "-p 5433" -D /maybms/data restart')
+    os.system('sudo -u postgres /usr/lib/postgresql/9.5/bin/pg_ctl -o "-p 5432" -D /postgresdata start')
+    os.system('sudo -u postgres /maybms/install/bin/pg_ctl -o "-p 5433" -D /maybms/data start')
 #
     
 #    time.sleep(10)
@@ -2035,6 +2035,7 @@ if __name__ == '__main__':
 #    importPdbenchTables(test1[0])
         
     if curs == 2 and singlestep == -1 or singlestep == 2:
+        pdbenchGenOnX(0.1)
         test_pdbench_uncert()
         if(singlestep == -1):
             curs += 1
@@ -2045,6 +2046,7 @@ if __name__ == '__main__':
         print("By passing PDbench uncert test")
 #
     if curs == 3 and singlestep == -1 or singlestep == 3:
+        pdbenchGenOnS()
         test_pdbench_scale()
         if(singlestep == -1):
             curs += 1
