@@ -32,10 +32,10 @@ multrep = 1 # for each timed query, how many repititions to do for the mean.
 
 #s = [0.1, 1, 10]
 s = [0.1, 1] # faster version with smaller datasize
-x = [0.02, 0.05, 0.1, 0.3]
+x = [0.02, 0.04, 0.06, 0.1]
 mcdbRep = 10
 #test1 = ['s10_x2']
-test1 = ['s10_x2','s10_x5','s10_x10','s10_x30'] # faster version with smaller datasize
+test1 = ['s10_x2','s10_x4','s10_x6','s10_x1'] # faster version with smaller datasize
 #test1 = ['s100_x2','s100_x5','s100_x10','s100_x30'] # original version
 test2 = ['s10_x2','s100_x2'] # faster version with smaller datasize
 #test2 = ['s10_x2','s100_x2','s1000_x2'] # original version
