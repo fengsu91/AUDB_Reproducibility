@@ -245,7 +245,7 @@ def pdgensingle(xval, sval, imp = True):
     os.system('mkdir %s'%dirname)
     os.system('mv dbgen/*.tbl %s'%dirname)
     if imp:
-        importPdbenchTables(dirname,xval,sval)
+        importPdbenchTables(dirname,xval,sval,False)
     genDir.append(dirname)
             
 def importPdbenchTables(datadir,x,s,affix=True):
