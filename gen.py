@@ -28,7 +28,7 @@ pgport = "5432"
 #########     some configs    ##########
 ########################################
 
-multrep = 1 # for each timed query, how many repititions to do for the mean.
+multrep = 5 # for each timed query, how many repititions to do for the mean.
 
 s = [0.1, 1, 10]
 #s = [0.1, 1] # faster version with smaller datasize
@@ -1805,10 +1805,10 @@ def testtpch():
         qn = getQfromFile(q_n[i])
         ret = timeQueryMult(qr)
         print("range: " + ret[0])
+        ret = str(float(timeQuerySel(qn))*10)
+        print("mcdb: " + ret)
         ret = timeQueryMult(qn)
         print("det :" + ret[0])
-        ret = str(float(timeQuerySel(qn))*10)
-        print("mcdb: " + ret[0])
             
             
         
