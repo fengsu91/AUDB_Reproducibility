@@ -1799,16 +1799,61 @@ def microbenchmark():
 def testtpch():
     q_radb = ['aggTest/tpch/Q1_radb.sql','aggTest/tpch/Q3_radb.sql','aggTest/tpch/Q5_radb.sql','aggTest/tpch/Q7_radb.sql','aggTest/tpch/Q10_radb.sql']
     q_n = ['aggTest/tpch/Q1.sql','aggTest/tpch/Q3.sql','aggTest/tpch/Q5.sql','aggTest/tpch/Q7.sql','aggTest/tpch/Q10.sql']
+    r21 = "col_2x0.1"
+    r210 = "col_2x1"
+    r510 = "col_5x1"
+    r1010 = "col_10x1"
+    r1030 = "col_20x1"
     pdgensingle(0.02,0.1)
     for i in range(0,len(q_radb)):
         qr = getQfromFile(q_radb[i])
         qn = getQfromFile(q_n[i])
-        ret = timeQueryMult(qr)
-        print("range: " + ret[0])
+        ret = timeQuerySel(qr)
+        r21 += "\t" + ret
         ret = str(float(timeQuerySel(qn))*10)
-        print("mcdb: " + ret)
-        ret = timeQueryMult(qn)
-        print("det :" + ret[0])
+        r21 += "\t" + ret
+        ret = timeQuerySel(qn)
+        r21 += "\t" + ret
+    pdgensingle(0.05,0.1)
+    for i in range(0,len(q_radb)):
+        qr = getQfromFile(q_radb[i])
+        qn = getQfromFile(q_n[i])
+        ret = timeQuerySel(qr)
+        r210 += "\t" + ret
+        ret = str(float(timeQuerySel(qn))*10)
+        r210 += "\t" + ret
+        ret = timeQuerySel(qn)
+        r210 += "\t" + ret
+    pdgensingle(0.05,0.1)
+    for i in range(0,len(q_radb)):
+        qr = getQfromFile(q_radb[i])
+        qn = getQfromFile(q_n[i])
+        ret = timeQuerySel(qr)
+        r210 += "\t" + ret
+        ret = str(float(timeQuerySel(qn))*10)
+        r210 += "\t" + ret
+        ret = timeQuerySel(qn)
+        r210 += "\t" + ret
+#    for i in range(0,len(q_radb)):
+#        qr = getQfromFile(q_radb[i])
+#        qn = getQfromFile(q_n[i])
+#        ret = timeQuerySel(qr)
+#        r210 += "\t" + ret
+#        ret = str(float(timeQuerySel(qn))*10)
+#        r210 += "\t" + ret
+#        ret = timeQuerySel(qn)
+#        r210 += "\t" + ret
+#    for i in range(0,len(q_radb)):
+#        qr = getQfromFile(q_radb[i])
+#        qn = getQfromFile(q_n[i])
+#        ret = timeQuerySel(qr)
+#        r210 += "\t" + ret
+#        ret = str(float(timeQuerySel(qn))*10)
+#        r210 += "\t" + ret
+#        ret = timeQuerySel(qn)
+#        r210 += "\t" + ret
+    print(r21)
+    print(r210)
             
             
         
