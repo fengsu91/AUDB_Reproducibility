@@ -1797,6 +1797,7 @@ def microbenchmark():
     subprocess.call(["mv", "rangeoverhead.pdf","results/microbench/rangeoverhead.pdf"])
     
 def testtpch():
+    mcdbrep20 = 10
     q_radb = ['aggTest/tpch/Q1_radb.sql','aggTest/tpch/Q3_radb.sql','aggTest/tpch/Q5_radb.sql','aggTest/tpch/Q7_radb.sql','aggTest/tpch/Q10_radb.sql']
     q_n = ['aggTest/tpch/Q1.sql','aggTest/tpch/Q3.sql','aggTest/tpch/Q5.sql','aggTest/tpch/Q7.sql','aggTest/tpch/Q10.sql']
     r21 = "col_2x0.1"
@@ -1808,54 +1809,61 @@ def testtpch():
     for i in range(0,len(q_radb)):
         qr = getQfromFile(q_radb[i])
         qn = getQfromFile(q_n[i])
-        ret = str(float(timeQuerySel(qr))/2)
+        ret = str(float(timeQuerySel(qr)))
         r21 += "\t" + ret
         ret = timeQuerySel(qn)
         r21 += "\t" + ret
-        ret = str(float(timeQuerySel(qn))*10)
+        ret = str(float(timeQuerySel(qn))*mcdbrep20)
         r21 += "\t" + ret
+    print(r21)
     pdgensingle(0.02,1)
     for i in range(0,len(q_radb)):
         qr = getQfromFile(q_radb[i])
         qn = getQfromFile(q_n[i])
-        ret = str(float(timeQuerySel(qr))/2)
+        ret = str(float(timeQuerySel(qr)))
         r210 += "\t" + ret
         ret = timeQuerySel(qn)
         r210 += "\t" + ret
-        ret = str(float(timeQuerySel(qn))*10)
+        ret = str(float(timeQuerySel(qn))*mcdbrep20)
         r210 += "\t" + ret
-#    pdgensingle(0.05,0.1)
-#    for i in range(0,len(q_radb)):
-#        qr = getQfromFile(q_radb[i])
-#        qn = getQfromFile(q_n[i])
-#        ret = timeQuerySel(qr)
-#        r210 += "\t" + ret
-#        ret = timeQuerySel(qn)
-#        r210 += "\t" + ret
-#        ret = str(float(timeQuerySel(qn))*10)
-#        r210 += "\t" + ret
-#    for i in range(0,len(q_radb)):
-#        qr = getQfromFile(q_radb[i])
-#        qn = getQfromFile(q_n[i])
-#        ret = timeQuerySel(qr)
-#        r210 += "\t" + ret
-#        ret = str(float(timeQuerySel(qn))*10)
-#        r210 += "\t" + ret
-#        ret = timeQuerySel(qn)
-#        r210 += "\t" + ret
-#    for i in range(0,len(q_radb)):
-#        qr = getQfromFile(q_radb[i])
-#        qn = getQfromFile(q_n[i])
-#        ret = timeQuerySel(qr)
-#        r210 += "\t" + ret
-#        ret = str(float(timeQuerySel(qn))*10)
-#        r210 += "\t" + ret
-#        ret = timeQuerySel(qn)
-#        r210 += "\t" + ret
-    print(r21)
     print(r210)
-            
-            
+    pdgensingle(0.05,1)
+    for i in range(0,len(q_radb)):
+        qr = getQfromFile(q_radb[i])
+        qn = getQfromFile(q_n[i])
+        ret = str(float(timeQuerySel(qr)))
+        r510 += "\t" + ret
+        ret = timeQuerySel(qn)
+        r510 += "\t" + ret
+        ret = str(float(timeQuerySel(qn))*mcdbrep20)
+        r510 += "\t" + ret
+    print(r510)
+    pdgensingle(0.1,1)
+    for i in range(0,len(q_radb)):
+        qr = getQfromFile(q_radb[i])
+        qn = getQfromFile(q_n[i])
+        ret = str(float(timeQuerySel(qr)))
+        r1010 += "\t" + ret
+        ret = timeQuerySel(qn)
+        r1010 += "\t" + ret
+        ret = str(float(timeQuerySel(qn))*mcdbrep20)
+        r1010 += "\t" + ret
+    print(r1010)
+    pdgensingle(0.05,1)
+    for i in range(0,len(q_radb)):
+        qr = getQfromFile(q_radb[i])
+        qn = getQfromFile(q_n[i])
+        ret = str(float(timeQuerySel(qr)))
+        r3010 += "\t" + ret
+        ret = timeQuerySel(qn)
+        r3010 += "\t" + ret
+        ret = str(float(timeQuerySel(qn))*mcdbrep20)
+        r3010 += "\t" + ret
+    print(r3010)
+    resw = r21 + "\n" + r210 + "\n" + r510 + "\n" + r1010 + "\n" + r3010
+    subprocess.call(["mkdir", "results/tables"])
+    writetofile("tpch.csv", resw)
+    subprocess.call(["mv", "tpch.csv","results/tables/tpch.csv"])
         
 def getmetric(tbn, fig = False):
     query = "select column_name from INFORMATION_SCHEMA.COLUMNS where table_name ='%s'"%(tbn)
