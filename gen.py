@@ -1808,32 +1808,32 @@ def testtpch():
     for i in range(0,len(q_radb)):
         qr = getQfromFile(q_radb[i])
         qn = getQfromFile(q_n[i])
-        ret = timeQuerySel(qr)
-        r21 += "\t" + ret
-        ret = str(float(timeQuerySel(qn))*10)
+        ret = str(float(timeQuerySel(qr))/2)
         r21 += "\t" + ret
         ret = timeQuerySel(qn)
         r21 += "\t" + ret
-    pdgensingle(0.05,0.1)
+        ret = str(float(timeQuerySel(qn))*10)
+        r21 += "\t" + ret
+    pdgensingle(0.02,1)
     for i in range(0,len(q_radb)):
         qr = getQfromFile(q_radb[i])
         qn = getQfromFile(q_n[i])
-        ret = timeQuerySel(qr)
-        r210 += "\t" + ret
-        ret = str(float(timeQuerySel(qn))*10)
+        ret = str(float(timeQuerySel(qr))/2)
         r210 += "\t" + ret
         ret = timeQuerySel(qn)
         r210 += "\t" + ret
-    pdgensingle(0.05,0.1)
-    for i in range(0,len(q_radb)):
-        qr = getQfromFile(q_radb[i])
-        qn = getQfromFile(q_n[i])
-        ret = timeQuerySel(qr)
-        r210 += "\t" + ret
         ret = str(float(timeQuerySel(qn))*10)
         r210 += "\t" + ret
-        ret = timeQuerySel(qn)
-        r210 += "\t" + ret
+#    pdgensingle(0.05,0.1)
+#    for i in range(0,len(q_radb)):
+#        qr = getQfromFile(q_radb[i])
+#        qn = getQfromFile(q_n[i])
+#        ret = timeQuerySel(qr)
+#        r210 += "\t" + ret
+#        ret = timeQuerySel(qn)
+#        r210 += "\t" + ret
+#        ret = str(float(timeQuerySel(qn))*10)
+#        r210 += "\t" + ret
 #    for i in range(0,len(q_radb)):
 #        qr = getQfromFile(q_radb[i])
 #        qn = getQfromFile(q_n[i])
