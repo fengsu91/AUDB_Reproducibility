@@ -1799,7 +1799,7 @@ def microbenchmark():
 def testtpch():
     q_radb = ['aggTest/tpch/Q1_radb.sql','aggTest/tpch/Q3_radb.sql','aggTest/tpch/Q5_radb.sql','aggTest/tpch/Q7_radb.sql','aggTest/tpch/Q10_radb.sql']
     q_n = ['aggTest/tpch/Q1.sql','aggTest/tpch/Q3.sql','aggTest/tpch/Q5.sql','aggTest/tpch/Q7.sql','aggTest/tpch/Q10.sql']
-#    pdgensingle(0.02,0.1)
+    pdgensingle(0.02,0.1)
     for i in range(0,len(q_radb)):
         qr = getQfromFile(q_radb[i])
         qn = getQfromFile(q_n[i])
