@@ -30,15 +30,15 @@ pgport = "5432"
 
 multrep = 1 # for each timed query, how many repititions to do for the mean.
 
-#s = [0.1, 1, 10]
-s = [0.1, 1] # faster version with smaller datasize
+s = [0.1, 1, 10]
+#s = [0.1, 1] # faster version with smaller datasize
 x = [0.02, 0.05, 0.1, 0.3]
 mcdbRep = 10
 #test1 = ['s10_x2']
-test1 = ['s10_x2','s10_x5','s10_x10','s10_x30'] # faster version with smaller datasize
-#test1 = ['s100_x2','s100_x5','s100_x10','s100_x30'] # original version
-test2 = ['s10_x2','s100_x2'] # faster version with smaller datasize
-#test2 = ['s10_x2','s100_x2','s1000_x2'] # original version
+#test1 = ['s10_x2','s10_x5','s10_x10','s10_x30'] # faster version with smaller datasize
+test1 = ['s100_x2','s100_x5','s100_x10','s100_x30'] # original version
+#test2 = ['s10_x2','s100_x2'] # faster version with smaller datasize
+test2 = ['s10_x2','s100_x2','s1000_x2'] # original version
 
 ########################################
 #########     End configs     ##########
@@ -230,6 +230,23 @@ def pdbenchGenOnS(xval = 0.02, imp = False):
         genDir.append(dirname)
     global test2
     test2 = genDir
+    
+def pdgensingle(xval, sval, imp = True):
+    global dir
+    global s
+    genDir = list()
+    subprocess.call(["make","clean"],cwd='%s/dbgen'%dir)
+    subprocess.call(["make"],cwd='%s/dbgen'%dir)
+    os.chdir('%s/dbgen'%dir)
+    os.system('./dbgen -x %f -s %f'%(xval,sval))
+    print('./dbgen -x %f -s %f'%(xval,sval))
+    os.chdir(dir)
+    dirname = 's%d_x%d'%(sval*100,xval*100)
+    os.system('mkdir %s'%dirname)
+    os.system('mv dbgen/*.tbl %s'%dirname)
+    if imp:
+        importPdbenchTables(dirname,xval,sval)
+    genDir.append(dirname)
             
 def importPdbenchTables(datadir,x,s,affix=True):
 #    global conn
@@ -586,7 +603,7 @@ def test_pdbench_scale():
         toplimit = 0
         for k in range(0,len(res)):
             list = res[k]
-            writein = writein + "%dGB    "%(s[k]*100);
+            writein = writein + "%dGB    "%(s[k]);
             for j in range(0,len(list)):
                 writein = writein + list[j][i] + "    "
                 toplimit = max(toplimit, int(float(list[j][i])))
@@ -700,7 +717,7 @@ def plotmicro(fn, maxx, maxy, xlab, miny = 0):
             'set style line 4 lt 1 lc rgb "blue" lw 9',
             'set style line 5 lt 1 lc rgb "black" lw 9',
             'set style line 6 lt 1 lc rgb "#110099" lw 9',
-            'set ylabel "Time (sec)" font "Arial,32"',
+            'set ylabel "Time (ms)" font "Arial,32"',
             'set ylabel offset character -1, 0, 0',
             'set ytics font "Arial,32"',
             'set key inside left top vertical Left noreverse noenhanced autotitle nobox',
@@ -1307,6 +1324,12 @@ def exittest():
     print("Test done")
     quit()
     
+def getQfromFile(fn):
+    with open(fn) as fp:
+        q = fp.read()
+    return q
+    
+    
 def importmicrotable(colnum, rolnum, rangeval, uncert, minval, maxval, tn="micro", aoff=0):
     tname = tn
     attrs = mcg.tablegen(colnum, rolnum, rangeval, uncert, minval, maxval, aoff)
@@ -1773,6 +1796,21 @@ def microbenchmark():
     subprocess.call(["mv", "rangeoverhead.csv","results/microbench/rangeoverhead.csv"])
     subprocess.call(["mv", "rangeoverhead.pdf","results/microbench/rangeoverhead.pdf"])
     
+def testtpch():
+    q_radb = ['aggTest/tpch/Q1_radb.sql','aggTest/tpch/Q3_radb.sql','aggTest/tpch/Q5_radb.sql','aggTest/tpch/Q7_radb.sql','aggTest/tpch/Q10_radb.sql']
+    q_n = ['aggTest/tpch/Q1.sql','aggTest/tpch/Q3.sql','aggTest/tpch/Q5.sql','aggTest/tpch/Q7.sql','aggTest/tpch/Q10.sql']
+    pdgensingle(0.02,0.1)
+    for i in range(0,len(q_radb)):
+        qr = getQfromFile(q_radb[i])
+        qn = getQfromFile(q_n[i])
+        ret = runQuery(qr)
+        print(ret)
+        ret = runQuery(qn)
+        print(ret)
+        ret = str(float(runQuery(qn))*10)
+        print(ret)
+            
+            
         
 def getmetric(tbn, fig = False):
     query = "select column_name from INFORMATION_SCHEMA.COLUMNS where table_name ='%s'"%(tbn)
@@ -2052,7 +2090,7 @@ if __name__ == '__main__':
 #    importPdbenchTables(test1[0])
         
     if curs == 2 and singlestep == -1 or singlestep == 2:
-        pdbenchGenOnX(0.1)
+        pdbenchGenOnX()
         test_pdbench_uncert()
         if(singlestep == -1):
             curs += 1
@@ -2093,16 +2131,25 @@ if __name__ == '__main__':
     else:
            print("By Passing trio result")
            
+#    if curs ==6 and singlestep == -1 or singlestep == 6:
+#        getMCDB("real_tax","MCDB_%d"%(i+1))
+#        if(singlestep == -1):
+#            curs += 1
+#        else:
+#            exittest()
+#        config.stepsetconfig(curs)
+#    else:
+#        print("By Passing real query result")
+        
     if curs ==6 and singlestep == -1 or singlestep == 6:
-        for i in range (10):
-            getMCDB("real_tax","MCDB_%d"%(i+1))
+        testtpch()
         if(singlestep == -1):
             curs += 1
         else:
             exittest()
         config.stepsetconfig(curs)
     else:
-        print("By Passing real query result")
+        print("By Passing tables")
     exittest()
 #    subprocess.call(["/usr/lib/postgresql/9.5/bin/pg_ctl", "-D", "/postgresdata", "stop"])
     
