@@ -1849,7 +1849,7 @@ def testtpch():
         ret = str(float(timeQuerySel(qn))*mcdbrep20)
         r1010 += "\t" + ret
     print(r1010)
-    pdgensingle(0.05,1)
+    pdgensingle(0.3,1)
     for i in range(0,len(q_radb)):
         qr = getQfromFile(q_radb[i])
         qn = getQfromFile(q_n[i])
