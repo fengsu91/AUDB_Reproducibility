@@ -1803,11 +1803,11 @@ def testtpch():
     for i in range(0,len(q_radb)):
         qr = getQfromFile(q_radb[i])
         qn = getQfromFile(q_n[i])
-        ret = runQuery(qr)
+        ret = timeQuerySel(qr)
         print(ret)
-        ret = runQuery(qn)
+        ret = timeQuerySel(qn)
         print(ret)
-        ret = str(float(runQuery(qn))*10)
+        ret = str(float(timeQuerySel(qn))*10)
         print(ret)
             
             
