@@ -1896,10 +1896,10 @@ def testjoin():
         for j in jqs:
             uaquery = getAUDBQueryFromGProM(j, gpromcmd)
             ret = timeQuerySel(uaquery)
-            res += str(ret) + "\t"
+            res += str(float(ret)/1000) + "\t"
         
         res += "\n"
-    print(ret)
+    print(res)
     
     
         
