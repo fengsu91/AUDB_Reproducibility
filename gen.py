@@ -1879,17 +1879,17 @@ def testjoin():
     
     jqs = [ "urange(select * from t0 is radb join t1 is radb on a1=a2);", "urange(select * from (t0 is radb join t1 is radb on a1=a2) join t2 is radb on a3=a4);", "urange(select * from ((t0 is radb join t1 is radb on a1=a2) join t2 is radb on a3=a4) join t3 is radb on a5=a6);", "urange(select * from (((t0 is radb join t1 is radb on a1=a2) join t2 is radb on a3=a4) join t3 is radb on a5=a6) join t4 is radb on a7=a8);"]
     
+    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t0")
+    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t1", 2)
+    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t2", 4)
+    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t3", 6)
+    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t4", 8)
+    
     for i in compsize:
     
         res += str(i) + "\t"
         
         gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%(pgport), "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-Cattr_reference_consistency", "FALSE", "-range_optimize_join", "TRUE", "-range_compression_rate", "%i"%(i), "-Pexecutor", "sql", "-query"]
-    
-        attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t0")
-        attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t1", 2)
-        attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t2", 4)
-        attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t3", 6)
-        attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t4", 8)
             
         for j in jqs:
             uaquery = getAUDBQueryFromGProM(j, gpromcmd)
