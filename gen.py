@@ -1874,10 +1874,10 @@ def testjoin():
     rangeval = 20 #uncertain attribute range
 
     attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "jo1")
-    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "jo2")
-    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "jo3")
-    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "jo4")
-    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "jo5")
+    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "jo2", 2)
+    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "jo3", 4)
+    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "jo4", 6)
+    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "jo5", 8)
     
     j1q = "select * from jo1 join jo2 on jo1.a1=jo2.a0;"
         
