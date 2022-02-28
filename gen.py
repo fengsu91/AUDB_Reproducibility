@@ -1877,13 +1877,22 @@ def testjoin():
     
     res = ""
     
-    jqs = [ "urange(select * from t0 is radb join t1 is radb on a1=a2);", "urange(select * from (t0 is radb join t1 is radb on a1=a2) join t2 is radb on a3=a4);", "urange(select * from ((t0 is radb join t1 is radb on a1=a2) join t2 is radb on a3=a4) join t3 is radb on a5=a6);", "urange(select * from (((t0 is radb join t1 is radb on a1=a2) join t2 is radb on a3=a4) join t3 is radb on a5=a6) join t4 is radb on a7=a8);"]
     
     attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t0")
     attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t1", 2)
     attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t2", 4)
     attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t3", 6)
     attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "t4", 8)
+    attrs = importmicrotable(2, rolnum, rangeval, 0.1, minval, maxval, "t0_10")
+    attrs = importmicrotable(2, rolnum, rangeval, 0.1, minval, maxval, "t1_10", 2)
+    attrs = importmicrotable(2, rolnum, rangeval, 0.1, minval, maxval, "t2_10", 4)
+    attrs = importmicrotable(2, rolnum, rangeval, 0.1, minval, maxval, "t3_10", 6)
+    attrs = importmicrotable(2, rolnum, rangeval, 0.1, minval, maxval, "t4_10", 8)
+    
+    jqs3 = [ "urange(select * from t0 is radb join t1 is radb on a1=a2);", "urange(select * from (t0 is radb join t1 is radb on a1=a2) join t2 is radb on a3=a4);", "urange(select * from ((t0 is radb join t1 is radb on a1=a2) join t2 is radb on a3=a4) join t3 is radb on a5=a6);", "urange(select * from (((t0 is radb join t1 is radb on a1=a2) join t2 is radb on a3=a4) join t3 is radb on a5=a6) join t4 is radb on a7=a8);"]
+    
+    jqs10 = [ "urange(select * from t0_10 is radb join t1_10 is radb on a1=a2);", "urange(select * from (t0_10 is radb join t1_10 is radb on a1=a2) join t2_10 is radb on a3=a4);", "urange(select * from ((t0_10 is radb join t1_10 is radb on a1=a2) join t2_10 is radb on a3=a4) join t3_10 is radb on a5=a6);", "urange(select * from (((t0_10 is radb join t1_10 is radb on a1=a2) join t2_10 is radb on a3=a4) join t3_10 is radb on a5=a6) join t4_10 is radb on a7=a8);"]
+    
     
     for i in compsize:
     
@@ -1891,13 +1900,20 @@ def testjoin():
         
         gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%(pgport), "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-Cattr_reference_consistency", "FALSE", "-range_optimize_join", "TRUE", "-range_compression_rate", "%i"%(i), "-Pexecutor", "sql", "-query"]
         
-#        print(gpromcmd)
             
-        for j in jqs:
+        for j in jqs3:
             uaquery = getAUDBQueryFromGProM(j, gpromcmd)
             ret = timeQuerySel(uaquery)
             res += str(float(ret)/1000) + "\t"
         
+        res += "\n"
+        res += str(2**i) + "\t"
+        
+        for j in jqs10:
+            uaquery = getAUDBQueryFromGProM(j, gpromcmd)
+            ret = timeQuerySel(uaquery)
+            res += str(float(ret)/1000) + "\t"
+            
         res += "\n"
     print(res)
     
