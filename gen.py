@@ -1873,7 +1873,7 @@ def testjoin():
 
     rangeval = 20 #uncertain attribute range
     
-    compsize = [4,16,64,256]
+    compsize = [2,4,6,8]
     
     res = ""
     
@@ -1887,9 +1887,9 @@ def testjoin():
     
     for i in compsize:
     
-        res += str(i) + "\t"
+        res += str(2**i) + "\t"
         
-        gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%(pgport), "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-Cattr_reference_consistency", "FALSE", "-range_optimize_join", "TRUE", "-range_compression_rate", "%i"%(i), "-Pexecutor", "sql", "-query"]
+#        gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%(pgport), "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-Cattr_reference_consistency", "FALSE", "-range_optimize_join", "TRUE", "-range_compression_rate", "%i"%(i), "-Pexecutor", "sql", "-query"]
         
         print(gpromcmd)
             
