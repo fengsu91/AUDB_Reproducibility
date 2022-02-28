@@ -1864,6 +1864,21 @@ def testtpch():
     subprocess.call(["mkdir", "results/tables"])
     writetofile("tpch.csv", resw)
     subprocess.call(["mv", "tpch.csv","results/tables/tpch.csv"])
+    
+def testjoin():
+    minval = 1
+    maxval = 10000
+    rolnum = 10000
+
+    rangeval = 20 #uncertain attribute range
+
+    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "jo1")
+    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "jo2")
+    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "jo3")
+    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "jo4")
+    attrs = importmicrotable(2, rolnum, rangeval, 0.03, minval, maxval, "jo5")
+    
+    j1q = "select * from jo1 join jo2 on jo1.a1=jo2.a0;"
         
 def getmetric(tbn, fig = False):
     query = "select column_name from INFORMATION_SCHEMA.COLUMNS where table_name ='%s'"%(tbn)
@@ -2203,6 +2218,17 @@ if __name__ == '__main__':
         config.stepsetconfig(curs)
     else:
         print("By Passing tables")
+    exittest()
+    
+    if curs == 7 and singlestep == -1 or singlestep == 7:
+        testjoin()
+        if(singlestep == -1):
+            curs += 1
+        else:
+            exittest()
+        config.stepsetconfig(curs)
+    else:
+        print("By Passing join")
     exittest()
 #    subprocess.call(["/usr/lib/postgresql/9.5/bin/pg_ctl", "-D", "/postgresdata", "stop"])
     
