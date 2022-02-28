@@ -1889,9 +1889,9 @@ def testjoin():
     
         res += str(2**i) + "\t"
         
-#        gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%(pgport), "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-Cattr_reference_consistency", "FALSE", "-range_optimize_join", "TRUE", "-range_compression_rate", "%i"%(i), "-Pexecutor", "sql", "-query"]
+        gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%(pgport), "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-Cattr_reference_consistency", "FALSE", "-range_optimize_join", "TRUE", "-range_compression_rate", "%i"%(i), "-Pexecutor", "sql", "-query"]
         
-        print(gpromcmd)
+#        print(gpromcmd)
             
         for j in jqs:
             uaquery = getAUDBQueryFromGProM(j, gpromcmd)
