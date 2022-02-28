@@ -1896,7 +1896,7 @@ def testjoin():
     
     for i in compsize:
     
-        res += str(2**i) + "\t"
+        res += str(2**i) + "(3%)\t"
         
         gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%(pgport), "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-Cattr_reference_consistency", "FALSE", "-range_optimize_join", "TRUE", "-range_compression_rate", "%i"%(i), "-Pexecutor", "sql", "-query"]
         
@@ -1907,7 +1907,7 @@ def testjoin():
             res += str(float(ret)/1000) + "\t"
         
         res += "\n"
-        res += str(2**i) + "\t"
+        res += str(2**i) + "(10%)\t"
         
         for j in jqs10:
             uaquery = getAUDBQueryFromGProM(j, gpromcmd)
@@ -1915,6 +1915,26 @@ def testjoin():
             res += str(float(ret)/1000) + "\t"
             
         res += "\n"
+        
+    gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%(pgport), "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-Cattr_reference_consistency", "FALSE", "-range_optimize_join", "FALSE", "-Pexecutor", "sql", "-query"]
+    
+    res += "NO(3%)\t"
+        
+    for j in jqs3:
+        uaquery = getAUDBQueryFromGProM(j, gpromcmd)
+        ret = timeQuerySel(uaquery)
+        res += str(float(ret)/1000) + "\t"
+        
+    res += "\n"
+    res += "NO(10%)\t"
+        
+    for j in jqs10:
+        uaquery = getAUDBQueryFromGProM(j, gpromcmd)
+        ret = timeQuerySel(uaquery)
+        res += str(float(ret)/1000) + "\t"
+            
+    res += "\n"
+    
     print(res)
     
     
