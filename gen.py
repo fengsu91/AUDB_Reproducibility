@@ -1866,6 +1866,7 @@ def testtpch():
     subprocess.call(["mv", "tpch.csv","results/tables/tpch.csv"])
     
 def testjoin():
+    print("[TESTING JOIN WITH COMPRESSION]")
     minval = 1
     maxval = 10000
     rolnum = 10000
