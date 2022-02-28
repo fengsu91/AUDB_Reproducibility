@@ -2221,7 +2221,9 @@ if __name__ == '__main__':
         print("By Passing tables")
     exittest()
     
-    if curs == 7 and singlestep == -1 or singlestep == 7:
+    print("[TESTING JOIN WITH COMPRESSION] - inc")
+    if curs ==7 and singlestep == -1 or singlestep == 7:
+        print("[TESTING JOIN WITH COMPRESSION] - step")
         testjoin()
         if(singlestep == -1):
             curs += 1
