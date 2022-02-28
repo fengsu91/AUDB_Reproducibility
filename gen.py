@@ -2219,11 +2219,8 @@ if __name__ == '__main__':
         config.stepsetconfig(curs)
     else:
         print("By Passing tables")
-    exittest()
     
-    print("[TESTING JOIN WITH COMPRESSION] - inc")
     if curs ==7 and singlestep == -1 or singlestep == 7:
-        print("[TESTING JOIN WITH COMPRESSION] - step")
         testjoin()
         if(singlestep == -1):
             curs += 1
@@ -2232,6 +2229,7 @@ if __name__ == '__main__':
         config.stepsetconfig(curs)
     else:
         print("By Passing join")
+        
     exittest()
 #    subprocess.call(["/usr/lib/postgresql/9.5/bin/pg_ctl", "-D", "/postgresdata", "stop"])
     
