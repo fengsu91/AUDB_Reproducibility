@@ -1937,8 +1937,11 @@ def testjoin():
     
     print(res)
     subprocess.call(["mkdir", "results/tables"])
-    writetofile("joinQuery.csv", resw)
+    writetofile("joinQuery.csv", res)
     subprocess.call(["mv", "joinQuery.csv","results/tables/joinQuery.csv"])
+    
+def getmetrics(tbn):
+    return
     
         
 def getmetric(tbn, fig = False):
