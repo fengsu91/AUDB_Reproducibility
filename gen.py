@@ -2117,7 +2117,7 @@ def testreal():
     
     resstr = ["\t".join(i) for i in slots]
     resstr = "\n".join(resstr)
-    writetofile("realworld.csv", resw)
+    writetofile("realworld.csv", resstr)
     subprocess.call(["mv", "realworld.csv","results/tables/realworld.csv"])
         
 def getmetric(tbn, fig = False):
