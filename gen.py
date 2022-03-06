@@ -1951,7 +1951,7 @@ def getmetrics(tbn, atn):
 def testreal():
     tns = ["netflix_cf", "netflix_f", "crimes_cf", "crimes_f", "healthcare_cf", "healthcare_f"]
     for tbcreate in tns:
-        tq = getQfromFile(tbcreate)
+        tq = getQfromFile(tbcreate+".csv")
         pushQuery("drop table if exists %s;"%(tbcreate))
         pushQuery(tq)
         impq = "copy %s from '%s/%s.csv' DELIMITER ',' CSV HEADER;"%(tbcreate, dir, tbcreate)
@@ -2456,7 +2456,7 @@ if __name__ == '__main__':
     
     if curs ==7 and singlestep == -1 or singlestep == 7:
         testreal()
-#        testjoin()
+        testjoin()
         if(singlestep == -1):
             curs += 1
         else:
