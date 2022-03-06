@@ -1949,7 +1949,7 @@ def getmetrics(tbn, atn):
     return float(an)/float(dn)
 
 def testreal():
-    sleep(10)
+    time.sleep(10)
     tns = ["netflix_cf", "netflix_f", "crimes_cf", "crimes_f", "healthcare_cf", "healthcare_f"]
     for tbcreate in tns:
         tq = getQfromFile("table_init_sql/uadb/"+tbcreate+".sql")
