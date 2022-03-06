@@ -1962,7 +1962,7 @@ def testreal():
         pushQuery(impq)
     
     temp = getQfromFile("table_init_sql/trio/trio/pre.csv")
-    slots = [i.split("\t") for i in temp.split("\n")]
+    slots = [i.split(" ") for i in temp.split("\n")]
     print("[Test real query] - netflix")
     ret = getmetrics("netflix_cf", "flag_a1")
     slots[0][2] = "{:.2%}".format(ret)
