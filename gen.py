@@ -2115,7 +2115,7 @@ def testreal():
     ret = getmetrics("healthcare_f", "flag_u4")
     slots[23].append("{:.2%}".format(ret))
     
-    resstr = ["\t".join(i) for i in slots]
+    resstr = ["\t\t".join(i) for i in slots]
     resstr = "\n".join(resstr)
     writetofile("realworld.csv", resstr)
     subprocess.call(["mkdir", "results/tables"])
