@@ -2118,6 +2118,7 @@ def testreal():
     resstr = ["\t".join(i) for i in slots]
     resstr = "\n".join(resstr)
     writetofile("realworld.csv", resstr)
+    subprocess.call(["mkdir", "results/tables"])
     subprocess.call(["mv", "realworld.csv","results/tables/realworld.csv"])
         
 def getmetric(tbn, fig = False):
