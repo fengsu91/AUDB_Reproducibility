@@ -1952,9 +1952,12 @@ def testreal():
     tns = ["netflix_cf", "netflix_f", "crimes_cf", "crimes_f", "healthcare_cf", "healthcare_f"]
     for tbcreate in tns:
         tq = getQfromFile("table_init_sql/uadb/"+tbcreate+".sql")
-#        pushQuery("drop table if exists %s;"%(tbcreate))
+        dq = 'drop table if exists %s;'%(tbcreate)
+        print(dq)
+        print(tq)
+        pushQuery(dq)
         pushQuery(tq)
-        impq = "copy %s from '%s/%s.csv' DELIMITER ',' CSV HEADER;"%(tbcreate, dir, tbcreate)
+        impq = 'copy %s from '%s/%s.csv' DELIMITER ',' CSV HEADER;'%(tbcreate, dir, tbcreate)
     
     temp = getQfromFile("table_init_sql/trio/trio/pre.csv")
     slots = [i.split("\t") for i in temp.split("\n")]
