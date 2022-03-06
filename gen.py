@@ -1955,7 +1955,7 @@ def testreal():
         dq = 'drop table if exists %s;'%(tbcreate)
         print(dq)
         print(tq)
-        pushQuery(dq)
+        runQuery(dq)
         pushQuery(tq)
         impq = "copy %s from '%s/%s.csv' DELIMITER ',' CSV HEADER;"%(tbcreate, dir, tbcreate)
     
