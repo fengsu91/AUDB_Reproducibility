@@ -1957,7 +1957,7 @@ def testreal():
         print(tq)
         pushQuery(dq)
         pushQuery(tq)
-        impq = 'copy %s from '%s/%s.csv' DELIMITER ',' CSV HEADER;'%(tbcreate, dir, tbcreate)
+        impq = "copy %s from '%s/%s.csv' DELIMITER ',' CSV HEADER;"%(tbcreate, dir, tbcreate)
     
     temp = getQfromFile("table_init_sql/trio/trio/pre.csv")
     slots = [i.split("\t") for i in temp.split("\n")]
