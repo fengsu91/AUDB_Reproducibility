@@ -1940,9 +1940,180 @@ def testjoin():
     writetofile("joinQuery.csv", res)
     subprocess.call(["mv", "joinQuery.csv","results/tables/joinQuery.csv"])
     
-def getmetrics(tbn):
-    return
+def getmetrics(tbn, atn):
+    print("Geting metric on table %s"%(tbn))
+    qall = "select count(*) from %s;"%(tbn)
+    qmet = "select count(*) from %s where %s = 1;"%(tbn, atn)
+    an = runQuery(qmet)[0][0]
+    dn = runQuery(qall)[0][0]
+    return float(an)/float(dn)
+
+def testreal():
+    tns = ["netflix_cf", "netflix_f", "crimes_cf", "crimes_f", "healthcare_cf", "healthcare_f"]
+    for tbcreate in tns:
+        tq = getQfromFile(tbcreate)
+        pushQuery("drop table if exists %s;"%(tbcreate))
+        pushQuery(tq)
+        impq = "copy %s from '%s/%s.csv' DELIMITER ',' CSV HEADER;"%(tbcreate, dir, tbcreate)
     
+    temp = getQfromFile("table_init_sql/trio/trio/pre.csv")
+    slots = [i.split("\t") for i in temp.split("\n")]
+    print("[Test real query] - netflix")
+    ret = getmetrics("netflix_cf", "flag_a1")
+    slots[0][2] = "{:.2%}".format(ret)
+    ret = getmetrics("netflix_cf", "flag_t1")
+    slots[1][2] = "{:.2%}".format(ret)
+    ret = getmetrics("netflix_cf", "flag_u1")
+    slots[3][2] = "{:.2%}".format(ret)
+    ret = getmetrics("netflix_cf", "flag_a2")
+    slots[4][2] = "{:.2%}".format(ret)
+    ret = getmetrics("netflix_cf", "flag_t2")
+    slots[5][2] = "{:.2%}".format(ret)
+    ret = getmetrics("netflix_cf", "flag_u2")
+    slots[7][2] = "{:.2%}".format(ret)
+#    sleep(10)w
+    print("[Test real query] - crimes")
+    ret = getmetrics("crimes_cf", "flag_a1")
+    slots[8][2] = "{:.2%}".format(ret)
+    ret = getmetrics("crimes_cf", "flag_t1")
+    slots[9][2] = "{:.2%}".format(ret)
+    ret = getmetrics("crimes_cf", "flag_u1")
+    slots[11][2] = "{:.2%}".format(ret)
+    ret = getmetrics("crimes_cf", "flag_a2")
+    slots[12][2] = "{:.2%}".format(ret)
+    ret = getmetrics("crimes_cf", "flag_t2")
+    slots[13][2] = "{:.2%}".format(ret)
+    ret = getmetrics("crimes_cf", "flag_u2")
+    slots[15][2] = "{:.2%}".format(ret)
+#    sleep(10)
+    print("[Test real query] - healthcare")
+    ret = getmetrics("healthcare_cf", "flag_a1")
+    slots[16][2] = "{:.2%}".format(ret)
+    ret = getmetrics("healthcare_cf", "flag_t1")
+    slots[17][2] = "{:.2%}".format(ret)
+    ret = getmetrics("healthcare_cf", "flag_u1")
+    slots[19][2] = "{:.2%}".format(ret)
+    ret = getmetrics("healthcare_cf", "flag_a2")
+    slots[20][2] = "{:.2%}".format(ret)
+    ret = getmetrics("healthcare_cf", "flag_t2")
+    slots[21][2] = "{:.2%}".format(ret)
+    ret = getmetrics("healthcare_cf", "flag_u2")
+    slots[23][2] = "{:.2%}".format(ret)
+    
+    
+    print("[Test real query] - metrics")
+    
+    
+    ret = getmetrics("netflix_f", "flag_a1")
+    print(ret)
+    slots[0].append("{:.2%}".format(ret))
+    ret = getmetrics("netflix_f", "flag_a2")
+    slots[0].append("{:.2%}".format(ret))
+    ret = getmetrics("netflix_f", "flag_t1")
+    slots[1].append("{:.2%}".format(ret))
+    ret = getmetrics("netflix_f", "flag_t2")
+    slots[1].append("{:.2%}".format(ret))
+    ret = getmetrics("netflix_f", "flag_m1")
+    slots[2].append("{:.2%}".format(ret))
+    ret = getmetrics("netflix_f", "flag_m2")
+    slots[2].append("{:.2%}".format(ret))
+    ret = getmetrics("netflix_f", "flag_u1")
+    slots[3].append("{:.2%}".format(ret))
+    ret = getmetrics("netflix_f", "flag_u2")
+    slots[3].append("{:.2%}".format(ret))
+    
+    ret = getmetrics("netflix_f", "flag_a3")
+    slots[4].append("{:.2%}".format(ret))
+    ret = getmetrics("netflix_f", "flag_a4")
+    slots[4].append("{:.2%}".format(ret))
+    ret = getmetrics("netflix_f", "flag_t3")
+    slots[5].append("{:.2%}".format(ret))
+    ret = getmetrics("netflix_f", "flag_t4")
+    slots[5].append("{:.2%}".format(ret))
+    ret = getmetrics("netflix_f", "flag_m3")
+    slots[6].append("{:.2%}".format(ret))
+    ret = getmetrics("netflix_f", "flag_m4")
+    slots[6].append("{:.2%}".format(ret))
+    ret = getmetrics("netflix_f", "flag_u3")
+    slots[7].append("{:.2%}".format(ret))
+    ret = getmetrics("netflix_f", "flag_u4")
+    slots[7].append("{:.2%}".format(ret))
+    
+#    sleep(10)
+    ret = getmetrics("crimes_f", "flag_a1")
+    slots[8].append("{:.2%}".format(ret))
+    ret = getmetrics("crimes_f", "flag_a2")
+    slots[8].append("{:.2%}".format(ret))
+    ret = getmetrics("crimes_f", "flag_t1")
+    slots[9].append("{:.2%}".format(ret))
+    ret = getmetrics("crimes_f", "flag_t2")
+    slots[9].append("{:.2%}".format(ret))
+    ret = getmetrics("crimes_f", "flag_m1")
+    slots[10].append("{:.2%}".format(ret))
+    ret = getmetrics("crimes_f", "flag_m2")
+    slots[10].append("{:.2%}".format(ret))
+    ret = getmetrics("crimes_f", "flag_u1")
+    slots[11].append("{:.2%}".format(ret))
+    ret = getmetrics("crimes_f", "flag_u2")
+    slots[11].append("{:.2%}".format(ret))
+    
+    ret = getmetrics("crimes_f", "flag_a3")
+    slots[12].append("{:.2%}".format(ret))
+    ret = getmetrics("crimes_f", "flag_a4")
+    slots[12].append("{:.2%}".format(ret))
+    ret = getmetrics("crimes_f", "flag_t3")
+    slots[13].append("{:.2%}".format(ret))
+    ret = getmetrics("crimes_f", "flag_t4")
+    slots[13].append("{:.2%}".format(ret))
+    ret = getmetrics("crimes_f", "flag_m3")
+    slots[14].append("{:.2%}".format(ret))
+    ret = getmetrics("crimes_f", "flag_m4")
+    slots[14].append("{:.2%}".format(ret))
+    ret = getmetrics("crimes_f", "flag_u3")
+    slots[15].append("{:.2%}".format(ret))
+    ret = getmetrics("crimes_f", "flag_u4")
+    slots[15].append("{:.2%}".format(ret))
+    
+#    sleep(10)
+
+    ret = getmetrics("healthcare_f", "flag_a1")
+    slots[16].append("{:.2%}".format(ret))
+    ret = getmetrics("healthcare_f", "flag_a2")
+    slots[16].append("{:.2%}".format(ret))
+    ret = getmetrics("healthcare_f", "flag_t1")
+    slots[17].append("{:.2%}".format(ret))
+    ret = getmetrics("healthcare_f", "flag_t2")
+    slots[17].append("{:.2%}".format(ret))
+    ret = getmetrics("healthcare_f", "flag_m1")
+    slots[18].append("{:.2%}".format(ret))
+    ret = getmetrics("healthcare_f", "flag_m2")
+    slots[18].append("{:.2%}".format(ret))
+    ret = getmetrics("healthcare_f", "flag_u1")
+    slots[19].append("{:.2%}".format(ret))
+    ret = getmetrics("healthcare_f", "flag_u2")
+    slots[19].append("{:.2%}".format(ret))
+    
+    ret = getmetrics("healthcare_f", "flag_a3")
+    slots[20].append("{:.2%}".format(ret))
+    ret = getmetrics("healthcare_f", "flag_a4")
+    slots[20].append("{:.2%}".format(ret))
+    ret = getmetrics("healthcare_f", "flag_t3")
+    slots[21].append("{:.2%}".format(ret))
+    ret = getmetrics("healthcare_f", "flag_t4")
+    slots[21].append("{:.2%}".format(ret))
+    ret = getmetrics("healthcare_f", "flag_m3")
+    slots[22].append("{:.2%}".format(ret))
+    ret = getmetrics("healthcare_f", "flag_m4")
+    slots[22].append("{:.2%}".format(ret))
+    ret = getmetrics("healthcare_f", "flag_u3")
+    slots[23].append("{:.2%}".format(ret))
+    ret = getmetrics("healthcare_f", "flag_u4")
+    slots[23].append("{:.2%}".format(ret))
+    
+    resstr = ["\t".join(i) for i in slots]
+    resstr = "\n".join(resstr)
+    writetofile("realworld.csv", resw)
+    subprocess.call(["mv", "realworld.csv","results/tables/realworld.csv"])
         
 def getmetric(tbn, fig = False):
     query = "select column_name from INFORMATION_SCHEMA.COLUMNS where table_name ='%s'"%(tbn)
@@ -2028,7 +2199,7 @@ def getschema(tbn):
     ret = runQuery(query);
     return [i[0] for i in ret]
 
-def getMCDB(tbn, outname):
+def getOthers(tbn, outname):
     subprocess.call(["cp", "table_init_sql/other_plots","results/other_plots"])
 #    sch = getschema(tbn)
 #    sch.remove('id')
@@ -2284,7 +2455,8 @@ if __name__ == '__main__':
         print("By Passing tables")
     
     if curs ==7 and singlestep == -1 or singlestep == 7:
-        testjoin()
+        testreal()
+#        testjoin()
         if(singlestep == -1):
             curs += 1
         else:

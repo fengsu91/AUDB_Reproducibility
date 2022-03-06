@@ -1,0 +1,1 @@
+create table netflix_cf (show_id varchar, type  varchar, title varchar, director  varchar, cast_ varchar, country varchar, date_added  varchar, release_year  varchar, rating  varchar, duration  varchar, listed_in varchar, description varchar, w integer, flag_a1 integer, flag_a2 integer, flag_t1 integer, flag_t2 integer, flag_u1 integer, flag_u2 integer);
