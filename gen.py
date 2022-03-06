@@ -636,18 +636,18 @@ def getSchema(tname, n):
     names = [description[0] for description in res.description]
     return names[:n]
 
-def runLiteQuery(q):
-    global db
-    conn = sqlite3.connect(db)
-    c = conn.cursor()
-    result = c.execute(q)
-    conn.commit()
-    row = result.fetchall()
-    if len(row)>0:
-        row = row[0]
-    c.close()
-    conn.close()
-    return row
+#def runLiteQuery(q):
+#    global db
+#    conn = sqlite3.connect(db)
+#    c = conn.cursor()
+#    result = c.execute(q)
+#    conn.commit()
+#    row = result.fetchall()
+#    if len(row)>0:
+#        row = row[0]
+#    c.close()
+#    conn.close()
+#    return row
     
 def timeLiteQuery(q):
     global db
