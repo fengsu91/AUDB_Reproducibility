@@ -30,15 +30,15 @@ pgport = "5432"
 
 multrep = 5 # for each timed query, how many repititions to do for the mean.
 
-s = [0.1, 1, 10]
-#s = [0.1, 1] # faster version with smaller datasize
+#s = [0.1, 1, 10]
+s = [0.1, 1] # faster version with smaller datasize
 x = [0.02, 0.05, 0.1, 0.3]
 mcdbRep = 10
 #test1 = ['s10_x2']
 #test1 = ['s10_x2','s10_x5','s10_x10','s10_x30'] # faster version with smaller datasize
 test1 = ['s100_x2','s100_x5','s100_x10','s100_x30'] # original version
-#test2 = ['s10_x2','s100_x2'] # faster version with smaller datasize
-test2 = ['s10_x2','s100_x2','s1000_x2'] # original version
+test2 = ['s10_x2','s100_x2'] # faster version with smaller datasize
+#test2 = ['s10_x2','s100_x2','s1000_x2'] # original version
 
 ########################################
 #########     End configs     ##########
