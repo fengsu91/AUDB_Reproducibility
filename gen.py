@@ -1804,7 +1804,7 @@ def testtpch():
     r210 = "col_2x1"
     r510 = "col_5x1"
     r1010 = "col_10x1"
-    r1030 = "col_20x1"
+    r1030 = "col_30x1"
     pdgensingle(0.02,0.1)
     for i in range(0,len(q_radb)):
         qr = getQfromFile(q_radb[i])
@@ -1854,13 +1854,13 @@ def testtpch():
         qr = getQfromFile(q_radb[i])
         qn = getQfromFile(q_n[i])
         ret = str(float(timeQuerySel(qr)))
-        r3010 += "\t" + ret
+        r1030 += "\t" + ret
         ret = timeQuerySel(qn)
-        r3010 += "\t" + ret
+        r1030 += "\t" + ret
         ret = str(float(timeQuerySel(qn))*mcdbrep20)
-        r3010 += "\t" + ret
-    print(r3010)
-    resw = r21 + "\n" + r210 + "\n" + r510 + "\n" + r1010 + "\n" + r3010
+        r1030 += "\t" + ret
+    print(r1030)
+    resw = r21 + "\n" + r210 + "\n" + r510 + "\n" + r1010 + "\n" + r1030
     subprocess.call(["mkdir", "results/tables"])
     writetofile("tpch.csv", resw)
     subprocess.call(["mv", "tpch.csv","results/tables/tpch.csv"])

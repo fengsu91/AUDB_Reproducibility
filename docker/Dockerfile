@@ -22,11 +22,11 @@ RUN cd /gprom/src \
     && make install
 ########################################
 RUN cd /postgresdata \ 
-	&& sed -i '113s/.*/shared_buffers = 1024MB/' postgresql.conf \
-	&& sed -i '123s/.*/maintenance_work_mem = 1024MB/' postgresql.conf
+	&& sed -i '113s/.*/shared_buffers = 10240MB/' postgresql.conf \
+	&& sed -i '123s/.*/maintenance_work_mem = 10240MB/' postgresql.conf
 RUN cd /maybms/data \ 
-	&& sed -i '107s/.*/shared_buffers = 1024MB/' postgresql.conf \
-	&& sed -i '115s/.*/maintenance_work_mem = 1024MB/' postgresql.conf
+	&& sed -i '107s/.*/shared_buffers = 10240MB/' postgresql.conf \
+	&& sed -i '115s/.*/maintenance_work_mem = 10240MB/' postgresql.conf
 ########################################
 ########################################
 RUN rm -r /reproducibility
