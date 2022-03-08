@@ -1868,8 +1868,8 @@ def testtpch():
 def testjoin():
     print("[TESTING JOIN WITH COMPRESSION]")
     minval = 1
-    maxval = 10000
-    rolnum = 10000
+    maxval = 1000
+    rolnum = 1000
 
     rangeval = 20 #uncertain attribute range
     
