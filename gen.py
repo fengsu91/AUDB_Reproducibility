@@ -1407,116 +1407,116 @@ def microbenchmark():
     
     interv = 2 #groupby increment
     
-    attrs = importmicrotable(colnum, rolnum, rangeval, uncert, minval, maxval)
-    
-    
-    #########################################varying groupby########################################
-    print("[TESTING MICROBENCHMARK] - varying groupby")
-    queryn = "select sum(a%s) from micro group by "%(str(colnum-1))
-    queryh = "urange (select sum(a%s) from micro is radb group by "%(str(colnum-1))
-    groupby = ""
-    resnum = []
-    resorig = []
-    resres = []
-    maxy = 0
-    for i in range(0,colnum-1, 5):
-        if i==0:
-            groupby += "a"+str(i)
-        else :
-            groupby += ", a"+str(i)
-        if (i%interv)==0:
-            resnum.append(str(i))
-            querynorm = queryn + groupby + ";"
+#    attrs = importmicrotable(colnum, rolnum, rangeval, uncert, minval, maxval)
+#
+#
+#    #########################################varying groupby########################################
+#    print("[TESTING MICROBENCHMARK] - varying groupby")
+#    queryn = "select sum(a%s) from micro group by "%(str(colnum-1))
+#    queryh = "urange (select sum(a%s) from micro is radb group by "%(str(colnum-1))
+#    groupby = ""
+#    resnum = []
+#    resorig = []
+#    resres = []
+#    maxy = 0
+#    for i in range(0,colnum-1, 5):
+#        if i==0:
+#            groupby += "a"+str(i)
+#        else :
+#            groupby += ", a"+str(i)
+#        if (i%interv)==0:
+#            resnum.append(str(i))
+#            querynorm = queryn + groupby + ";"
+##            print(querynorm)
+#            query = queryh + groupby + ");"
+#            rewrite = getAUDBQueryFromGProM(query)
+#            allt, mt = timeQueryMult(rewrite)
+#            allt, mt2 = timeQueryMult(querynorm)
+#            print(float(mt))
+#            print(mt2)
+#            if float(mt) > maxy:
+#                maxy = float(mt)
+#                print(int(maxy))
+#            resres.append(str(mt))
+#            resorig.append(str(mt2))
+#    reswrite = ""
+#    for i,num in enumerate(resnum):
+#        reswrite += (num + "\t" + resres[i] + "\t" + resorig[i] + "\n")
+#    print(reswrite)
+#    subprocess.call(["mkdir", "results/microbench"])
+#    writetofile("groupby.csv",reswrite)
+#    plotmicro("groupby", colnum, int(maxy)+1, "# groupby Attributs")
+#    subprocess.call(["mv", "groupby.csv","results/microbench/groupby.csv"])
+#    subprocess.call(["mv", "groupby.pdf","results/microbench/groupby.pdf"])
+##
+##    #########################################varying aggregation########################################
+#    print("[TESTING MICROBENCHMARK] - varying aggregation")
+#    queryn = " from micro group by a%s"%(str(colnum-1))
+#    queryh = " from micro is radb group by a%s"%(str(colnum-1))
+#    aggf = ""
+#    resnum = []
+#    resorig = []
+#    resres = []
+#    maxy = 0
+#    for i in range(0,colnum-1, 5):
+#        if i==0:
+#            aggf += "sum(a%s)"%(str(i))
+#        else :
+#            aggf += ", sum(a%s)"%(str(i))
+#        if (i%interv)==0:
+#            resnum.append(str(i))
+#            querynorm = "select " + aggf + queryn + ";"
 #            print(querynorm)
-            query = queryh + groupby + ");"
-            rewrite = getAUDBQueryFromGProM(query)
-            allt, mt = timeQueryMult(rewrite)
-            allt, mt2 = timeQueryMult(querynorm)
-            print(float(mt))
-            print(mt2)
-            if float(mt) > maxy:
-                maxy = float(mt)
-                print(int(maxy))
-            resres.append(str(mt))
-            resorig.append(str(mt2))
-    reswrite = ""
-    for i,num in enumerate(resnum):
-        reswrite += (num + "\t" + resres[i] + "\t" + resorig[i] + "\n")
-    print(reswrite)
-    subprocess.call(["mkdir", "results/microbench"])
-    writetofile("groupby.csv",reswrite)
-    plotmicro("groupby", colnum, int(maxy)+1, "# groupby Attributs")
-    subprocess.call(["mv", "groupby.csv","results/microbench/groupby.csv"])
-    subprocess.call(["mv", "groupby.pdf","results/microbench/groupby.pdf"])
-#
-#    #########################################varying aggregation########################################
-    print("[TESTING MICROBENCHMARK] - varying aggregation")
-    queryn = " from micro group by a%s"%(str(colnum-1))
-    queryh = " from micro is radb group by a%s"%(str(colnum-1))
-    aggf = ""
-    resnum = []
-    resorig = []
-    resres = []
-    maxy = 0
-    for i in range(0,colnum-1, 5):
-        if i==0:
-            aggf += "sum(a%s)"%(str(i))
-        else :
-            aggf += ", sum(a%s)"%(str(i))
-        if (i%interv)==0:
-            resnum.append(str(i))
-            querynorm = "select " + aggf + queryn + ";"
-            print(querynorm)
-            query = "urange (select " + aggf + queryh + ");"
-            print(query)
-            rewrite = getAUDBQueryFromGProM(query)
-            allt, mt = timeQueryMult(rewrite)
-            allt, mt2 = timeQueryMult(querynorm)
-            print(mt)
-            print(mt2)
-            if float(mt) > maxy:
-                maxy = float(mt)
-                print(int(maxy))
-            resres.append(str(mt))
-            resorig.append(str(mt2))
-    reswrite = ""
-    for i,num in enumerate(resnum):
-        reswrite += (num + "\t" + resres[i] + "\t" + resorig[i] + "\n")
-    print(reswrite)
-    writetofile("aggregation.csv",reswrite)
-    plotmicro("aggregation", colnum, int(maxy)+1, "# Aggregation functions")
-    subprocess.call(["mv", "aggregation.csv","results/microbench/aggregation.csv"])
-    subprocess.call(["mv", "aggregation.pdf","results/microbench/aggregation.pdf"])
-#
-#
-#    ########################################varying range########################################
-    print("[TESTING MICROBENCHMARK] - varying range")
-    compfactor = [2,5,8,9]
-    minval = 1
-    maxval = 100000
-    interval = 5000
-    maxy = 0
-    uncert = 0.10
-    res = ""
-    query = "urange (select a0,sum(a1) from micro is radb group by a0);"
-    for i in range(minval, maxval, interval):
-        res += str(i/100000)
-        attrs = importmicrotable(2, rolnum, i, uncert, minval, maxval)
-        for cf in compfactor:
-            print("[microbench - varying range] range = %d, c_factor = %d"%(i, cf))
-            gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(cf)), "-Pexecutor", "sql", "-query"]
-            rquery = getAUDBQueryFromGProM(query, gpromcmd)
-            allt, mt = timeQueryMult(rquery)
-            if float(mt) > maxy:
-                maxy = float(mt)
-            res += ("\t"+str(mt))
-        res += "\n"
-    print(res)
-    writetofile("range.csv",res)
-    #plotmicro("range", maxval, int(maxy)+1, "Uncertain attribute range")
-    subprocess.call(["mv", "range.csv","results/microbench/range.csv"])
-    #subprocess.call(["mv", "range.pdf","results/microbench/range.pdf"])
-    plotmicroRange("results/microbench/range",1, int(maxy)+1, "Attribute bound size / Domain size", -1)
+#            query = "urange (select " + aggf + queryh + ");"
+#            print(query)
+#            rewrite = getAUDBQueryFromGProM(query)
+#            allt, mt = timeQueryMult(rewrite)
+#            allt, mt2 = timeQueryMult(querynorm)
+#            print(mt)
+#            print(mt2)
+#            if float(mt) > maxy:
+#                maxy = float(mt)
+#                print(int(maxy))
+#            resres.append(str(mt))
+#            resorig.append(str(mt2))
+#    reswrite = ""
+#    for i,num in enumerate(resnum):
+#        reswrite += (num + "\t" + resres[i] + "\t" + resorig[i] + "\n")
+#    print(reswrite)
+#    writetofile("aggregation.csv",reswrite)
+#    plotmicro("aggregation", colnum, int(maxy)+1, "# Aggregation functions")
+#    subprocess.call(["mv", "aggregation.csv","results/microbench/aggregation.csv"])
+#    subprocess.call(["mv", "aggregation.pdf","results/microbench/aggregation.pdf"])
+##
+##
+##    ########################################varying range########################################
+#    print("[TESTING MICROBENCHMARK] - varying range")
+#    compfactor = [2,5,8,9]
+#    minval = 1
+#    maxval = 100000
+#    interval = 5000
+#    maxy = 0
+#    uncert = 0.10
+#    res = ""
+#    query = "urange (select a0,sum(a1) from micro is radb group by a0);"
+#    for i in range(minval, maxval, interval):
+#        res += str(i/100000)
+#        attrs = importmicrotable(2, rolnum, i, uncert, minval, maxval)
+#        for cf in compfactor:
+#            print("[microbench - varying range] range = %d, c_factor = %d"%(i, cf))
+#            gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(cf)), "-Pexecutor", "sql", "-query"]
+#            rquery = getAUDBQueryFromGProM(query, gpromcmd)
+#            allt, mt = timeQueryMult(rquery)
+#            if float(mt) > maxy:
+#                maxy = float(mt)
+#            res += ("\t"+str(mt))
+#        res += "\n"
+#    print(res)
+#    writetofile("range.csv",res)
+#    #plotmicro("range", maxval, int(maxy)+1, "Uncertain attribute range")
+#    subprocess.call(["mv", "range.csv","results/microbench/range.csv"])
+#    #subprocess.call(["mv", "range.pdf","results/microbench/range.pdf"])
+#    plotmicroRange("results/microbench/range",1, int(maxy)+1, "Attribute bound size / Domain size", -1)
 
     
         #######################################varying compression rate########################################
@@ -2462,7 +2462,7 @@ if __name__ == '__main__':
         print("By Passing tables")
     
     if curs ==7 and singlestep == -1 or singlestep == 7:
-#        testreal()
+        testreal()
         testjoin()
         if(singlestep == -1):
             curs += 1
