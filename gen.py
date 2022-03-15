@@ -1547,7 +1547,7 @@ def microbenchmark():
         print(metrics)
         if float(mt) > maxy:
             maxy = float(mt)
-        res += (str(i+1) + "\t" + str(mt) + "\n")
+        res += (str(i+1) + "\t" + str(float(mt)/1000) + "\n")
         mres += metrics
     print(res)
     print(mres)
