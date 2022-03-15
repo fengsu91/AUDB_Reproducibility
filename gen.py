@@ -1549,8 +1549,8 @@ def microbenchmark():
         materializequery(rquery, resname)
         metrics = "%s\t"%(str(i+1)) + str(getmetric(resname)[3]) + "\n"
         print(metrics)
-        if float(mt) > maxy:
-            maxy = float(mt)
+        if float(mt)/1000 > maxy:
+            maxy = float(mt)/1000
         res += (str(i+1) + "\t" + str(float(mt)/1000) + "\n")
         mres += metrics
     print(res)
