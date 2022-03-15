@@ -859,7 +859,7 @@ def plotmicroAggCompressionSQ(fn, fn2, maxx, maxy1, maxy2, miny1 = 0, miny2=0):
             'set style line 6 lt 1 lc rgb "#110099" lw 9',
             'set ylabel "Time(s)" font "Arial,32"',
             'set ylabel offset character -4, 0, 0',
-            'set ytics 0,20000,80000 font "Arial,28"',
+            'set ytics 0,40,%s font "Arial,28"'%(str(maxy1)),
             'set ytics nomirror',
             'set key inside left top vertical Left noreverse noenhanced autotitle nobox',
             'set key font "Arial,30"',
