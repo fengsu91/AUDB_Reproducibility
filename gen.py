@@ -857,7 +857,7 @@ def plotmicroAggCompressionSQ(fn, fn2, maxx, maxy1, maxy2, miny1 = 0, miny2=0):
             'set style line 4 lt 1 lc rgb "blue" lw 9',
             'set style line 5 lt 1 lc rgb "black" lw 9',
             'set style line 6 lt 1 lc rgb "#110099" lw 9',
-            'set ylabel "Time(ms)" font "Arial,32"',
+            'set ylabel "Time(s)" font "Arial,32"',
             'set ylabel offset character -4, 0, 0',
             'set ytics 0,20000,80000 font "Arial,28"',
             'set ytics nomirror',
@@ -1560,7 +1560,7 @@ def microbenchmark():
     subprocess.call(["mv", "compress.csv","results/microbench/compress.csv"])
     subprocess.call(["mv", "compress_metrics.csv","results/microbench/compress_metrics.csv"])
 #    subprocess.call(["mv", "compress.pdf","results/microbench/compress.pdf"])
-    plotmicroAggCompressionSQ("results/microbench/compress", "results/microbench/compress_metrics", maxiteration, int(maxy)+1, 55000000, -5, -3000000)
+    plotmicroAggCompressionSQ("results/microbench/compress", "results/microbench/compress_metrics", maxiteration, float(maxy)*1.2, 55000000, -5, -3000000)
 
     
     #######################################Join with different optimizations########################################
