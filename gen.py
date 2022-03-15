@@ -1331,6 +1331,7 @@ def getQfromFile(fn):
     
     
 def importmicrotable(colnum, rolnum, rangeval, uncert, minval, maxval, tn="micro", aoff=0):
+    print("Importing micro table of size %i."%(rolnum))
     tname = tn
     attrs = mcg.tablegen(colnum, rolnum, rangeval, uncert, minval, maxval, aoff)
     pushQuery('drop table if exists %s'%(tname))
