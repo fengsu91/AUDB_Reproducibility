@@ -1867,6 +1867,7 @@ def testtpch():
     
 def testjoin():
     print("[TESTING JOIN WITH COMPRESSION]")
+    time.sleep(10)
     minval = 1
     maxval = 100
     rolnum = 100
