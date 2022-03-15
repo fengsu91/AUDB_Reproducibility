@@ -1868,10 +1868,10 @@ def testtpch():
 def testjoin():
     print("[TESTING JOIN WITH COMPRESSION]")
     minval = 1
-    maxval = 1000
-    rolnum = 1000
+    maxval = 100
+    rolnum = 100
 
-    rangeval = 20 #uncertain attribute range
+    rangeval = 10 #uncertain attribute range
     
     compsize = [2,4,6,8]
     
@@ -2461,7 +2461,7 @@ if __name__ == '__main__':
         print("By Passing tables")
     
     if curs ==7 and singlestep == -1 or singlestep == 7:
-        testreal()
+#        testreal()
         testjoin()
         if(singlestep == -1):
             curs += 1
