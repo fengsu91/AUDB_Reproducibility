@@ -1872,7 +1872,7 @@ def testjoin():
     maxval = 100
     rolnum = 100
 
-    rangeval = 50 #uncertain attribute range
+    rangeval = 100 #uncertain attribute range
     
     compsize = [2,4,6,8]
     
