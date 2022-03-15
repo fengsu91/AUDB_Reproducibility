@@ -1869,8 +1869,8 @@ def testjoin():
     print("[TESTING JOIN WITH COMPRESSION]")
     time.sleep(10)
     minval = 1
-    maxval = 100
-    rolnum = 100
+    maxval = 1000
+    rolnum = 1000
 
     rangeval = 10 #uncertain attribute range
     
