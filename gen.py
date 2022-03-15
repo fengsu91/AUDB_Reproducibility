@@ -2240,7 +2240,6 @@ if __name__ == '__main__':
     os.system('sudo -u postgres /usr/lib/postgresql/9.5/bin/pg_ctl -o "-p 5432" -D /postgresdata start')
     os.system('sudo -u postgres /maybms/install/bin/pg_ctl -o "-p 5433" -D /maybms/data start')
 #
-    
 #    time.sleep(10)
     print("server started")
     

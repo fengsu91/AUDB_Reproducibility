@@ -12,4 +12,3 @@ SELECT F0."tid" AS "tid", F0."l_orderkey" AS "l_orderkey", F0."l_partkey" AS "l_
 FROM "lineitem_radb" AS F0) F0
 WHERE (F0."lb_l_shipdate" <= '1998-12-01')
 GROUP BY (CASE  WHEN (F0."l_returnflag" >= 'I') THEN 'I' WHEN ((F0."l_returnflag" < 'I') AND (F0."l_returnflag" >= 'A')) THEN 'A' ELSE 'A' END)) F1 ON ((((F0."ub_agg_gb_arg7" >= F1."lb_agg_gb_arg7") AND (F1."ub_agg_gb_arg7" >= F0."lb_agg_gb_arg7")) AND ((F0."ub_agg_gb_arg6" >= F1."lb_agg_gb_arg6") AND (F1."ub_agg_gb_arg6" >= F0."lb_agg_gb_arg6")))))
-GROUP BY F0."AGG_GB_ARG6", F0."ub_agg_gb_arg6", F0."lb_agg_gb_arg6", F0."AGG_GB_ARG7", F0."ub_agg_gb_arg7", F0."lb_agg_gb_arg7";
