@@ -1379,6 +1379,8 @@ def microbenchmark():
     print("[TESTING MICROBENCHMARK]")
     
     resname = "micro_r"
+    
+    subprocess.call(["mkdir", "results/microbench"])
 
 #    colnum = 2
 #    rolnum = 100000
