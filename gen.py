@@ -1530,7 +1530,7 @@ def microbenchmark():
     rolnum = 10000
     uncert = 0.02
 
-    rangeval = 20 #uncertain attribute range
+    rangeval = 10 #uncertain attribute range
 
     res = ""
     maxy = 0
