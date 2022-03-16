@@ -1526,9 +1526,9 @@ def microbenchmark():
     maxiteration = 16
 #
     minval = 1
-    maxval = 10000
-    rolnum = 10000
-    uncert = 0.01
+    maxval = 5000
+    rolnum = 5000
+    uncert = 0.02
 
     rangeval = 10 #uncertain attribute range
 
