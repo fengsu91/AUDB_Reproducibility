@@ -44,7 +44,6 @@ apt-get --no-install-recommends install -y sudo
 rm -rf /var/lib/apt/lists/*
 pip3 install pg8000
 pip3 install numpy
-pip3 install psycopg2
 pip3 install psycopg2-binary
 git clone --single-branch --branch CPB https://github.com/IITDBGroup/gprom.git /gprom/src
 cd /gprom/src
@@ -58,7 +57,7 @@ sudo -u postgres /usr/lib/postgresql/13/bin/initdb -D /postgresdata
 cd /postgresdata
 sed -i '113s/.*/shared_buffers = 10240MB/' postgresql.conf
 sed -i '123s/.*/maintenance_work_mem = 10240MB/' postgresql.conf
-git clone https://gitlab.odin.cse.buffalo.edu/bglavic/MayBMS_Mirror.git /maybms/src
+git clone https://github.com/IITDBGroup/maybms.git /maybms/src
 cd /maybms/src/postgresql-8.3.3/
 export CFLAGS='-O0'
 ./configure --prefix /maybms/install
