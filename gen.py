@@ -1523,14 +1523,14 @@ def microbenchmark():
     
         ######################################varying compression rate########################################
     print("[TESTING MICROBENCHMARK] - varying compression rate")
-    maxiteration = 16
+    maxiteration = 15
 #
     minval = 1
-    maxval = 5000
-    rolnum = 5000
+    maxval = 10000
+    rolnum = 10000
     uncert = 0.02
 
-    rangeval = 100 #uncertain attribute range
+    rangeval = 20 #uncertain attribute range
 
     res = ""
     maxy = 0
