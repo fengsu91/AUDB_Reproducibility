@@ -1530,7 +1530,7 @@ def microbenchmark():
     rolnum = 5000
     uncert = 0.02
 
-    rangeval = 10 #uncertain attribute range
+    rangeval = 100 #uncertain attribute range
 
     res = ""
     maxy = 0
@@ -1544,8 +1544,8 @@ def microbenchmark():
         gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(i+1)), "-Pexecutor", "sql", "-query"]
         query = "urange (select a0,sum(a1) as s1 from micro is radb group by a0);"
         rquery = getAUDBQueryFromGProM(query, gpromcmd)
-#        allt, mt = timeQueryMult(rquery,setion='postgresql',rep=1)
-        allt, mt = timeQueryMult(rquery)
+        allt, mt = timeQueryMult(rquery,setion='postgresql',rep=1)
+#        allt, mt = timeQueryMult(rquery)
         materializequery(rquery, resname)
         metrics = "%s\t"%(str(i+1)) + str(getmetric(resname)[3]) + "\n"
         print(metrics)
