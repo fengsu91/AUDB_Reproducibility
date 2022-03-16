@@ -1526,17 +1526,15 @@ def microbenchmark():
     maxiteration = 15
 #
     minval = 1
-    maxval = 10000
+    maxval = 5000
     rolnum = 10000
     uncert = 0.02
 
-    rangeval = 20 #uncertain attribute range
+    rangeval = 200 #uncertain attribute range
 
     res = ""
     maxy = 0
     mres = ""
-
-    attrs = importmicrotable(2, rolnum, rangeval, uncert, minval, maxval)
 
     resname = "micro_r"
 
@@ -1544,8 +1542,10 @@ def microbenchmark():
         gpromcmd = [str("gprom"), "-host", "127.0.0.1", "-db", "postgres", "-port", "%s"%pgport, "-user", "postgres", "-passwd", "postgres", "-loglevel", "0", "-backend", "postgres", "-Omerge_unsafe_proj", "TRUE", "-Oremove_unnecessary_columns", "FALSE", "-Oselection_move_around", "FALSE", "-heuristic_opt", "TRUE", "-Cschema_consistency", "FALSE", "-range_compression_rate", "%s"%(str(i+1)), "-Pexecutor", "sql", "-query"]
         query = "urange (select a0,sum(a1) as s1 from micro is radb group by a0);"
         rquery = getAUDBQueryFromGProM(query, gpromcmd)
+        attrs = importmicrotable(2, maxval, rangeval, uncert, minval, maxval)
         allt, mt = timeQueryMult(rquery,setion='postgresql',rep=1)
 #        allt, mt = timeQueryMult(rquery)
+        attrs = importmicrotable(2, rolnum, rangeval, uncert, minval, rolnum)
         materializequery(rquery, resname)
         metrics = "%s\t"%(str(i+1)) + str(getmetric(resname)[3]) + "\n"
         print(metrics)
