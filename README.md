@@ -100,7 +100,9 @@ for specifying a single experiment/step using -s:
 
 5 - perform trio test.
 
-6 - perform realQuery test.
+6 - perform tpch test.
+
+7 - perform join and realQery test.
 ~~~
 
 For example, to run only pdbench test by varying data size and regenerate data using pdbench:
@@ -112,6 +114,9 @@ For example, to run only pdbench test by varying data size and regenerate data u
 All experiment results will be save to /result folder in the docker image. If the folder is mounted to a local folder, the files will be accessable through the local folder.
 
 ## step by step installations (NOT required if use docker)
+
+### Bash script
+A bash script (docker/evn_building_scripts.sh) is provaded and can be refered to biuld the testing environment from a raw unbuntu 16.04 system.
 
 ### Install GProM
 
@@ -140,6 +145,12 @@ Different parameter settings need to modify the 's' list and 'x' list in the gen
 
 You can use the gprom system included in the container to run queries with AU-DB semantics over the provided datasets.
 
+example configuration to run gprom in the docker environment:
+
+~~~shell
+gprom -host 127.0.0.1 -db postgres -port 5432 -user postgres  -passwd postgres -loglevel 0 -backend postgres  -time_queries TRUE -Omerge_unsafe_proj TRUE -Oremove_unnecessary_columns FALSE -Oselection_move_around FALSE -heuristic_opt TRUE -Cschema_consistency FALSE -Cattr_reference_consistency FALSE
+~~~
+
 ### GProM UA-DB Syntax
 
 To run a query with range annotations, the whole query should be wrapped in:
@@ -148,6 +159,13 @@ To run a query with range annotations, the whole query should be wrapped in:
 urange (
     ...
 );
+~~~
+
+User can use keyword 'IS RADB' to specify that the input is in AU-DB encoding. 
+
+~~~sql
+urange (
+  SELECT s_name, s_acctbal FROM supplier_radb IS RADB WHERE s_acctbal < 0);
 ~~~
 
 Unless instructed otherwise, GProM expects inputs to be AU-DBs. However, GProM can also interpret different types of uncertain data models and translate them into UA-DBs as part of queries. To inform GProM that an input table should be interpreted as a certain type of uncertain relation, you specify the type after the table access in the `FROM` clause. Currently, we support tuples-independent probabilistic databases (TIPS) and x-relations.
