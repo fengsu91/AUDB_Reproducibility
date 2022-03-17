@@ -164,8 +164,7 @@ urange (
 User can use keyword 'IS RADB' to specify that the input is in AU-DB encoding. 
 
 ~~~sql
-urange (
-  SELECT s_name, s_acctbal FROM supplier_radb IS RADB WHERE s_acctbal < 0);
+urange (SELECT s_name, s_acctbal FROM supplier_radb IS RADB WHERE s_acctbal < 0);
 ~~~
 
 Unless instructed otherwise, GProM expects inputs to be AU-DBs. However, GProM can also interpret different types of uncertain data models and translate them into UA-DBs as part of queries. To inform GProM that an input table should be interpreted as a certain type of uncertain relation, you specify the type after the table access in the `FROM` clause. Currently, we support tuples-independent probabilistic databases (TIPS) and x-relations.
