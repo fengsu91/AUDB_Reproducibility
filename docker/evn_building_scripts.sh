@@ -1,4 +1,3 @@
-apt-get update
 apt-get -y update
 apt-get --no-install-recommends install -y ant
 apt-get --no-install-recommends install -y autoconf
@@ -38,13 +37,9 @@ apt-get --no-install-recommends install -y zlib1g-dev
 apt-get --no-install-recommends install -y wget
 apt-get --no-install-recommends install -y ghostscript
 apt-get --no-install-recommends install -y gnuplot
-apt-get --no-install-recommends install -y python3
 apt-get --no-install-recommends install -y python3-pip
 apt-get --no-install-recommends install -y sudo
 rm -rf /var/lib/apt/lists/*
-pip3 install pg8000
-pip3 install numpy
-pip3 install psycopg2-binary
 git clone --single-branch --branch CPB https://github.com/IITDBGroup/gprom.git /gprom/src
 cd /gprom/src
 make -f Makefile.maintainer
@@ -53,7 +48,7 @@ make
 make install
 mkdir -p /postgresdata
 chown -R postgres /postgresdata/
-sudo -u postgres /usr/lib/postgresql/13/bin/initdb -D /postgresdata
+sudo -u postgres /usr/lib/postgresql/9.5/bin/initdb -D /postgresdata
 cd /postgresdata
 sed -i '113s/.*/shared_buffers = 10240MB/' postgresql.conf
 sed -i '123s/.*/maintenance_work_mem = 10240MB/' postgresql.conf
@@ -69,6 +64,14 @@ sudo -u postgres /maybms/install/bin/initdb -D /maybms/data
 cd /maybms/data
 sed -i '107s/.*/shared_buffers = 10240MB/' postgresql.conf
 sed -i '115s/.*/maintenance_work_mem = 10240MB/' postgresql.conf
+mkdir /download
+cd /download
+wget https://repo.anaconda.com/archive/Anaconda3-5.3.1-Linux-x86_64.sh
+bash Anaconda3-5.3.1-Linux-x86_64.sh
+source ~/.bashrc
+pip install pg8000
+pip install numpy
+pip install psycopg2
 git clone https://github.com/fengsu91/AUDB_Reproducibility /reproducibility_audb
 cd /reproducibility_audb
 python3 gen.py
