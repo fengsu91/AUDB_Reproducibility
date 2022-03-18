@@ -72,6 +72,10 @@ source ~/.bashrc
 pip install pg8000
 pip install numpy
 pip install psycopg2
+pip install gdown
 git clone https://github.com/fengsu91/AUDB_Reproducibility /reproducibility_audb
 cd /reproducibility_audb
+gdown https://drive.google.com/uc?id=16DfJP6F9aHKs7MzUZtkiiaGWirkJ_RBN
+unzip data.zip
+rm data.zip
 python3 gen.py
