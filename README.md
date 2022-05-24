@@ -1,9 +1,22 @@
-# SIGMOD Reproducibility for "Efficient Uncertainty Tracking for Complex Queries with Attribute-level Bounds"
+# Artifacts of "Efficient Uncertainty Tracking for Complex Queries with Attribute-level Bounds"
 
+<p align="left">
+  <a href="https://dl.acm.org/doi/10.1145/3448016.3452791">
+    <img src="https://img.shields.io/badge/SIGMOD-2021-blue.svg" alt="Sigmod" />
+  </a>
+  <a href="https://arxiv.org/abs/2102.11796">
+    <img src="https://img.shields.io/badge/arxiv-Extended-blue" alt="arxiv" />
+  </a>
+  <a href="https://github.com/IITDBGroup/gprom/tree/CPB">
+    <img src="https://img.shields.io/badge/GProM-CPB-red.svg" alt="GProM" />
+  </a>
+<p align="left">
+  
+This repository contains all artifacts information for sigmod 2021 paper [Efficient Uncertainty Tracking for Complex Queries with Attribute-level Bounds](https://dl.acm.org/doi/10.1145/3448016.3452791).
+  
 ## A) Source code info
 
-The **GProM** system is written in `C`. For the experiments we did use  [PostgreSQL](https://www.postgresql.org/) as a backend for storage. TODO
-GProM is available at [https://github.com/IITDBGroup/gprom](https://github.com/IITDBGroup/gprom). For the experiments, please use the `CPB` branch. GProM acts as a client for a relational database. AU-DB creation and querying is available through an extension of SQL.
+The **GProM** system is written in `C`. For the experiments we did use  [PostgreSQL](https://www.postgresql.org/) as a backend for storage. GProM is available at [https://github.com/IITDBGroup/gprom](https://github.com/IITDBGroup/gprom). For the experiments, please use the `CPB` branch. GProM acts as a client for a relational database. AU-DB creation and querying is available through an extension of SQL.
 
 - Repository: https://github.com/IITDBGroup/gprom
 - Programming Language: C, Python
@@ -210,3 +223,20 @@ urange (
   SELECT * FROM R IS XTABLE(x-id,p);
 );
 ~~~
+                                                                                 
+## Citation
+Please cite if use this code in your work.
+```
+@inbook{
+  10.1145/3448016.3452791, 
+  author = {Feng, Su and Glavic, Boris and Huber, Aaron and Kennedy, Oliver A.}, 
+  title = {Efficient Uncertainty Tracking for Complex Queries with Attribute-Level Bounds}, 
+  year = {2021}, isbn = {9781450383431}, 
+  publisher = {Association for Computing Machinery}, 
+  address = {New York, NY, USA}, 
+  url = {https://doi.org/10.1145/3448016.3452791}, 
+  booktitle = {Proceedings of the 2021 International Conference on Management of Data},
+  pages = {528–540}, 
+  numpages = {13} 
+}
+```
