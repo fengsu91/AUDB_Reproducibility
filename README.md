@@ -1,6 +1,5 @@
 # Artifacts of "Efficient Uncertainty Tracking for Complex Queries with Attribute-level Bounds"
 
-<p align="left">
   <a href="https://dl.acm.org/doi/10.1145/3448016.3452791">
     <img src="https://img.shields.io/badge/SIGMOD-2021-blue.svg" alt="Sigmod" />
   </a>
@@ -10,7 +9,6 @@
   <a href="https://github.com/IITDBGroup/gprom/tree/CPB">
     <img src="https://img.shields.io/badge/GProM-CPB-red.svg" alt="GProM" />
   </a>
-<p align="left">
   
 This repository contains all artifacts information for sigmod 2021 paper [Efficient Uncertainty Tracking for Complex Queries with Attribute-level Bounds](https://dl.acm.org/doi/10.1145/3448016.3452791).
   
